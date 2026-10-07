@@ -209,9 +209,11 @@ h1 {
             container.innerHTML = '<ul class="gifts-list">' + 
                 gifts.map(gift => `
                     <li class="gift-item ${gift.reserved ? 'reserved' : ''}">
-                        <img src="${gift.image || 'https://via.placeholder.com/120?text=Kein+Bild'}" 
-                             alt="${gift.name}" 
-                             onerror="this.src='https://via.placeholder.com/120?text=Fehler'">
+                        <img
+    src="${gift.image || 'https://placehold.co/400x400/eeeeee/666666?text=Kein+Bild'}"
+    alt="${gift.name}"
+    onerror="this.onerror=null; this.src='https://placehold.co/400x400/eeeeee/666666?text=Bild+nicht+verfuegbar';"
+>
                         <div class="gift-info">
                             <h3>${gift.name}</h3>
                             <a href="${gift.link}" target="_blank">Zum Produkt →</a>
