@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071a12">
+<meta name="theme-color" content="#100d1b">
 <title>Meine Weihnachtswunschliste</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,27 +18,35 @@
 :root {
     color-scheme: dark;
 
-    --page: #071a12;
-    --page-mid: #123b28;
+    --page: #100d1b;
+    --page-mid: #281b38;
 
-    --panel: rgba(8, 34, 23, 0.82);
-    --panel-top: rgba(71, 132, 90, 0.18);
+    --panel: rgba(25, 20, 35, 0.86);
+    --panel-top: rgba(95, 61, 121, 0.20);
 
-    --line: rgba(170, 213, 181, 0.30);
-    --line-strong: rgba(209, 236, 205, 0.55);
+    --line: rgba(199, 174, 213, 0.30);
+    --line-strong: rgba(240, 219, 255, 0.55);
 
-    --text: #f3f5e9;
-    --muted: rgba(235, 241, 226, 0.84);
+    --text: #fff3d1;
+    --muted: rgba(244, 232, 211, 0.80);
 
-    --accent: #d9b45c;
-    --accent-text: #1b2413;
+    --accent: #e38a32;
+    --accent-text: #1b101c;
 
-    --success: #e1f7da;
-    --success-bg: rgba(20, 72, 39, 0.78);
-    --success-line: rgba(144, 208, 143, 0.60);
+    --success: #e6f2ce;
+    --success-bg: rgba(42, 70, 44, 0.80);
+    --success-line: rgba(180, 208, 145, 0.62);
 
-    --danger: #ffe0dc;
-    --gold: rgba(220, 184, 94, 0.85);
+    --danger: #ffe0d7;
+    --gold: rgba(244, 181, 65, 0.88);
+
+    --moon: #ffe3a1;
+    --pumpkin: #d76b29;
+    --pumpkin-light: #ed9b42;
+    --plum: #34233e;
+    --plum-light: #684b77;
+    --bone: #fff3d1;
+    --wine: #7e3541;
 }
 
 * {
@@ -50,13 +58,21 @@ body {
     margin: 0;
     padding: 28px 14px;
     color: var(--text);
+
     background:
         radial-gradient(
-            ellipse at 50% -25%,
-            #286241 0%,
-            #123b28 40%,
-            #071a12 100%
+            circle at 77% 12%,
+            rgba(255, 211, 119, 0.22) 0,
+            rgba(255, 211, 119, 0.06) 12%,
+            transparent 26%
+        ),
+        radial-gradient(
+            ellipse at 30% -10%,
+            #49315a 0%,
+            #281b38 43%,
+            #100d1b 100%
         );
+
     font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
 }
 
@@ -68,35 +84,33 @@ body {
 .header {
     position: relative;
     margin-bottom: 12px;
-    padding: 20px 22px 18px;
+    padding: 22px 22px 20px;
     overflow: hidden;
     text-align: left;
 
     border: 2px solid transparent;
-    border-radius: 8px;
+    border-radius: 6px;
 
     background:
         linear-gradient(
             180deg,
-            rgba(128, 183, 133, 0.24) 0%,
-            rgba(32, 91, 49, 0.65) 8%,
-            rgba(12, 53, 31, 0.86) 55%,
-            rgba(6, 31, 18, 0.94) 100%
+            rgba(122, 88, 143, 0.26),
+            rgba(44, 28, 57, 0.86) 42%,
+            rgba(21, 16, 29, 0.96) 100%
         ) padding-box,
 
         linear-gradient(
             135deg,
-            #5aa968 0%,
-            #1d6a38 24%,
-            #0a3e22 50%,
-            #2f7d42 76%,
-            #7fbd72 100%
+            #ef9c40,
+            #5d3e6d 24%,
+            #251a31 52%,
+            #7e3541 75%,
+            #f0b04f
         ) border-box;
 
     box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-        0 1px 0 rgba(255, 255, 255, 0.16) inset,
-        0 14px 34px rgba(0, 0, 0, 0.46);
+        0 0 0 1px rgba(255, 243, 209, 0.08) inset,
+        0 16px 36px rgba(0, 0, 0, 0.52);
 }
 
 .header::before {
@@ -106,11 +120,13 @@ body {
     right: 0;
     left: 0;
     height: 34px;
+
     background: linear-gradient(
         180deg,
-        rgba(255, 255, 255, 0.16),
-        rgba(255, 255, 255, 0)
+        rgba(255, 243, 209, 0.13),
+        rgba(255, 243, 209, 0)
     );
+
     pointer-events: none;
 }
 
@@ -121,6 +137,7 @@ body {
     bottom: 0;
     left: 22px;
     height: 2px;
+
     background: linear-gradient(
         90deg,
         transparent,
@@ -129,41 +146,25 @@ body {
     );
 }
 
-/* Deutlichere rot-weiße Zuckerstangen-Schrift */
 h1 {
     position: relative;
     z-index: 1;
     display: inline-block;
     margin: 0;
 
+    color: var(--bone);
     font-family: "Mountains of Christmas", Georgia, serif;
     font-size: clamp(2.2rem, 7vw, 3.5rem);
     font-weight: 700;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.025em;
     line-height: 1.08;
 
-    background:
-        repeating-linear-gradient(
-            -45deg,
-            #b51f2a 0,
-            #b51f2a 13px,
-            #fffdf3 13px,
-            #fffdf3 26px
-        );
-
-    -webkit-background-clip: text;
-    background-clip: text;
-
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-
-    -webkit-text-stroke: 1px rgba(54, 14, 18, 0.88);
+    -webkit-text-stroke: 1px #2b172d;
 
     text-shadow:
-        0 2px 0 rgba(25, 8, 10, 0.95),
-        1px 0 0 rgba(25, 8, 10, 0.85),
-        -1px 0 0 rgba(25, 8, 10, 0.85),
-        0 0 7px rgba(0, 0, 0, 0.65);
+        0 2px 0 #2b172d,
+        0 4px 0 rgba(0, 0, 0, 0.48),
+        0 0 12px rgba(255, 170, 56, 0.20);
 }
 
 .subtitle {
@@ -180,36 +181,40 @@ h1 {
     margin: 0 0 18px;
     padding: 10px 13px;
     color: var(--muted);
+
     background:
         linear-gradient(
             180deg,
-            rgba(83, 141, 91, 0.20),
-            rgba(6, 35, 20, 0.68)
+            rgba(111, 72, 132, 0.22),
+            rgba(21, 15, 30, 0.72)
         );
-    border: 1px solid rgba(170, 213, 181, 0.30);
-    border-radius: 6px;
+
+    border: 1px solid rgba(205, 176, 220, 0.32);
+    border-radius: 5px;
+
     box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.06) inset,
-        0 5px 16px rgba(0, 0, 0, 0.28);
+        0 1px 0 rgba(255, 243, 209, 0.05) inset,
+        0 5px 16px rgba(0, 0, 0, 0.30);
+
     font-size: 0.9rem;
 }
 
 .status::before {
     content: "●";
     margin-right: 8px;
-    color: #d9b45c;
+    color: var(--pumpkin-light);
     font-size: 0.75rem;
     vertical-align: 1px;
 }
 
 .status.error {
     color: var(--danger);
-    background: rgba(100, 30, 30, 0.72);
-    border-color: rgba(255, 130, 130, 0.50);
+    background: rgba(92, 29, 39, 0.82);
+    border-color: rgba(238, 136, 144, 0.55);
 }
 
 .status.error::before {
-    color: #ff9b9b;
+    color: #ffabb0;
 }
 
 .gift-grid {
@@ -223,17 +228,21 @@ h1 {
     min-width: 0;
     flex-direction: column;
     padding: 14px;
+
     background:
         linear-gradient(
             180deg,
-            rgba(71, 132, 90, 0.18),
-            rgba(8, 34, 23, 0.84)
+            rgba(95, 61, 121, 0.20),
+            rgba(25, 20, 35, 0.90)
         );
-    border: 1px solid rgba(170, 213, 181, 0.30);
-    border-radius: 7px;
+
+    border: 1px solid var(--line);
+    border-radius: 6px;
+
     box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.08) inset,
-        0 10px 24px rgba(0, 0, 0, 0.30);
+        0 1px 0 rgba(255, 243, 209, 0.07) inset,
+        0 10px 24px rgba(0, 0, 0, 0.34);
+
     transition:
         transform 0.18s ease,
         border-color 0.18s ease,
@@ -242,10 +251,11 @@ h1 {
 
 .gift-card:hover {
     transform: translateY(-2px);
-    border-color: rgba(209, 236, 205, 0.55);
+    border-color: var(--line-strong);
+
     box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.12) inset,
-        0 14px 28px rgba(0, 0, 0, 0.38);
+        0 1px 0 rgba(255, 243, 209, 0.10) inset,
+        0 14px 28px rgba(0, 0, 0, 0.42);
 }
 
 .gift-card.is-reserved {
@@ -255,9 +265,9 @@ h1 {
 .gift-image-wrap {
     height: 220px;
     padding: 8px;
-    background: rgba(4, 24, 14, 0.62);
-    border: 1px solid rgba(170, 213, 181, 0.18);
-    border-radius: 5px;
+    background: rgba(10, 8, 16, 0.64);
+    border: 1px solid rgba(220, 197, 231, 0.18);
+    border-radius: 4px;
 }
 
 .gift-image {
@@ -270,12 +280,12 @@ h1 {
 
 .gift-title {
     margin: 13px 0 7px;
-    color: #ffffff;
+    color: var(--bone);
     font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     line-height: 1.35;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.58);
     overflow-wrap: anywhere;
 }
 
@@ -299,7 +309,7 @@ h1 {
     align-items: center;
     justify-content: center;
     padding: 10px 13px;
-    border-radius: 5px;
+    border-radius: 4px;
     font: 600 0.88rem "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
     text-align: center;
     text-decoration: none;
@@ -307,41 +317,48 @@ h1 {
 }
 
 .product-link {
-    color: #f7f4e8;
+    color: var(--bone);
+
     background:
         linear-gradient(
             180deg,
-            rgba(102, 157, 99, 0.26),
-            rgba(10, 54, 29, 0.82)
+            rgba(116, 79, 139, 0.34),
+            rgba(39, 25, 53, 0.84)
         );
-    border: 1px solid rgba(183, 221, 183, 0.36);
+
+    border: 1px solid rgba(216, 186, 229, 0.34);
+
     box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.08) inset,
-        0 3px 9px rgba(0, 0, 0, 0.25);
+        0 1px 0 rgba(255, 243, 209, 0.08) inset,
+        0 3px 9px rgba(0, 0, 0, 0.28);
 }
 
 .product-link:hover {
     background:
         linear-gradient(
             180deg,
-            rgba(123, 177, 118, 0.34),
-            rgba(17, 70, 38, 0.90)
+            rgba(143, 96, 164, 0.46),
+            rgba(53, 31, 70, 0.92)
         );
 }
 
 .reserve-button {
-    color: #fff8e6;
+    color: #fff3d1;
+
     background:
         linear-gradient(
             180deg,
-            #d26a72 0%,
-            #aa3544 48%,
-            #741f2b 100%
+            #e5893b 0%,
+            #c45b2d 48%,
+            #7c2b2a 100%
         );
-    border: 1px solid rgba(255, 222, 218, 0.68);
+
+    border: 1px solid rgba(255, 213, 159, 0.70);
+
     box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.25) inset,
-        0 3px 9px rgba(0, 0, 0, 0.30);
+        0 1px 0 rgba(255, 243, 209, 0.22) inset,
+        0 3px 9px rgba(0, 0, 0, 0.34);
+
     cursor: pointer;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
 }
@@ -350,35 +367,39 @@ h1 {
     background:
         linear-gradient(
             180deg,
-            #e68389 0%,
-            #bf4654 48%,
-            #842631 100%
+            #f09a4a 0%,
+            #d26d38 48%,
+            #913232 100%
         );
 }
 
 .reserve-button:disabled {
     color: var(--success);
+
     background:
         linear-gradient(
             180deg,
-            #7bb88e,
-            #2f7146
+            #819d70,
+            #435e40
         );
+
     border-color: var(--success-line);
     cursor: wait;
     text-shadow: none;
 }
 
 .release-button {
-    color: #1b2413;
+    color: var(--accent-text);
+
     background:
         linear-gradient(
             180deg,
-            #f4dd9d,
-            #d8ad4f 52%,
-            #a87928
+            #ffe4a5,
+            #ddae53 52%,
+            #a77232
         );
-    border-color: rgba(255, 244, 203, 0.72);
+
+    border-color: rgba(255, 239, 191, 0.72);
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
@@ -386,9 +407,9 @@ h1 {
     background:
         linear-gradient(
             180deg,
-            #fff0b9,
-            #e7c46c 52%,
-            #b98b38
+            #ffedbb,
+            #ebc56a 52%,
+            #bd8a39
         );
 }
 
@@ -405,14 +426,14 @@ h1 {
     min-height: 44px;
     padding: 10px 12px;
     color: var(--text);
-    background: rgba(4, 24, 14, 0.76);
-    border: 1px solid rgba(183, 221, 183, 0.36);
-    border-radius: 5px;
+    background: rgba(10, 8, 16, 0.70);
+    border: 1px solid rgba(216, 186, 229, 0.34);
+    border-radius: 4px;
     font: inherit;
 }
 
 .name-input:focus {
-    outline: 2px solid #d9b45c;
+    outline: 2px solid var(--pumpkin-light);
     outline-offset: 1px;
 }
 
@@ -420,14 +441,16 @@ h1 {
     margin: 0;
     padding: 11px;
     color: var(--success);
+
     background:
         linear-gradient(
             180deg,
-            rgba(126, 224, 163, 0.18),
+            rgba(180, 208, 145, 0.18),
             var(--success-bg)
         );
+
     border: 1px solid var(--success-line);
-    border-radius: 5px;
+    border-radius: 4px;
     text-align: center;
     line-height: 1.5;
     overflow-wrap: anywhere;
@@ -439,14 +462,14 @@ h1 {
     color: var(--muted);
     background: var(--panel);
     border: 1px solid var(--line);
-    border-radius: 7px;
+    border-radius: 6px;
     text-align: center;
     line-height: 1.6;
 }
 
 .footer-note {
     margin: 18px 0 0;
-    color: rgba(235, 241, 226, 0.68);
+    color: rgba(244, 232, 211, 0.64);
     font-size: 0.78rem;
     line-height: 1.55;
     text-align: center;
@@ -459,11 +482,18 @@ h1 {
     display: grid;
     place-items: center;
     padding: 18px;
+
     background:
         radial-gradient(
+            circle at 72% 15%,
+            rgba(255, 211, 119, 0.15) 0,
+            rgba(255, 211, 119, 0.04) 12%,
+            transparent 26%
+        ),
+        radial-gradient(
             ellipse at 50% 0%,
-            rgba(40, 98, 65, 0.75),
-            rgba(3, 19, 11, 0.95)
+            rgba(73, 49, 90, 0.80),
+            rgba(10, 8, 16, 0.97)
         );
 }
 
@@ -474,29 +504,36 @@ h1 {
 .name-dialog {
     width: min(430px, 100%);
     padding: 22px;
+
     background:
         linear-gradient(
             180deg,
-            rgba(112, 167, 112, 0.22),
-            rgba(6, 31, 18, 0.94)
+            rgba(111, 72, 132, 0.22),
+            rgba(21, 16, 29, 0.96)
         );
-    border: 1px solid rgba(184, 223, 174, 0.48);
-    border-radius: 8px;
+
+    border: 1px solid rgba(222, 190, 230, 0.48);
+    border-radius: 6px;
+
     box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-        0 20px 48px rgba(0, 0, 0, 0.55);
+        0 0 0 1px rgba(255, 243, 209, 0.07) inset,
+        0 20px 48px rgba(0, 0, 0, 0.60);
 }
 
 .name-dialog h2 {
     margin: 0 0 10px;
-    color: #fffdf3;
+    color: var(--bone);
+
     font-family: "Mountains of Christmas", Georgia, serif;
     font-size: 2rem;
     font-weight: 700;
     line-height: 1.05;
+
+    -webkit-text-stroke: 0.7px #2b172d;
+
     text-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.70),
-        0 0 8px rgba(220, 184, 94, 0.22);
+        0 1px 2px rgba(0, 0, 0, 0.75),
+        0 0 8px rgba(255, 170, 56, 0.20);
 }
 
 .name-dialog p {
@@ -517,7 +554,7 @@ h1 {
     .header {
         margin-bottom: 10px;
         padding: 17px 14px 16px;
-        border-radius: 7px;
+        border-radius: 5px;
     }
 
     .header::after {
@@ -527,7 +564,7 @@ h1 {
 
     h1 {
         font-size: clamp(1.9rem, 9vw, 2.7rem);
-        -webkit-text-stroke: 0.8px rgba(54, 14, 18, 0.88);
+        -webkit-text-stroke: 0.8px #2b172d;
     }
 
     .subtitle {
@@ -1035,16 +1072,16 @@ function escapeHtml(value = "") {
 function createFallbackImage() {
     const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
-            <rect width="100%" height="100%" fill="#071a12"/>
+            <rect width="100%" height="100%" fill="#100d1b"/>
 
             <rect
                 x="8"
                 y="8"
                 width="384"
                 height="284"
-                rx="6"
+                rx="5"
                 fill="none"
-                stroke="#d9b45c"
+                stroke="#ed9b42"
                 stroke-width="4"
             />
 
@@ -1054,7 +1091,7 @@ function createFallbackImage() {
                 text-anchor="middle"
                 font-family="Segoe UI, Verdana, Arial"
                 font-size="28"
-                fill="#f3f5e9"
+                fill="#fff3d1"
             >Kein Bild</text>
 
             <text
@@ -1063,7 +1100,7 @@ function createFallbackImage() {
                 text-anchor="middle"
                 font-family="Segoe UI, Arial"
                 font-size="52"
-                fill="#d9b45c"
+                fill="#ed9b42"
             >Geschenk</text>
         </svg>
     `;
