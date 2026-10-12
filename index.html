@@ -84,7 +84,7 @@ body {
 .header {
     position: relative;
     margin-bottom: 12px;
-    padding: 22px 22px 20px;
+    padding: 22px;
     overflow: hidden;
     text-align: left;
 
@@ -150,14 +150,14 @@ body {
     position: relative;
     z-index: 1;
     display: flex;
-    gap: 18px;
+    gap: 20px;
     align-items: center;
 }
 
 .header-avatar {
-    width: 86px;
-    height: 86px;
-    flex: 0 0 86px;
+    width: 104px;
+    height: 104px;
+    flex: 0 0 104px;
     overflow: hidden;
 
     background: #100d1b;
@@ -185,6 +185,7 @@ body {
 h1 {
     margin: 0;
     color: var(--bone);
+
     font-family: "Mountains of Christmas", Georgia, serif;
     font-size: clamp(2.2rem, 7vw, 3.5rem);
     font-weight: 700;
@@ -200,7 +201,7 @@ h1 {
 }
 
 .subtitle {
-    max-width: 640px;
+    max-width: 620px;
     margin: 9px 0 0;
     color: var(--muted);
     font-size: 0.93rem;
@@ -247,17 +248,19 @@ h1 {
     color: #ffabb0;
 }
 
+/* Neue einspaltige Wunschliste */
 .gift-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
-    gap: 16px;
+    gap: 14px;
 }
 
+/* Horizontale Wunschkarte */
 .gift-card {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    padding: 14px;
+    display: grid;
+    grid-template-columns: 130px minmax(0, 1fr) minmax(190px, 240px);
+    gap: 22px;
+    align-items: center;
+    padding: 18px 20px;
 
     background:
         linear-gradient(
@@ -293,8 +296,11 @@ h1 {
 }
 
 .gift-image-wrap {
-    height: 220px;
+    width: 130px;
+    height: 130px;
     padding: 8px;
+    overflow: hidden;
+
     background: rgba(10, 8, 16, 0.64);
     border: 1px solid rgba(220, 197, 231, 0.18);
     border-radius: 4px;
@@ -308,11 +314,15 @@ h1 {
     object-position: center;
 }
 
+.gift-info {
+    min-width: 0;
+}
+
 .gift-title {
-    margin: 13px 0 7px;
+    margin: 0 0 8px;
     color: var(--bone);
     font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.12rem;
     font-weight: 600;
     line-height: 1.35;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.58);
@@ -320,7 +330,7 @@ h1 {
 }
 
 .gift-price {
-    margin: 0 0 12px;
+    margin: 0;
     color: var(--muted);
     font-size: 0.92rem;
 }
@@ -328,7 +338,8 @@ h1 {
 .gift-actions {
     display: grid;
     gap: 9px;
-    margin-top: auto;
+    align-self: stretch;
+    align-content: center;
 }
 
 .product-link,
@@ -468,8 +479,8 @@ h1 {
 }
 
 .reserved-label {
-    margin: 0;
-    padding: 11px;
+    margin: 12px 0 0;
+    padding: 9px 11px;
     color: var(--success);
 
     background:
@@ -481,8 +492,8 @@ h1 {
 
     border: 1px solid var(--success-line);
     border-radius: 4px;
-    text-align: center;
-    line-height: 1.5;
+    text-align: left;
+    line-height: 1.45;
     overflow-wrap: anywhere;
 }
 
@@ -576,6 +587,25 @@ h1 {
     margin-top: 12px;
 }
 
+@media (max-width: 700px) {
+    .gift-card {
+        grid-template-columns: 110px minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .gift-image-wrap {
+        width: 110px;
+        height: 110px;
+    }
+
+    .gift-actions {
+        grid-column: 1 / -1;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 2px;
+    }
+}
+
 @media (max-width: 560px) {
     body {
         padding: 14px 8px 18px;
@@ -618,32 +648,34 @@ h1 {
     }
 
     .gift-grid {
-        grid-template-columns: 1fr;
         gap: 11px;
     }
 
     .gift-card {
-        display: grid;
-        grid-template-columns: 96px minmax(0, 1fr);
-        column-gap: 12px;
+        grid-template-columns: 86px minmax(0, 1fr);
+        gap: 10px 12px;
         align-items: start;
-        padding: 11px;
+        padding: 12px;
     }
 
     .gift-image-wrap {
-        grid-row: 1 / span 4;
-        width: 96px;
-        height: 96px;
+        grid-row: 1 / span 2;
+        width: 86px;
+        height: 86px;
         padding: 4px;
     }
 
+    .gift-info {
+        min-width: 0;
+    }
+
     .gift-title {
-        margin: 2px 0 5px;
-        font-size: 1.02rem;
+        margin: 1px 0 5px;
+        font-size: 1rem;
     }
 
     .gift-price {
-        margin: 0 0 8px;
+        margin: 0;
         font-size: 0.87rem;
     }
 
@@ -651,7 +683,11 @@ h1 {
         grid-column: 1 / -1;
         grid-template-columns: 1fr 1fr;
         gap: 8px;
-        margin-top: 10px;
+        margin-top: 2px;
+    }
+
+    .reserved-label {
+        margin-top: 8px;
     }
 
     .product-link,
@@ -664,13 +700,12 @@ h1 {
 
 @media (max-width: 360px) {
     .gift-card {
-        grid-template-columns: 76px minmax(0, 1fr);
-        column-gap: 9px;
+        grid-template-columns: 72px minmax(0, 1fr);
     }
 
     .gift-image-wrap {
-        width: 76px;
-        height: 76px;
+        width: 72px;
+        height: 72px;
     }
 
     .gift-actions {
@@ -731,6 +766,7 @@ h1 {
                 <img
                     src="mein-bild.jpg"
                     alt="Weihnachtsmotiv"
+                    onerror="this.style.display='none';"
                 >
             </div>
 
@@ -922,11 +958,23 @@ function renderGift(gift) {
                 >
             </div>
 
-            <h2 class="gift-title">${escapeHtml(name)}</h2>
+            <div class="gift-info">
+                <h2 class="gift-title">${escapeHtml(name)}</h2>
 
-            <p class="gift-price">
-                ${price ? escapeHtml(price) : "Preis nicht angegeben"}
-            </p>
+                <p class="gift-price">
+                    ${price ? escapeHtml(price) : "Preis nicht angegeben"}
+                </p>
+
+                ${reserved
+                    ? `
+                        <p class="reserved-label">
+                            ✓ Reserviert von
+                            ${escapeHtml(gift.reservedBy || "jemandem")}
+                        </p>
+                    `
+                    : ""
+                }
+            </div>
 
             <div class="gift-actions">
                 ${link
@@ -940,25 +988,17 @@ function renderGift(gift) {
                 }
 
                 ${reserved
-                    ? `
-                        <p class="reserved-label">
-                            ✓ Reserviert von
-                            ${escapeHtml(gift.reservedBy || "jemandem")}
-                        </p>
-
-                        ${sameName(gift.reservedBy, visitorName)
-                            ? `
-                                <button
-                                    class="reserve-button release-button"
-                                    type="button"
-                                    data-release-id="${id}"
-                                >
-                                    Reservierung freigeben
-                                </button>
-                            `
-                            : ""
-                        }
-                    `
+                    ? sameName(gift.reservedBy, visitorName)
+                        ? `
+                            <button
+                                class="reserve-button release-button"
+                                type="button"
+                                data-release-id="${id}"
+                            >
+                                Reservierung freigeben
+                            </button>
+                        `
+                        : ""
                     : `
                         <button
                             class="reserve-button"
