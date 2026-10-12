@@ -139,11 +139,11 @@ h1 {
         <div class="add-form">
             <h2>Neues Geschenk hinzufügen</h2>
             <div class="form-group">
-                <label for="productLink">Produkt-Link (Amazon, Thalia, etc.)</label>
+                <label for="productLink">Produkt-Link</label>
                 <input type="url" id="productLink" placeholder="https://..." required>
             </div>
             <div class="form-group">
-                <label for="productName">Produktname (optional, wird automatisch ausgefüllt)</label>
+                <label for="productName">Produktname</label>
                 <input type="text" id="productName" placeholder="Wird automatisch ausgelesen">
             </div>
             <button class="btn" id="addBtn" onclick="addGift()">Geschenk hinzufügen</button>
@@ -165,7 +165,6 @@ h1 {
             onSnapshot, 
             updateDoc, 
             doc,
-            deleteDoc,
             query,
             orderBy
         } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
@@ -218,7 +217,6 @@ h1 {
                             <h3>${gift.name}</h3>
                             <a href="${gift.link}" target="_blank">Zum Produkt →</a>
                             ${gift.price ? `<span class="gift-price">${gift.price}</span>` : ''}
-                            <button class="delete-btn" onclick="deleteGift('${gift.id}')">Löschen</button>
                         </div>
                         <div class="reserve-checkbox">
                             <input type="checkbox" 
@@ -312,20 +310,6 @@ h1 {
             } catch (error) {
                 console.error('Fehler beim Aktualisieren:', error);
                 alert('Fehler beim Markieren. Bitte versuche es nochmal.');
-            }
-        };
-
-        // Geschenk löschen
-        window.deleteGift = async function(giftId) {
-            if (!confirm('Möchtest du dieses Geschenk wirklich löschen?')) {
-                return;
-            }
-            
-            try {
-                await deleteDoc(doc(db, 'gifts', giftId));
-            } catch (error) {
-                console.error('Fehler beim Löschen:', error);
-                alert('Fehler beim Löschen. Bitte versuche es nochmal.');
             }
         };
     </script>
