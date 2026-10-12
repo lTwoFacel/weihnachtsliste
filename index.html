@@ -11,7 +11,6 @@
             color-scheme: dark;
             --page: #171a22;
             --panel: #222733;
-            --panel-soft: #2a3040;
             --line: #41495a;
             --text: #f1f2f5;
             --muted: #c0c5d0;
@@ -19,8 +18,6 @@
             --accent-text: #1a2030;
             --success: #c5e6cc;
             --success-bg: #263a30;
-            --notice: #f2dfad;
-            --notice-bg: #3a3426;
         }
 
         * {
@@ -32,8 +29,7 @@
             margin: 0;
             padding: 20px 14px;
             color: var(--text);
-            background:
-                radial-gradient(ellipse at top, #293044 0%, var(--page) 58%);
+            background: radial-gradient(ellipse at top, #293044 0%, var(--page) 58%);
             font-family: Verdana, Arial, sans-serif;
         }
 
@@ -106,22 +102,39 @@
             border-color: #505664;
         }
 
-        .gift-image-wrap {
-            display: grid;
-            width: 100%;
-            aspect-ratio: 4 / 3;
-            place-items: center;
-            overflow: hidden;
-            background: #191d26;
-            border: 1px solid #454c5c;
-            border-radius: 10px;
-        }
+       /* Produktbilder vollständig zeigen, ohne sie abzuschneiden */
+.gift-image-wrap {
+    height: 220px;
+    aspect-ratio: auto;
+    padding: 8px;
+    background: #191d26;
+}
 
-        .gift-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+.gift-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important;
+    object-position: center;
+}
+
+/* Auch auf kleinen Displays das ganze Bild sichtbar lassen */
+@media (max-width: 560px) {
+    .gift-image-wrap {
+        width: 96px;
+        height: 96px;
+        aspect-ratio: auto;
+        padding: 4px;
+    }
+}
+
+/* Schutz für sehr schmale Handybildschirme */
+@media (max-width: 360px) {
+    .gift-image-wrap {
+        width: 76px;
+        height: 76px;
+    }
+}
 
         .gift-title {
             margin: 13px 0 7px;
@@ -169,6 +182,30 @@
             background: #3a455b;
         }
 
+        .name-label {
+            display: block;
+            margin: 4px 0;
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+
+        .name-input {
+            width: 100%;
+            min-height: 46px;
+            padding: 10px 12px;
+            color: var(--text);
+            background: #191d26;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            font: inherit;
+        }
+
+        .name-input:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
         .reserve-button {
             color: var(--accent-text);
             background: var(--accent);
@@ -185,6 +222,18 @@
             background: var(--success-bg);
             border-color: #46604e;
             cursor: default;
+        }
+
+        .reserved-label {
+            margin: 0;
+            padding: 12px;
+            color: var(--success);
+            background: var(--success-bg);
+            border: 1px solid #46604e;
+            border-radius: 9px;
+            text-align: center;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
         }
 
         .empty-state {
@@ -318,8 +367,8 @@
         ></section>
 
         <p class="footer-note">
-            Reservierungen werden allen Besuchern angezeigt. Wer einen Wunsch
-            reserviert hat, wird nicht öffentlich angezeigt.
+            Reservierungen werden allen Besuchern angezeigt. Der eingegebene
+            Vorname oder Spitzname ist für alle sichtbar.
         </p>
     </main>
 
@@ -328,27 +377,25 @@
             "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
         import {
-    getFirestore,
-    collection,
-    onSnapshot,
-    query,
-    orderBy,
-    doc,
-    serverTimestamp,
-    runTransaction
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        /*
-         * Ersetze diesen Beispielblock durch DEINEN Firebase-Konfigurationsblock.
-         * Die Werte müssen mit denen in admin.html übereinstimmen.
-         */
-       const firebaseConfig = {
-  apiKey: "AIzaSyAlmVEiqvYL8FaDj1J14tpq-Mg8zOxAy6U",
-  authDomain: "weihnachtsliste-241226.firebaseapp.com",
-  projectId: "weihnachtsliste-241226",
-  storageBucket: "weihnachtsliste-241226.firebasestorage.app",
-  messagingSenderId: "243572027003",
-  appId: "1:243572027003:web:2b9ca250ff47c50cd07cde"
-};
+            getFirestore,
+            collection,
+            onSnapshot,
+            query,
+            orderBy,
+            doc,
+            serverTimestamp,
+            runTransaction
+        } from
+            "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAlmVEiqvYL8FaDj1J14tpq-Mg8zOxAy6U",
+            authDomain: "weihnachtsliste-241226.firebaseapp.com",
+            projectId: "weihnachtsliste-241226",
+            storageBucket: "weihnachtsliste-241226.firebasestorage.app",
+            messagingSenderId: "243572027003",
+            appId: "1:243572027003:web:2b9ca250ff47c50cd07cde"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -407,9 +454,10 @@
             const link = safeUrl(gift.link);
             const image = safeImageUrl(gift.image);
             const price = safeText(gift.price || "");
+            const reserved = gift.reserved === true;
 
             return `
-                <article class="gift-card ${gift.reserved ? "is-reserved" : ""}">
+                <article class="gift-card ${reserved ? "is-reserved" : ""}">
                     <div class="gift-image-wrap">
                         <img
                             class="gift-image"
@@ -422,10 +470,9 @@
 
                     <h2 class="gift-title">${escapeHtml(name)}</h2>
 
-                    ${price
-                        ? `<p class="gift-price">${escapeHtml(price)}</p>`
-                        : `<p class="gift-price">Preis nicht angegeben</p>`
-                    }
+                    <p class="gift-price">
+                        ${price ? escapeHtml(price) : "Preis nicht angegeben"}
+                    </p>
 
                     <div class="gift-actions">
                         ${link
@@ -438,17 +485,34 @@
                             : `<span class="product-link">Kein Produktlink</span>`
                         }
 
-                        <button
-                            class="reserve-button"
-                            type="button"
-                            data-reserve-id="${escapeHtml(gift.id)}"
-                            ${gift.reserved ? "disabled" : ""}
-                        >
-                            ${gift.reserved
-                                ? "✓ Bereits reserviert"
-                                : "Diesen Wunsch reservieren"
-                            }
-                        </button>
+                        ${reserved
+                            ? `<p class="reserved-label">
+                                  ✓ Reserviert von ${escapeHtml(gift.reservedBy || "jemandem")}
+                               </p>`
+                            : `
+                                <label
+                                    class="name-label"
+                                    for="name-${escapeHtml(gift.id)}"
+                                >
+                                    Dein Vorname oder Spitzname
+                                </label>
+                                <input
+                                    class="name-input"
+                                    id="name-${escapeHtml(gift.id)}"
+                                    type="text"
+                                    maxlength="40"
+                                    autocomplete="nickname"
+                                    placeholder="Zum Beispiel: Alex"
+                                >
+                                <button
+                                    class="reserve-button"
+                                    type="button"
+                                    data-reserve-id="${escapeHtml(gift.id)}"
+                                >
+                                    Wunsch reservieren
+                                </button>
+                            `
+                        }
                     </div>
                 </article>
             `;
@@ -456,10 +520,24 @@
 
         async function reserveGift(button) {
             const giftId = button.dataset.reserveId;
+            const input = document.getElementById(`name-${giftId}`);
+            const reservedBy = input?.value.trim();
+
+            if (!reservedBy) {
+                alert("Bitte gib einen Vornamen oder Spitznamen ein.");
+                input?.focus();
+                return;
+            }
+
+            if (reservedBy.length > 40) {
+                alert("Der Name darf höchstens 40 Zeichen lang sein.");
+                input?.focus();
+                return;
+            }
 
             const confirmed = confirm(
-                "Möchtest du diesen Wunsch reservieren? " +
-                "Andere sehen danach, dass er bereits vergeben ist."
+                `Möchtest du diesen Wunsch für „${reservedBy}“ reservieren? ` +
+                "Der Name wird auf der Wunschliste angezeigt."
             );
 
             if (!confirmed) return;
@@ -468,18 +546,30 @@
             button.textContent = "Wird reserviert …";
 
             try {
-                await updateDoc(doc(db, "gifts", giftId), {
-                    reserved: true,
-                    reservedAt: serverTimestamp()
+                const giftRef = doc(db, "gifts", giftId);
+
+                await runTransaction(db, async (transaction) => {
+                    const giftSnapshot = await transaction.get(giftRef);
+
+                    if (!giftSnapshot.exists()) {
+                        throw new Error("Diesen Wunsch gibt es nicht mehr.");
+                    }
+
+                    if (giftSnapshot.data().reserved === true) {
+                        throw new Error("Dieser Wunsch wurde gerade schon reserviert.");
+                    }
+
+                    transaction.update(giftRef, {
+                        reserved: true,
+                        reservedBy: reservedBy,
+                        reservedAt: serverTimestamp()
+                    });
                 });
             } catch (error) {
                 console.error("Reservierung fehlgeschlagen:", error);
+                alert(error.message || "Die Reservierung hat nicht funktioniert.");
                 button.disabled = false;
-                button.textContent = "Diesen Wunsch reservieren";
-                alert(
-                    "Die Reservierung hat nicht funktioniert. " +
-                    "Bitte lade die Seite neu und versuche es erneut."
-                );
+                button.textContent = "Wunsch reservieren";
             }
         }
 
@@ -514,7 +604,7 @@
         }
 
         function createFallbackImage() {
-            return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+            const svg = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
                     <rect width="100%" height="100%" fill="#252b39"/>
                     <rect x="8" y="8" width="384" height="284" rx="18"
@@ -524,9 +614,11 @@
                           fill="#d5def8">Kein Bild</text>
                     <text x="200" y="205" text-anchor="middle"
                           font-family="Arial" font-size="52"
-                          fill="#f1d5a8">🎁</text>
+                          fill="#f1d5a8">Geschenk</text>
                 </svg>
-            `);
+            `;
+
+            return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
         }
     </script>
 </body>
