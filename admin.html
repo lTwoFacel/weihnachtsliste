@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wunschliste verwalten</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 12px;
+            font-family: Verdana, Arial, sans-serif;
+            background:
+                linear-gradient(45deg, #d8d8d8 25%, transparent 25%),
+                linear-gradient(-45deg, #d8d8d8 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #d8d8d8 75%),
+                linear-gradient(-45deg, transparent 75%, #d8d8d8 75%);
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+            background-size: 20px 20px;
+        }
+
+        .container {
+            width: min(850px, 100%);
+            margin: 0 auto;
+            padding: 15px;
+            background: #eeeeee;
+            border: 3px ridge #ffffff;
+            box-shadow: 5px 5px 0 #777;
+        }
+
+        h1 {
+            margin: 0 0 15px;
+            padding: 12px;
+            color: #ffffff;
+            font-family: Georgia, serif;
+            font-size: clamp(24px, 7vw, 34px);
+            text-align: center;
+            text-shadow: 2px 2px #000080;
+            background: linear-gradient(#4169e1, #000080);
+            border: 3px outset #eeeeee;
+        }
+
+        h2 {
+            margin: 0 0 10px;
+            color: #800000;
+            font-family: Georgia, serif;
+            font-size: 22px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .panel {
+            padding: 14px;
+            background: #ffffff;
+            border: 3px ridge #ffffff;
+        }
+
+        label {
+            display: block;
+            margin: 12px 0 5px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #000080;
+        }
+
+        input {
+            width: 100%;
+            padding: 9px;
+            color: #111;
+            font: 14px Verdana, Arial, sans-serif;
+            background: #ffffff;
+            border: 2px inset #ffffff;
+            border-radius: 0;
+        }
+
+        button {
+            margin-top: 14px;
+            padding: 9px 14px;
+            color: #ffffff;
+            font: bold 13px Verdana, Arial, sans-serif;
+            background: #000080;
+            border: 3px outset #aaaaff;
+            border-radius: 0;
+            cursor: pointer;
+        }
+
+        button:active {
+            border-style: inset;
+        }
+
+        .danger {
+            background: #800000;
+            border-color: #ffaaaa;
+        }
+
+        .message {
+            min-height: 20px;
+            margin: 10px 0 0;
+            font-size: 13px;
+            color: #800000;
+        }
+
+        .admin-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .gift-row {
+            display: grid;
+            grid-template-columns: 70px 1fr auto;
+            gap: 10px;
+            align-items: center;
+            padding: 10px;
+            background: #ffffff;
+            border: 3px ridge #ffffff;
+        }
+
+        .gift-row img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            background: #eeeeee;
+            border: 2px inset #ffffff;
+        }
+
+        .gift-row h3 {
+            margin: 0 0 5px;
+            color: #000080;
+            font: bold 17px Georgia, serif;
+        }
+
+        .gift-row p {
+            margin: 3px 0;
+            font-size: 12px;
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 7px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .gift-row {
+                grid-template-columns: 60px 1fr;
+            }
+
+            .gift-row img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .gift-row .danger {
+                grid-column: 1 / -1;
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1>🎄 Wunschliste verwalten</h1>
+
+        <!-- Der Login erscheint nur, solange du nicht angemeldet bist. -->
+        <section class="panel" id="loginArea">
+            <h2>Admin-Login</h2>
+
+            <label for="email">E-Mail-Adresse</label>
+            <input id="email" type="email" autocomplete="email" required>
+
+            <label for="password">Passwort</label>
+            <input id="password" type="password" autocomplete="current-password" required>
+
+            <button id="loginButton" type="button">Einloggen</button>
+            <p class="message" id="loginMessage"></p>
+        </section>
+
+        <!-- Dieser Bereich wird erst nach erfolgreichem Login angezeigt. -->
+        <section id="adminArea" class="hidden">
+            <button class="danger" id="logoutButton" type="button">Ausloggen</button>
+
+            <form class="panel" id="giftForm" style="margin-top: 15px;">
+                <h2>Neuen Wunsch hinzufügen</h2>
+
+                <label for="name">Produktname</label>
+                <input
+                    id="name"
+                    type="text"
+                    required
+                    placeholder="Zum Beispiel: Lego Star Wars Set"
+                >
+
+                <label for="link">Produkt-Link</label>
+                <input
+                    id="link"
+                    type="url"
+                    required
+                    placeholder="https://…"
+                >
+
+                <label for="price">Preis</label>
+                <input
+                    id="price"
+                    type="text"
+                    placeholder="Zum Beispiel: 49,99 €"
+                >
+
+                <label for="image">Direkte Bild-URL</label>
+                <input
+                    id="image"
+                    type="url"
+                    placeholder="https://…/bild.jpg"
+                >
+
+                <button type="submit">Wunsch speichern</button>
+                <p class="message" id="formMessage"></p>
+            </form>
+
+            <section class="admin-list" id="adminList"></section>
+        </section>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from
+            "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            signOut,
+            onAuthStateChanged
+        } from
+            "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            deleteDoc,
+            doc,
+            onSnapshot,
+            query,
+            orderBy,
+            serverTimestamp
+        } from
+            "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Kopiere exakt denselben firebaseConfig-Block aus index.html hierher.
+        const firebaseConfig = {
+        apiKey: "AIzaSyAlmVEiqvYL8FaDj1J14tpq-Mg8zOxAy6U",
+        authDomain: "weihnachtsliste-241226.firebaseapp.com",
+        projectId: "weihnachtsliste-241226",
+        storageBucket: "weihnachtsliste-241226.firebasestorage.app",
+        messagingSenderId: "243572027003",
+        appId: "1:243572027003:web:2b9ca250ff47c50cd07cde"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const loginArea = document.getElementById("loginArea");
+        const adminArea = document.getElementById("adminArea");
+        const loginMessage = document.getElementById("loginMessage");
+        const formMessage = document.getElementById("formMessage");
+        const adminList = document.getElementById("adminList");
+
+        document
+            .getElementById("loginButton")
+            .addEventListener("click", login);
+
+        document
+            .getElementById("logoutButton")
+            .addEventListener("click", () => signOut(auth));
+
+        document
+            .getElementById("giftForm")
+            .addEventListener("submit", addGift);
+
+        onAuthStateChanged(auth, (user) => {
+            const loggedIn = Boolean(user);
+
+            loginArea.classList.toggle("hidden", loggedIn);
+            adminArea.classList.toggle("hidden", !loggedIn);
+
+            if (loggedIn) {
+                loadGifts();
+            }
+        });
+
+        async function login() {
+            loginMessage.textContent = "Anmeldung läuft …";
+
+            try {
+                await signInWithEmailAndPassword(
+                    auth,
+                    document.getElementById("email").value.trim(),
+                    document.getElementById("password").value
+                );
+
+                loginMessage.textContent = "";
+            } catch (error) {
+                console.error(error);
+                loginMessage.textContent =
+                    "Login fehlgeschlagen. E-Mail und Passwort prüfen.";
+            }
+        }
+
+        async function addGift(event) {
+            event.preventDefault();
+
+            formMessage.textContent = "Wunsch wird gespeichert …";
+
+            const gift = {
+                name: document.getElementById("name").value.trim(),
+                link: document.getElementById("link").value.trim(),
+                price: document.getElementById("price").value.trim(),
+                image: document.getElementById("image").value.trim(),
+                reserved: false,
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, "gifts"), gift);
+
+                event.target.reset();
+                formMessage.textContent = "Wunsch gespeichert.";
+            } catch (error) {
+                console.error(error);
+                formMessage.textContent =
+                    "Speichern fehlgeschlagen. Prüfe Login und Firestore-Regeln.";
+            }
+        }
+
+        function loadGifts() {
+            const giftsQuery = query(
+                collection(db, "gifts"),
+                orderBy("createdAt", "desc")
+            );
+
+            onSnapshot(giftsQuery, (snapshot) => {
+                adminList.innerHTML = snapshot.docs.map(item => {
+                    const gift = { id: item.id, ...item.data() };
+                    const image = gift.image ||
+                        "https://placehold.co/200x200/eeeeee/666666?text=Kein+Bild";
+
+                    return `
+                        <article class="gift-row">
+                            <img
+                                src="${escapeHtml(image)}"
+                                alt=""
+                                onerror="this.onerror=null; this.src='https://placehold.co/200x200/eeeeee/666666?text=Kein+Bild';"
+                            >
+                            <div>
+                                <h3>${escapeHtml(gift.name)}</h3>
+                                <p><strong>Preis:</strong> ${escapeHtml(gift.price || "nicht angegeben")}</p>
+                                <p>${gift.reserved ? "✓ Bereits reserviert" : "○ Noch frei"}</p>
+                            </div>
+                            <button
+                                class="danger deleteButton"
+                                type="button"
+                                data-id="${gift.id}"
+                            >
+                                Löschen
+                            </button>
+                        </article>
+                    `;
+                }).join("");
+
+                document.querySelectorAll(".deleteButton").forEach(button => {
+                    button.addEventListener("click", () => deleteGift(button.dataset.id));
+                });
+            });
+        }
+
+        async function deleteGift(id) {
+            if (!confirm("Diesen Wunsch wirklich löschen?")) return;
+
+            try {
+                await deleteDoc(doc(db, "gifts", id));
+            } catch (error) {
+                console.error(error);
+                alert("Löschen fehlgeschlagen.");
+            }
+        }
+
+        function escapeHtml(value = "") {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+    </script>
+</body>
+</html>
