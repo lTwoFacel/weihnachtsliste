@@ -6,6 +6,14 @@
 <meta name="theme-color" content="#071321">
 <title>Meine Weihnachtswunschliste</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap"
+    rel="stylesheet"
+>
+
 <style>
 :root {
     color-scheme: dark;
@@ -18,13 +26,11 @@
     --text: #edf4fb;
     --muted: rgba(237, 244, 251, 0.78);
     --accent: #8fc9ff;
-    --accent-strong: #4d9de0;
     --accent-text: #071a2c;
     --success: #dfffe9;
     --success-bg: rgba(16, 54, 36, 0.75);
     --success-line: rgba(126, 224, 163, 0.55);
     --danger: #ffd6d6;
-    --danger-bg: #7a2727;
     --gold: rgba(211, 174, 90, 0.75);
 }
 
@@ -109,14 +115,14 @@ h1 {
     z-index: 1;
     margin: 0;
     color: #ffffff;
-    font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
-    font-size: clamp(1.45rem, 4.5vw, 2.2rem);
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.2;
+    font-family: "Mountains of Christmas", Georgia, serif;
+    font-size: clamp(2.1rem, 7vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.05;
     text-shadow:
-        0 1px 1px rgba(0, 0, 0, 0.75),
-        0 0 9px rgba(150, 215, 255, 0.22);
+        0 2px 2px rgba(0, 0, 0, 0.75),
+        0 0 10px rgba(150, 215, 255, 0.22);
 }
 
 .subtitle {
@@ -443,9 +449,13 @@ h1 {
 .name-dialog h2 {
     margin: 0 0 10px;
     color: #fff;
-    font-size: 1.35rem;
-    font-weight: 600;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+    font-family: "Mountains of Christmas", Georgia, serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.05;
+    text-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.70),
+        0 0 8px rgba(150, 215, 255, 0.22);
 }
 
 .name-dialog p {
@@ -472,6 +482,10 @@ h1 {
     .header::after {
         right: 14px;
         left: 14px;
+    }
+
+    h1 {
+        font-size: clamp(1.9rem, 9vw, 2.7rem);
     }
 
     .subtitle {
@@ -562,12 +576,14 @@ h1 {
 >
     <form class="name-dialog" id="nameForm" novalidate>
         <h2 id="nameGateTitle">Willkommen</h2>
+
         <p>
             Gib deinen Vor- oder Spitznamen ein. Er wird bei deinen
             Reservierungen angezeigt und in diesem Browser gespeichert.
         </p>
 
         <label class="name-label" for="visitorName">Dein Name</label>
+
         <input
             class="name-input"
             id="visitorName"
@@ -586,6 +602,7 @@ h1 {
 <main class="page" id="pageContent" hidden>
     <header class="header">
         <h1>Meine Weihnachtswunschliste</h1>
+
         <p class="subtitle">
             Schön, dass du vorbeischaust! Schau dir meine Wünsche an.
             Wenn du etwas davon schenken möchtest, reserviere es bitte,
@@ -708,11 +725,13 @@ onSnapshot(
 
         if (gifts.length === 0) {
             status.textContent = "Die Wunschliste ist noch leer.";
+
             giftGrid.innerHTML = `
                 <p class="empty-state">
                     Im Moment sind noch keine Wünsche eingetragen.
                 </p>
             `;
+
             return;
         }
 
@@ -830,7 +849,9 @@ async function reserveGift(button) {
         `Möchtest du diesen Wunsch für „${visitorName}“ reservieren?`
     );
 
-    if (!confirmed) return;
+    if (!confirmed) {
+        return;
+    }
 
     await withButton(
         button,
