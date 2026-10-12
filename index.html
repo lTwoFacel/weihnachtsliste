@@ -534,13 +534,6 @@ onSnapshot(
             `${gifts.length} ${gifts.length === 1 ? "Wunsch" : "Wünsche"} auf der Liste`;
 
         giftGrid.innerHTML = gifts.map(renderGift).join("");
-
-        giftGrid
-            .querySelectorAll("[data-reserve-id]")
-            .forEach((button) => {
-                button.addEventListener("click", () => reserveGift(button));
-            });
-
         giftGrid
             .querySelectorAll("[data-edit-id]")
             .forEach((button) => {
@@ -608,14 +601,6 @@ function renderGift(gift) {
 
                         ${sameName(gift.reservedBy, visitorName)
                             ? `
-                                <button
-                                    class="reserve-button"
-                                    type="button"
-                                    data-edit-id="${id}"
-                                >
-                                    Reservierung ändern
-                                </button>
-
                                 <button
                                     class="reserve-button release-button"
                                     type="button"
@@ -685,45 +670,6 @@ async function reserveGift(button) {
     );
 }
 
-async function changeReservation(button) {
-    const giftId = button.dataset.editId;
-
-    if (!confirm(`Reservierung für „${visitorName}“ bestätigen?`)) {
-        return;
-    }
-
-    await withButton(
-        button,
-        "Wird geändert …",
-        "Reservierung ändern",
-        async () => {
-            const giftRef = doc(db, "gifts", giftId);
-
-            await runTransaction(db, async (transaction) => {
-                const snapshot = await transaction.get(giftRef);
-
-                if (!snapshot.exists()) {
-                    throw new Error("Diesen Wunsch gibt es nicht mehr.");
-                }
-
-                const gift = snapshot.data();
-
-                if (
-                    gift.reserved !== true ||
-                    !sameName(gift.reservedBy, visitorName)
-                ) {
-                    throw new Error(
-                        "Der gespeicherte Name stimmt nicht mit der Reservierung überein."
-                    );
-                }
-
-                transaction.update(giftRef, {
-                    reservedBy: visitorName
-                });
-            });
-        }
-    );
-}
 
 async function releaseReservation(button) {
     const giftId = button.dataset.releaseId;
