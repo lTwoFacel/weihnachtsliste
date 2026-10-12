@@ -146,12 +146,44 @@ body {
     );
 }
 
-h1 {
+.header-content {
     position: relative;
     z-index: 1;
-    display: inline-block;
-    margin: 0;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
 
+.header-avatar {
+    width: 86px;
+    height: 86px;
+    flex: 0 0 86px;
+    overflow: hidden;
+
+    background: #100d1b;
+    border: 3px solid var(--pumpkin-light);
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 2px rgba(43, 23, 45, 0.88),
+        0 0 14px rgba(255, 170, 56, 0.35),
+        0 5px 12px rgba(0, 0, 0, 0.50);
+}
+
+.header-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.header-text {
+    min-width: 0;
+}
+
+h1 {
+    margin: 0;
     color: var(--bone);
     font-family: "Mountains of Christmas", Georgia, serif;
     font-size: clamp(2.2rem, 7vw, 3.5rem);
@@ -168,8 +200,6 @@ h1 {
 }
 
 .subtitle {
-    position: relative;
-    z-index: 1;
     max-width: 640px;
     margin: 9px 0 0;
     color: var(--muted);
@@ -562,6 +592,22 @@ h1 {
         left: 14px;
     }
 
+    .header-content {
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .header-avatar {
+        width: 62px;
+        height: 62px;
+        flex-basis: 62px;
+        border-width: 2px;
+    }
+
+    .header-text {
+        padding-top: 1px;
+    }
+
     h1 {
         font-size: clamp(1.9rem, 9vw, 2.7rem);
         -webkit-text-stroke: 0.8px #2b172d;
@@ -680,13 +726,24 @@ h1 {
 
 <main class="page" id="pageContent" hidden>
     <header class="header">
-        <h1>Meine Weihnachtswunschliste</h1>
+        <div class="header-content">
+            <div class="header-avatar">
+                <img
+                    src="mein-bild.jpg"
+                    alt="Weihnachtsmotiv"
+                >
+            </div>
 
-        <p class="subtitle">
-            Das sind meine Wünsche.
-            Wenn du etwas davon schenken möchtest, reserviere es bitte,
-            damit es niemand doppelt kauft.
-        </p>
+            <div class="header-text">
+                <h1>Meine Weihnachtswunschliste</h1>
+
+                <p class="subtitle">
+                    Schön, dass du vorbeischaust! Schau dir meine Wünsche an.
+                    Wenn du etwas davon schenken möchtest, reserviere es bitte,
+                    damit es niemand doppelt kauft.
+                </p>
+            </div>
+        </div>
     </header>
 
     <p class="status" id="status" role="status" aria-live="polite">
