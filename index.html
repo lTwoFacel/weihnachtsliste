@@ -3,21 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#171a22">
+<meta name="theme-color" content="#0a1626">
 <title>Meine Weihnachtswunschliste</title>
 
 <style>
 :root {
     color-scheme: dark;
-    --page: #171a22;
-    --panel: #222733;
-    --line: #41495a;
-    --text: #f1f2f5;
-    --muted: #c0c5d0;
-    --accent: #c9d4ff;
-    --accent-text: #1a2030;
-    --success: #c5e6cc;
-    --success-bg: #263a30;
+    --bg: #081526;
+    --bg2: #0d2542;
+    --glass: rgba(173, 216, 255, .16);
+    --glass-strong: rgba(173, 216, 255, .24);
+    --line: rgba(220, 240, 255, .45);
+    --line-soft: rgba(220, 240, 255, .22);
+    --text: #f3faff;
+    --muted: rgba(243, 250, 255, .76);
+    --blue: #3d8eeb;
+    --blue-light: #8fd7ff;
+    --green: #7ee0a3;
+    --red: #ff8d8d;
 }
 
 * {
@@ -27,109 +30,150 @@
 body {
     min-height: 100vh;
     margin: 0;
-    padding: 20px 14px;
+    padding: 24px 14px;
     color: var(--text);
-    background: radial-gradient(ellipse at top, #293044 0%, var(--page) 58%);
-    font-family: Verdana, Arial, sans-serif;
+    background:
+        radial-gradient(circle at 18% 12%, #1b4b7a 0, transparent 42%),
+        radial-gradient(circle at 82% 8%, #0f3560 0, transparent 46%),
+        linear-gradient(180deg, var(--bg2), var(--bg) 70%, #05101d);
+    font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
 }
 
 .page {
     width: min(960px, 100%);
-    margin: 0 auto;
+    margin: auto;
 }
 
 .header {
-    margin-bottom: 18px;
-    padding: 22px 18px;
+    position: relative;
+    padding: 26px 20px;
     text-align: center;
-    background: linear-gradient(145deg, #303a55, #242b3c);
-    border: 1px solid #505d7b;
-    border-radius: 16px;
-    box-shadow: 0 12px 30px rgb(0 0 0 / 24%);
+    background: linear-gradient(180deg, rgba(173, 216, 255, .30), rgba(13, 42, 74, .65));
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .08) inset,
+        0 18px 40px rgba(0, 0, 0, .45),
+        0 0 22px rgba(61, 142, 235, .18);
+    backdrop-filter: blur(14px);
+}
+
+.header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .30), transparent 38%);
+    pointer-events: none;
 }
 
 h1 {
     margin: 0;
-    color: #f4f5ff;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(1.65rem, 6vw, 2.5rem);
-    line-height: 1.2;
+    font: 700 clamp(1.6rem, 6vw, 2.4rem) / 1.2 "Segoe UI", Tahoma, sans-serif;
+    color: #fff;
+    text-shadow:
+        0 0 12px rgba(143, 215, 255, .55),
+        0 2px 4px rgba(0, 0, 0, .7);
 }
 
 .subtitle {
-    max-width: 620px;
-    margin: 12px auto 0;
-    color: #e0e5f5;
-    font-size: 0.96rem;
-    line-height: 1.65;
+    max-width: 640px;
+    margin: 10px auto 0;
+    color: var(--muted);
+    line-height: 1.6;
 }
 
 .status {
-    margin: 0 0 16px;
-    padding: 12px 14px;
+    margin: 0 0 18px;
+    padding: 12px 16px;
     color: var(--muted);
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    line-height: 1.5;
+    background: var(--glass);
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .32);
+    backdrop-filter: blur(10px);
 }
 
 .status.error {
-    color: #ffd4d4;
-    background: #422a30;
-    border-color: #88535e;
+    color: #ffd6d6;
+    background: rgba(255, 80, 80, .16);
+    border-color: rgba(255, 120, 120, .55);
 }
 
 .gift-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 265px), 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 18px;
 }
 
 .gift-card {
+    position: relative;
     display: flex;
-    min-width: 0;
     flex-direction: column;
+    overflow: hidden;
     padding: 14px;
-    background: linear-gradient(160deg, #272d3b, #202530);
+    background: linear-gradient(180deg, rgba(173, 216, 255, .25), rgba(13, 42, 74, .72));
     border: 1px solid var(--line);
-    border-radius: 14px;
-    box-shadow: 0 7px 18px rgb(0 0 0 / 18%);
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .10) inset,
+        0 14px 32px rgba(0, 0, 0, .42),
+        0 0 18px rgba(61, 142, 235, .14);
+    backdrop-filter: blur(14px);
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.gift-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .16) inset,
+        0 18px 40px rgba(0, 0, 0, .52),
+        0 0 24px rgba(143, 215, 255, .26);
 }
 
 .gift-card.is-reserved {
-    background: #252a33;
-    border-color: #505664;
+    border-color: rgba(126, 224, 163, .55);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .10) inset,
+        0 14px 32px rgba(0, 0, 0, .42),
+        0 0 18px rgba(126, 224, 163, .22);
+}
+
+.gift-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .22), transparent 34%);
+    pointer-events: none;
 }
 
 .gift-image-wrap {
-    height: 220px;
-    aspect-ratio: auto;
+    height: 210px;
     padding: 8px;
-    background: #191d26;
+    background: rgba(5, 16, 29, .55);
+    border: 1px solid var(--line-soft);
+    border-radius: 7px;
 }
 
 .gift-image {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain !important;
+    object-fit: contain;
     object-position: center;
 }
 
 .gift-title {
     margin: 13px 0 7px;
-    color: #f3e1c2;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.2rem;
-    line-height: 1.35;
+    color: #fff;
+    font: 700 1.18rem / 1.35 "Segoe UI", Tahoma, sans-serif;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .65);
     overflow-wrap: anywhere;
 }
 
 .gift-price {
     margin: 0 0 12px;
     color: var(--muted);
-    font-size: 0.95rem;
 }
 
 .gift-actions {
@@ -139,85 +183,101 @@ h1 {
 }
 
 .product-link,
-.reserve-button {
-    display: flex;
-    width: 100%;
-    min-height: 46px;
-    align-items: center;
-    justify-content: center;
-    padding: 11px 14px;
-    border-radius: 9px;
-    font: 700 0.92rem Verdana, Arial, sans-serif;
-    text-align: center;
-    text-decoration: none;
-    overflow-wrap: anywhere;
-}
-
-.product-link {
-    color: var(--accent);
-    background: #30384a;
-    border: 1px solid #586580;
-}
-
-.product-link:hover {
-    background: #3a455b;
-}
-
-.name-label {
-    display: block;
-    margin: 4px 0;
-    color: var(--muted);
-    font-size: 0.82rem;
-    line-height: 1.4;
-}
-
+.reserve-button,
 .name-input {
     width: 100%;
     min-height: 46px;
-    padding: 10px 12px;
-    color: var(--text);
-    background: #191d26;
-    border: 1px solid var(--line);
-    border-radius: 9px;
-    font: inherit;
+    padding: 10px 13px;
+    border-radius: 6px;
+    font: 600 .92rem "Segoe UI", Tahoma, Verdana, sans-serif;
 }
 
-.name-input:focus {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+.product-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #eaf6ff;
+    text-decoration: none;
+    background: linear-gradient(180deg, rgba(143, 215, 255, .28), rgba(13, 42, 74, .85));
+    border: 1px solid var(--line);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .08) inset,
+        0 3px 10px rgba(0, 0, 0, .35);
+    overflow-wrap: anywhere;
+}
+
+.product-link:hover {
+    background: linear-gradient(180deg, rgba(143, 215, 255, .42), rgba(20, 64, 110, .9));
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .18) inset,
+        0 0 14px rgba(143, 215, 255, .3);
 }
 
 .reserve-button {
-    color: var(--accent-text);
-    background: var(--accent);
-    border: 1px solid #e5eaff;
+    color: #04121f;
+    background: linear-gradient(180deg, #a8e0ff, #3d8eeb 52%, #1c5f9e);
+    border: 1px solid rgba(255, 255, 255, .65);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .18) inset,
+        0 4px 12px rgba(0, 0, 0, .38);
     cursor: pointer;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .35);
 }
 
 .reserve-button:hover:not(:disabled) {
-    background: #e0e6ff;
+    background: linear-gradient(180deg, #c6ecff, #54a4f0 52%, #2a76bb);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .28) inset,
+        0 0 18px rgba(143, 215, 255, .45);
 }
 
 .reserve-button:disabled {
-    color: var(--success);
-    background: var(--success-bg);
-    border-color: #46604e;
+    color: #dfffe9;
+    background: linear-gradient(180deg, #a8e5bc, #2f7a4d);
+    border-color: rgba(126, 224, 163, .65);
     cursor: wait;
 }
 
 .release-button {
-    color: #ffd4d4;
-    background: #422a30;
-    border-color: #88535e;
+    color: #fff;
+    background: linear-gradient(180deg, #ff9d9d, #c83737 52%, #8d1f1f);
+    border-color: rgba(255, 190, 190, .7);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .35);
+}
+
+.release-button:hover:not(:disabled) {
+    background: linear-gradient(180deg, #ffbcbc, #e35555 52%, #a52a2a);
+    box-shadow: 0 0 18px rgba(255, 120, 120, .35);
+}
+
+.name-label {
+    display: block;
+    margin: 5px 0;
+    color: var(--muted);
+    font-size: .82rem;
+    line-height: 1.4;
+}
+
+.name-input {
+    color: var(--text);
+    background: rgba(5, 16, 29, .72);
+    border: 1px solid var(--line);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .08) inset;
+}
+
+.name-input:focus {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 1px;
 }
 
 .reserved-label {
     margin: 0;
     padding: 12px;
-    color: var(--success);
-    background: var(--success-bg);
-    border: 1px solid #46604e;
-    border-radius: 9px;
+    color: #dfffe9;
+    background: linear-gradient(180deg, rgba(126, 224, 163, .25), rgba(16, 54, 36, .75));
+    border: 1px solid rgba(126, 224, 163, .55);
+    border-radius: 6px;
     text-align: center;
     line-height: 1.5;
     overflow-wrap: anywhere;
@@ -225,19 +285,19 @@ h1 {
 
 .empty-state {
     grid-column: 1 / -1;
-    padding: 24px;
-    color: var(--muted);
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 12px;
+    padding: 26px;
     text-align: center;
-    line-height: 1.6;
+    color: var(--muted);
+    background: var(--glass);
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
 }
 
 .footer-note {
-    margin: 18px 0 0;
-    color: #aeb5c3;
-    font-size: 0.8rem;
+    margin: 20px 0 0;
+    color: rgba(243, 250, 255, .62);
+    font-size: .8rem;
     line-height: 1.55;
     text-align: center;
 }
@@ -249,7 +309,7 @@ h1 {
     display: grid;
     place-items: center;
     padding: 18px;
-    background: rgb(10 12 18 / 90%);
+    background: radial-gradient(circle at 50% 20%, rgba(27, 75, 122, .65), rgba(5, 16, 29, .92));
 }
 
 .name-gate[hidden] {
@@ -257,18 +317,22 @@ h1 {
 }
 
 .name-dialog {
-    width: min(430px, 100%);
-    padding: 22px;
-    background: var(--panel);
-    border: 1px solid #586580;
-    border-radius: 16px;
-    box-shadow: 0 18px 50px rgb(0 0 0 / 45%);
+    width: min(440px, 100%);
+    padding: 24px;
+    background: linear-gradient(180deg, rgba(173, 216, 255, .28), rgba(13, 42, 74, .82));
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .14) inset,
+        0 24px 60px rgba(0, 0, 0, .55),
+        0 0 28px rgba(61, 142, 235, .25);
+    backdrop-filter: blur(16px);
 }
 
 .name-dialog h2 {
-    margin: 0 0 10px;
-    color: #f3e1c2;
-    font-family: Georgia, "Times New Roman", serif;
+    margin: 0 0 8px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(143, 215, 255, .5);
 }
 
 .name-dialog p {
@@ -277,27 +341,22 @@ h1 {
 }
 
 .name-dialog .reserve-button {
-    margin-top: 12px;
+    margin-top: 14px;
 }
 
 @media (max-width: 560px) {
     body {
-        padding: 10px 8px 18px;
+        padding: 12px 8px 18px;
     }
 
     .header {
-        margin-bottom: 12px;
         padding: 18px 12px;
-        border-radius: 12px;
-    }
-
-    .subtitle {
-        font-size: 0.9rem;
+        border-radius: 8px;
     }
 
     .gift-grid {
         grid-template-columns: 1fr;
-        gap: 11px;
+        gap: 12px;
     }
 
     .gift-card {
@@ -305,26 +364,24 @@ h1 {
         grid-template-columns: 96px minmax(0, 1fr);
         column-gap: 12px;
         align-items: start;
-        padding: 11px;
-        border-radius: 12px;
+        padding: 12px;
     }
 
     .gift-image-wrap {
         grid-row: 1 / span 4;
         width: 96px;
         height: 96px;
-        aspect-ratio: auto;
         padding: 4px;
     }
 
     .gift-title {
         margin: 2px 0 5px;
-        font-size: 1.05rem;
+        font-size: 1.02rem;
     }
 
     .gift-price {
         margin: 0 0 8px;
-        font-size: 0.87rem;
+        font-size: .87rem;
     }
 
     .gift-actions {
@@ -338,7 +395,7 @@ h1 {
     .reserve-button {
         min-height: 46px;
         padding: 9px 8px;
-        font-size: 0.82rem;
+        font-size: .82rem;
     }
 }
 
@@ -362,10 +419,8 @@ h1 {
     *,
     *::before,
     *::after {
-        scroll-behavior: auto !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
     }
 }
 </style>
@@ -780,15 +835,15 @@ function escapeHtml(value = "") {
 function createFallbackImage() {
     const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
-            <rect width="100%" height="100%" fill="#252b39"/>
-            <rect x="8" y="8" width="384" height="284" rx="18"
-                  fill="none" stroke="#65708a" stroke-width="5"/>
+            <rect width="100%" height="100%" fill="#081526"/>
+            <rect x="8" y="8" width="384" height="284" rx="10"
+                  fill="none" stroke="#8fd7ff" stroke-width="4"/>
             <text x="200" y="135" text-anchor="middle"
-                  font-family="Verdana, Arial" font-size="28"
+                  font-family="Segoe UI, Verdana, Arial" font-size="28"
                   fill="#d5def8">Kein Bild</text>
             <text x="200" y="205" text-anchor="middle"
-                  font-family="Arial" font-size="52"
-                  fill="#f1d5a8">Geschenk</text>
+                  font-family="Segoe UI, Arial" font-size="52"
+                  fill="#8fd7ff">Geschenk</text>
         </svg>
     `;
 
