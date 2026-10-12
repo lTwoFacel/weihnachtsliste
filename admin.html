@@ -42,7 +42,11 @@ body {
     width: min(760px, 100%);
     margin: auto;
     padding: 24px;
-    background: linear-gradient(180deg, rgba(173, 216, 255, .24), rgba(13, 42, 74, .78));
+    background: linear-gradient(
+        180deg,
+        rgba(173, 216, 255, .24),
+        rgba(13, 42, 74, .78)
+    );
     border: 1px solid var(--line);
     border-radius: 10px;
     box-shadow:
@@ -137,13 +141,21 @@ button:disabled {
 
 .status.success {
     color: #dfffe9;
-    background: linear-gradient(180deg, rgba(126, 224, 163, .22), rgba(16, 54, 36, .75));
+    background: linear-gradient(
+        180deg,
+        rgba(126, 224, 163, .22),
+        rgba(16, 54, 36, .75)
+    );
     border-color: rgba(126, 224, 163, .55);
 }
 
 .status.error {
     color: #ffd6d6;
-    background: linear-gradient(180deg, rgba(255, 120, 120, .18), rgba(70, 20, 20, .75));
+    background: linear-gradient(
+        180deg,
+        rgba(255, 120, 120, .18),
+        rgba(70, 20, 20, .75)
+    );
     border-color: rgba(255, 120, 120, .55);
 }
 
@@ -181,6 +193,7 @@ button:disabled {
 }
 
 .gift-item small {
+    display: block;
     color: var(--muted);
 }
 
@@ -195,6 +208,11 @@ button:disabled {
     border-color: rgba(255, 190, 190, .7);
 }
 
+.gift-item .reservation-button {
+    background: linear-gradient(180deg, #a8e0ff, #3d8eeb 52%, #1c5f9e);
+    color: #04121f;
+}
+
 @media (max-width: 560px) {
     body {
         padding: 12px 8px;
@@ -207,6 +225,10 @@ button:disabled {
     .gift-item {
         flex-wrap: wrap;
     }
+
+    .gift-item button {
+        width: 100%;
+    }
 }
 </style>
 </head>
@@ -215,8 +237,8 @@ button:disabled {
 <main class="admin-card">
     <h1>🎁 Admin-Bereich</h1>
     <p>
-        Melde dich mit deiner Admin-E-Mail an, um Wünsche hinzuzufügen
-        oder zu entfernen.
+        Melde dich mit deiner Admin-E-Mail an, um Wünsche hinzuzufügen,
+        Reservierungen zu bearbeiten oder Wünsche zu entfernen.
     </p>
 
     <section id="loginSection">
@@ -301,6 +323,7 @@ import {
     getDocs,
     addDoc,
     deleteDoc,
+    updateDoc,
     doc,
     serverTimestamp,
     query,
@@ -474,8 +497,57 @@ async function loadGifts() {
                 <div>
                     <strong>${escapeHtml(gift.name || "Ohne Titel")}</strong>
                     <small>${escapeHtml(gift.price || "Kein Preis")}</small>
+                    <small>
+                        ${
+                            gift.reserved
+                                ? `Reserviert von: ${
+                                      escapeHtml(
+                                          gift.reservedBy || "unbekannt"
+                                      )
+                                  }`
+                                : "Nicht reserviert"
+                        }
+                    </small>
                 </div>
             `;
+
+            const reservationButton = document.createElement("button");
+            reservationButton.className = "reservation-button";
+            reservationButton.textContent = gift.reserved
+                ? "Reservierung bearbeiten"
+                : "Reservierung hinzufügen";
+
+            reservationButton.addEventListener("click", async () => {
+                const newName = prompt(
+                    "Name der Reservierung. Leer lassen, um die Reservierung freizugeben:",
+                    gift.reservedBy || ""
+                );
+
+                if (newName === null) return;
+
+                const cleanedName = newName.trim();
+                const nextReserved = Boolean(cleanedName);
+
+                reservationButton.disabled = true;
+
+                try {
+                    await updateDoc(doc(db, "gifts", id), {
+                        reserved: nextReserved,
+                        reservedBy: cleanedName,
+                        reservedAt: nextReserved
+                            ? serverTimestamp()
+                            : null
+                    });
+
+                    await loadGifts();
+                } catch (error) {
+                    console.error(error);
+                    alert(
+                        "Reservierung konnte nicht gespeichert werden. Prüfe die Firestore-Regeln."
+                    );
+                    reservationButton.disabled = false;
+                }
+            });
 
             const deleteButton = document.createElement("button");
             deleteButton.textContent = "Löschen";
@@ -497,6 +569,7 @@ async function loadGifts() {
                 }
             });
 
+            item.appendChild(reservationButton);
             item.appendChild(deleteButton);
             giftList.appendChild(item);
         });
