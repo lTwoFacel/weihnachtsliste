@@ -423,7 +423,7 @@ h1 {
     <p class="footer-note">
         Reservierungen werden allen Besuchern angezeigt. Der Vorname oder
         Spitzname ist für alle sichtbar. Wer denselben Namen kennt, kann
-        Reservierungen mit diesem Namen ändern oder freigeben.
+        Reservierungen mit diesem Namen freigeben.
     </p>
 </main>
 
@@ -499,7 +499,10 @@ nameForm.addEventListener("submit", function (event) {
     try {
         localStorage.setItem("wishListVisitorName", visitorName);
     } catch (error) {
-        console.warn("Der Name konnte nicht im Browser gespeichert werden.", error);
+        console.warn(
+            "Der Name konnte nicht im Browser gespeichert werden.",
+            error
+        );
     }
 
     showWishlist();
@@ -534,10 +537,11 @@ onSnapshot(
             `${gifts.length} ${gifts.length === 1 ? "Wunsch" : "Wünsche"} auf der Liste`;
 
         giftGrid.innerHTML = gifts.map(renderGift).join("");
+
         giftGrid
-            .querySelectorAll("[data-edit-id]")
+            .querySelectorAll("[data-reserve-id]")
             .forEach((button) => {
-                button.addEventListener("click", () => changeReservation(button));
+                button.addEventListener("click", () => reserveGift(button));
             });
 
         giftGrid
@@ -643,7 +647,7 @@ async function reserveGift(button) {
     await withButton(
         button,
         "Wird reserviert …",
-        "Wunsch reservieren",
+        `Wunsch für ${visitorName} reservieren`,
         async () => {
             const giftRef = doc(db, "gifts", giftId);
 
@@ -669,7 +673,6 @@ async function reserveGift(button) {
         }
     );
 }
-
 
 async function releaseReservation(button) {
     const giftId = button.dataset.releaseId;
