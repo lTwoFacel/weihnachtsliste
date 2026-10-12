@@ -1,108 +1,107 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#171a22">
-    <title>Meine Weihnachtswunschliste</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171a22">
+<title>Meine Weihnachtswunschliste</title>
 
-    <style>
-        :root {
-            color-scheme: dark;
-            --page: #171a22;
-            --panel: #222733;
-            --line: #41495a;
-            --text: #f1f2f5;
-            --muted: #c0c5d0;
-            --accent: #c9d4ff;
-            --accent-text: #1a2030;
-            --success: #c5e6cc;
-            --success-bg: #263a30;
-        }
+<style>
+:root {
+    color-scheme: dark;
+    --page: #171a22;
+    --panel: #222733;
+    --line: #41495a;
+    --text: #f1f2f5;
+    --muted: #c0c5d0;
+    --accent: #c9d4ff;
+    --accent-text: #1a2030;
+    --success: #c5e6cc;
+    --success-bg: #263a30;
+}
 
-        * {
-            box-sizing: border-box;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px 14px;
-            color: var(--text);
-            background: radial-gradient(ellipse at top, #293044 0%, var(--page) 58%);
-            font-family: Verdana, Arial, sans-serif;
-        }
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 14px;
+    color: var(--text);
+    background: radial-gradient(ellipse at top, #293044 0%, var(--page) 58%);
+    font-family: Verdana, Arial, sans-serif;
+}
 
-        .page {
-            width: min(960px, 100%);
-            margin: 0 auto;
-        }
+.page {
+    width: min(960px, 100%);
+    margin: 0 auto;
+}
 
-        .header {
-            margin-bottom: 18px;
-            padding: 22px 18px;
-            text-align: center;
-            background: linear-gradient(145deg, #303a55, #242b3c);
-            border: 1px solid #505d7b;
-            border-radius: 16px;
-            box-shadow: 0 12px 30px rgb(0 0 0 / 24%);
-        }
+.header {
+    margin-bottom: 18px;
+    padding: 22px 18px;
+    text-align: center;
+    background: linear-gradient(145deg, #303a55, #242b3c);
+    border: 1px solid #505d7b;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgb(0 0 0 / 24%);
+}
 
-        h1 {
-            margin: 0;
-            color: #f4f5ff;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(1.65rem, 6vw, 2.5rem);
-            line-height: 1.2;
-        }
+h1 {
+    margin: 0;
+    color: #f4f5ff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.65rem, 6vw, 2.5rem);
+    line-height: 1.2;
+}
 
-        .subtitle {
-            max-width: 620px;
-            margin: 12px auto 0;
-            color: #e0e5f5;
-            font-size: 0.96rem;
-            line-height: 1.65;
-        }
+.subtitle {
+    max-width: 620px;
+    margin: 12px auto 0;
+    color: #e0e5f5;
+    font-size: 0.96rem;
+    line-height: 1.65;
+}
 
-        .status {
-            margin: 0 0 16px;
-            padding: 12px 14px;
-            color: var(--muted);
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            line-height: 1.5;
-        }
+.status {
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    color: var(--muted);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    line-height: 1.5;
+}
 
-        .status.error {
-            color: #ffd4d4;
-            background: #422a30;
-            border-color: #88535e;
-        }
+.status.error {
+    color: #ffd4d4;
+    background: #422a30;
+    border-color: #88535e;
+}
 
-        .gift-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 265px), 1fr));
-            gap: 16px;
-        }
+.gift-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 265px), 1fr));
+    gap: 16px;
+}
 
-        .gift-card {
-            display: flex;
-            min-width: 0;
-            flex-direction: column;
-            padding: 14px;
-            background: linear-gradient(160deg, #272d3b, #202530);
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            box-shadow: 0 7px 18px rgb(0 0 0 / 18%);
-        }
+.gift-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 14px;
+    background: linear-gradient(160deg, #272d3b, #202530);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: 0 7px 18px rgb(0 0 0 / 18%);
+}
 
-        .gift-card.is-reserved {
-            background: #252a33;
-            border-color: #505664;
-        }
+.gift-card.is-reserved {
+    background: #252a33;
+    border-color: #505664;
+}
 
-       /* Produktbilder vollständig zeigen, ohne sie abzuschneiden */
 .gift-image-wrap {
     height: 220px;
     aspect-ratio: auto;
@@ -118,508 +117,734 @@
     object-position: center;
 }
 
-/* Auch auf kleinen Displays das ganze Bild sichtbar lassen */
+.gift-title {
+    margin: 13px 0 7px;
+    color: #f3e1c2;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.2rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.gift-price {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.gift-actions {
+    display: grid;
+    gap: 9px;
+    margin-top: auto;
+}
+
+.product-link,
+.reserve-button {
+    display: flex;
+    width: 100%;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 14px;
+    border-radius: 9px;
+    font: 700 0.92rem Verdana, Arial, sans-serif;
+    text-align: center;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.product-link {
+    color: var(--accent);
+    background: #30384a;
+    border: 1px solid #586580;
+}
+
+.product-link:hover {
+    background: #3a455b;
+}
+
+.name-label {
+    display: block;
+    margin: 4px 0;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+.name-input {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    color: var(--text);
+    background: #191d26;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    font: inherit;
+}
+
+.name-input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.reserve-button {
+    color: var(--accent-text);
+    background: var(--accent);
+    border: 1px solid #e5eaff;
+    cursor: pointer;
+}
+
+.reserve-button:hover:not(:disabled) {
+    background: #e0e6ff;
+}
+
+.reserve-button:disabled {
+    color: var(--success);
+    background: var(--success-bg);
+    border-color: #46604e;
+    cursor: wait;
+}
+
+.release-button {
+    color: #ffd4d4;
+    background: #422a30;
+    border-color: #88535e;
+}
+
+.reserved-label {
+    margin: 0;
+    padding: 12px;
+    color: var(--success);
+    background: var(--success-bg);
+    border: 1px solid #46604e;
+    border-radius: 9px;
+    text-align: center;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    padding: 24px;
+    color: var(--muted);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.footer-note {
+    margin: 18px 0 0;
+    color: #aeb5c3;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    text-align: center;
+}
+
+.name-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: rgb(10 12 18 / 90%);
+}
+
+.name-gate[hidden] {
+    display: none !important;
+}
+
+.name-dialog {
+    width: min(430px, 100%);
+    padding: 22px;
+    background: var(--panel);
+    border: 1px solid #586580;
+    border-radius: 16px;
+    box-shadow: 0 18px 50px rgb(0 0 0 / 45%);
+}
+
+.name-dialog h2 {
+    margin: 0 0 10px;
+    color: #f3e1c2;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.name-dialog p {
+    color: var(--muted);
+    line-height: 1.55;
+}
+
+.name-dialog .reserve-button {
+    margin-top: 12px;
+}
+
 @media (max-width: 560px) {
+    body {
+        padding: 10px 8px 18px;
+    }
+
+    .header {
+        margin-bottom: 12px;
+        padding: 18px 12px;
+        border-radius: 12px;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .gift-grid {
+        grid-template-columns: 1fr;
+        gap: 11px;
+    }
+
+    .gift-card {
+        display: grid;
+        grid-template-columns: 96px minmax(0, 1fr);
+        column-gap: 12px;
+        align-items: start;
+        padding: 11px;
+        border-radius: 12px;
+    }
+
     .gift-image-wrap {
+        grid-row: 1 / span 4;
         width: 96px;
         height: 96px;
         aspect-ratio: auto;
         padding: 4px;
     }
+
+    .gift-title {
+        margin: 2px 0 5px;
+        font-size: 1.05rem;
+    }
+
+    .gift-price {
+        margin: 0 0 8px;
+        font-size: 0.87rem;
+    }
+
+    .gift-actions {
+        grid-column: 1 / -1;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .product-link,
+    .reserve-button {
+        min-height: 46px;
+        padding: 9px 8px;
+        font-size: 0.82rem;
+    }
 }
 
-/* Schutz für sehr schmale Handybildschirme */
 @media (max-width: 360px) {
+    .gift-card {
+        grid-template-columns: 76px minmax(0, 1fr);
+        column-gap: 9px;
+    }
+
     .gift-image-wrap {
         width: 76px;
         height: 76px;
     }
+
+    .gift-actions {
+        grid-template-columns: 1fr;
+    }
 }
 
-        .gift-title {
-            margin: 13px 0 7px;
-            color: #f3e1c2;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 1.2rem;
-            line-height: 1.35;
-            overflow-wrap: anywhere;
-        }
-
-        .gift-price {
-            margin: 0 0 12px;
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
-
-        .gift-actions {
-            display: grid;
-            gap: 9px;
-            margin-top: auto;
-        }
-
-        .product-link,
-        .reserve-button {
-            display: flex;
-            width: 100%;
-            min-height: 46px;
-            align-items: center;
-            justify-content: center;
-            padding: 11px 14px;
-            border-radius: 9px;
-            font: 700 0.92rem Verdana, Arial, sans-serif;
-            text-align: center;
-            text-decoration: none;
-            overflow-wrap: anywhere;
-        }
-
-        .product-link {
-            color: var(--accent);
-            background: #30384a;
-            border: 1px solid #586580;
-        }
-
-        .product-link:hover {
-            background: #3a455b;
-        }
-
-        .name-label {
-            display: block;
-            margin: 4px 0;
-            color: var(--muted);
-            font-size: 0.82rem;
-            line-height: 1.4;
-        }
-
-        .name-input {
-            width: 100%;
-            min-height: 46px;
-            padding: 10px 12px;
-            color: var(--text);
-            background: #191d26;
-            border: 1px solid var(--line);
-            border-radius: 9px;
-            font: inherit;
-        }
-
-        .name-input:focus {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        .reserve-button {
-            color: var(--accent-text);
-            background: var(--accent);
-            border: 1px solid #e5eaff;
-            cursor: pointer;
-        }
-
-        .reserve-button:hover:not(:disabled) {
-            background: #e0e6ff;
-        }
-
-        .reserve-button:disabled {
-            color: var(--success);
-            background: var(--success-bg);
-            border-color: #46604e;
-            cursor: default;
-        }
-
-        .reserved-label {
-            margin: 0;
-            padding: 12px;
-            color: var(--success);
-            background: var(--success-bg);
-            border: 1px solid #46604e;
-            border-radius: 9px;
-            text-align: center;
-            line-height: 1.5;
-            overflow-wrap: anywhere;
-        }
-
-        .empty-state {
-            grid-column: 1 / -1;
-            padding: 24px;
-            color: var(--muted);
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            text-align: center;
-            line-height: 1.6;
-        }
-
-        .footer-note {
-            margin: 18px 0 0;
-            color: #aeb5c3;
-            font-size: 0.8rem;
-            line-height: 1.55;
-            text-align: center;
-        }
-
-        @media (max-width: 560px) {
-            body {
-                padding: 10px 8px 18px;
-            }
-
-            .header {
-                margin-bottom: 12px;
-                padding: 18px 12px;
-                border-radius: 12px;
-            }
-
-            .subtitle {
-                font-size: 0.9rem;
-            }
-
-            .gift-grid {
-                grid-template-columns: 1fr;
-                gap: 11px;
-            }
-
-            .gift-card {
-                display: grid;
-                grid-template-columns: 96px minmax(0, 1fr);
-                column-gap: 12px;
-                align-items: start;
-                padding: 11px;
-                border-radius: 12px;
-            }
-
-            .gift-image-wrap {
-                grid-row: 1 / span 4;
-                width: 96px;
-                height: 96px;
-                aspect-ratio: auto;
-            }
-
-            .gift-title {
-                margin: 2px 0 5px;
-                font-size: 1.05rem;
-            }
-
-            .gift-price {
-                margin: 0 0 8px;
-                font-size: 0.87rem;
-            }
-
-            .gift-actions {
-                grid-column: 1 / -1;
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-                margin-top: 10px;
-            }
-
-            .product-link,
-            .reserve-button {
-                min-height: 46px;
-                padding: 9px 8px;
-                font-size: 0.82rem;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .gift-card {
-                grid-template-columns: 76px minmax(0, 1fr);
-                column-gap: 9px;
-            }
-
-            .gift-image-wrap {
-                width: 76px;
-                height: 76px;
-            }
-
-            .gift-actions {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                scroll-behavior: auto !important;
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
 </head>
 
 <body>
-    <main class="page">
-        <header class="header">
-            <h1>🎄 Meine Weihnachtswunschliste</h1>
-            <p class="subtitle">
-                Schön, dass du vorbeischaust! Schau dir meine Wünsche an.
-                Wenn du etwas davon schenken möchtest, reserviere es bitte,
-                damit es niemand doppelt kauft.
+<div
+    class="name-gate"
+    id="nameGate"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="nameGateTitle"
+>
+    <form class="name-dialog" id="nameForm" novalidate>
+        <h2 id="nameGateTitle">Wer bist du?</h2>
+        <p>
+            Gib deinen Vor- oder Spitznamen ein. Er wird bei deinen
+            Reservierungen angezeigt und in diesem Browser gespeichert.
+        </p>
+        <label class="name-label" for="visitorName">Dein Name</label>
+        <input
+            class="name-input"
+            id="visitorName"
+            type="text"
+            maxlength="40"
+            autocomplete="nickname"
+            placeholder="Zum Beispiel: Alex"
+        >
+        <button class="reserve-button" type="submit">
+            Weiter zur Wunschliste
+        </button>
+    </form>
+</div>
+
+<main class="page" id="pageContent" hidden>
+    <header class="header">
+        <h1>🎄 Meine Weihnachtswunschliste</h1>
+        <p class="subtitle">
+            Schön, dass du vorbeischaust! Schau dir meine Wünsche an.
+            Wenn du etwas davon schenken möchtest, reserviere es bitte,
+            damit es niemand doppelt kauft.
+        </p>
+    </header>
+
+    <p class="status" id="status" role="status" aria-live="polite">
+        Wunschliste wird geladen …
+    </p>
+
+    <section
+        class="gift-grid"
+        id="giftGrid"
+        aria-label="Geschenkwünsche"
+    ></section>
+
+    <p class="footer-note">
+        Reservierungen werden allen Besuchern angezeigt. Der Vorname oder
+        Spitzname ist für alle sichtbar. Wer denselben Namen kennt, kann
+        Reservierungen mit diesem Namen ändern oder freigeben.
+    </p>
+</main>
+
+<script type="module">
+import { initializeApp } from
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    onSnapshot,
+    query,
+    orderBy,
+    doc,
+    serverTimestamp,
+    runTransaction
+} from
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAlmVEiqvYL8FaDj1J14tpq-Mg8zOxAy6U",
+    authDomain: "weihnachtsliste-241226.firebaseapp.com",
+    projectId: "weihnachtsliste-241226",
+    storageBucket: "weihnachtsliste-241226.firebasestorage.app",
+    messagingSenderId: "243572027003",
+    appId: "1:243572027003:web:2b9ca250ff47c50cd07cde"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const giftGrid = document.getElementById("giftGrid");
+const status = document.getElementById("status");
+const nameGate = document.getElementById("nameGate");
+const nameForm = document.getElementById("nameForm");
+const visitorNameInput = document.getElementById("visitorName");
+const pageContent = document.getElementById("pageContent");
+
+let visitorName = "";
+
+try {
+    visitorName = (
+        localStorage.getItem("wishListVisitorName") || ""
+    ).trim();
+} catch (error) {
+    console.warn("Lokaler Speicher nicht verfügbar:", error);
+}
+
+if (visitorName) {
+    showWishlist();
+} else {
+    visitorNameInput.focus();
+}
+
+function showWishlist() {
+    nameGate.hidden = true;
+    pageContent.hidden = false;
+}
+
+nameForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const value = visitorNameInput.value.trim();
+
+    if (!value || value.length > 40) {
+        alert("Bitte gib einen Namen mit höchstens 40 Zeichen ein.");
+        visitorNameInput.focus();
+        return;
+    }
+
+    visitorName = value;
+
+    try {
+        localStorage.setItem("wishListVisitorName", visitorName);
+    } catch (error) {
+        console.warn("Der Name konnte nicht im Browser gespeichert werden.", error);
+    }
+
+    showWishlist();
+});
+
+const giftsQuery = query(
+    collection(db, "gifts"),
+    orderBy("createdAt", "desc")
+);
+
+onSnapshot(
+    giftsQuery,
+    (snapshot) => {
+        const gifts = snapshot.docs.map((giftDoc) => ({
+            id: giftDoc.id,
+            ...giftDoc.data()
+        }));
+
+        status.classList.remove("error");
+
+        if (gifts.length === 0) {
+            status.textContent = "Die Wunschliste ist noch leer.";
+            giftGrid.innerHTML = `
+                <p class="empty-state">
+                    Im Moment sind noch keine Wünsche eingetragen. 🎁
+                </p>
+            `;
+            return;
+        }
+
+        status.textContent =
+            `${gifts.length} ${gifts.length === 1 ? "Wunsch" : "Wünsche"} auf der Liste`;
+
+        giftGrid.innerHTML = gifts.map(renderGift).join("");
+
+        giftGrid
+            .querySelectorAll("[data-reserve-id]")
+            .forEach((button) => {
+                button.addEventListener("click", () => reserveGift(button));
+            });
+
+        giftGrid
+            .querySelectorAll("[data-edit-id]")
+            .forEach((button) => {
+                button.addEventListener("click", () => changeReservation(button));
+            });
+
+        giftGrid
+            .querySelectorAll("[data-release-id]")
+            .forEach((button) => {
+                button.addEventListener("click", () => releaseReservation(button));
+            });
+    },
+    (error) => {
+        console.error("Firestore-Fehler:", error);
+        status.textContent =
+            "Die Wunschliste konnte nicht geladen werden. Bitte später erneut versuchen.";
+        status.classList.add("error");
+        giftGrid.innerHTML = "";
+    }
+);
+
+function renderGift(gift) {
+    const name = safeText(gift.name || "Geschenkidee");
+    const link = safeUrl(gift.link);
+    const image = safeImageUrl(gift.image);
+    const price = safeText(gift.price || "");
+    const reserved = gift.reserved === true;
+    const id = escapeHtml(gift.id);
+
+    return `
+        <article class="gift-card ${reserved ? "is-reserved" : ""}">
+            <div class="gift-image-wrap">
+                <img
+                    class="gift-image"
+                    src="${image || createFallbackImage()}"
+                    alt="${escapeHtml(name)}"
+                    loading="lazy"
+                    onerror="this.onerror=null; this.src='${createFallbackImage()}';"
+                >
+            </div>
+
+            <h2 class="gift-title">${escapeHtml(name)}</h2>
+
+            <p class="gift-price">
+                ${price ? escapeHtml(price) : "Preis nicht angegeben"}
             </p>
-        </header>
 
-        <p class="status" id="status" role="status" aria-live="polite">
-            Wunschliste wird geladen …
-        </p>
-
-        <section
-            class="gift-grid"
-            id="giftGrid"
-            aria-label="Geschenkwünsche"
-        ></section>
-
-        <p class="footer-note">
-            Reservierungen werden allen Besuchern angezeigt. Der eingegebene
-            Vorname oder Spitzname ist für alle sichtbar.
-        </p>
-    </main>
-
-    <script type="module">
-        import { initializeApp } from
-            "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-
-        import {
-            getFirestore,
-            collection,
-            onSnapshot,
-            query,
-            orderBy,
-            doc,
-            serverTimestamp,
-            runTransaction
-        } from
-            "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAlmVEiqvYL8FaDj1J14tpq-Mg8zOxAy6U",
-            authDomain: "weihnachtsliste-241226.firebaseapp.com",
-            projectId: "weihnachtsliste-241226",
-            storageBucket: "weihnachtsliste-241226.firebasestorage.app",
-            messagingSenderId: "243572027003",
-            appId: "1:243572027003:web:2b9ca250ff47c50cd07cde"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const giftGrid = document.getElementById("giftGrid");
-        const status = document.getElementById("status");
-
-        const giftsQuery = query(
-            collection(db, "gifts"),
-            orderBy("createdAt", "desc")
-        );
-
-        onSnapshot(
-            giftsQuery,
-            (snapshot) => {
-                const gifts = snapshot.docs.map((giftDoc) => ({
-                    id: giftDoc.id,
-                    ...giftDoc.data()
-                }));
-
-                status.classList.remove("error");
-
-                if (gifts.length === 0) {
-                    status.textContent = "Die Wunschliste ist noch leer.";
-                    giftGrid.innerHTML = `
-                        <p class="empty-state">
-                            Im Moment sind noch keine Wünsche eingetragen. 🎁
-                        </p>
-                    `;
-                    return;
+            <div class="gift-actions">
+                ${link
+                    ? `<a
+                          class="product-link"
+                          href="${escapeHtml(link)}"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                      >Produkt ansehen ↗</a>`
+                    : `<span class="product-link">Kein Produktlink</span>`
                 }
 
-                status.textContent =
-                    `${gifts.length} ${gifts.length === 1 ? "Wunsch" : "Wünsche"} auf der Liste`;
+                ${reserved
+                    ? `
+                        <p class="reserved-label">
+                            ✓ Reserviert von
+                            ${escapeHtml(gift.reservedBy || "jemandem")}
+                        </p>
 
-                giftGrid.innerHTML = gifts.map(renderGift).join("");
-
-                giftGrid
-                    .querySelectorAll("[data-reserve-id]")
-                    .forEach((button) => {
-                        button.addEventListener("click", () => {
-                            reserveGift(button);
-                        });
-                    });
-            },
-            (error) => {
-                console.error("Firestore-Fehler:", error);
-                status.textContent =
-                    "Die Wunschliste konnte nicht geladen werden. Bitte später erneut versuchen.";
-                status.classList.add("error");
-                giftGrid.innerHTML = "";
-            }
-        );
-
-        function renderGift(gift) {
-            const name = safeText(gift.name || "Geschenkidee");
-            const link = safeUrl(gift.link);
-            const image = safeImageUrl(gift.image);
-            const price = safeText(gift.price || "");
-            const reserved = gift.reserved === true;
-
-            return `
-                <article class="gift-card ${reserved ? "is-reserved" : ""}">
-                    <div class="gift-image-wrap">
-                        <img
-                            class="gift-image"
-                            src="${image || createFallbackImage()}"
-                            alt="${escapeHtml(name)}"
-                            loading="lazy"
-                            onerror="this.onerror=null; this.src='${createFallbackImage()}';"
-                        >
-                    </div>
-
-                    <h2 class="gift-title">${escapeHtml(name)}</h2>
-
-                    <p class="gift-price">
-                        ${price ? escapeHtml(price) : "Preis nicht angegeben"}
-                    </p>
-
-                    <div class="gift-actions">
-                        ${link
-                            ? `<a
-                                  class="product-link"
-                                  href="${escapeHtml(link)}"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                              >Produkt ansehen ↗</a>`
-                            : `<span class="product-link">Kein Produktlink</span>`
-                        }
-
-                        ${reserved
-                            ? `<p class="reserved-label">
-                                  ✓ Reserviert von ${escapeHtml(gift.reservedBy || "jemandem")}
-                               </p>`
-                            : `
-                                <label
-                                    class="name-label"
-                                    for="name-${escapeHtml(gift.id)}"
-                                >
-                                    Dein Vorname oder Spitzname
-                                </label>
-                                <input
-                                    class="name-input"
-                                    id="name-${escapeHtml(gift.id)}"
-                                    type="text"
-                                    maxlength="40"
-                                    autocomplete="nickname"
-                                    placeholder="Zum Beispiel: Alex"
-                                >
+                        ${sameName(gift.reservedBy, visitorName)
+                            ? `
                                 <button
                                     class="reserve-button"
                                     type="button"
-                                    data-reserve-id="${escapeHtml(gift.id)}"
+                                    data-edit-id="${id}"
                                 >
-                                    Wunsch reservieren
+                                    Reservierung ändern
+                                </button>
+
+                                <button
+                                    class="reserve-button release-button"
+                                    type="button"
+                                    data-release-id="${id}"
+                                >
+                                    Reservierung freigeben
                                 </button>
                             `
+                            : ""
                         }
-                    </div>
-                </article>
-            `;
-        }
+                    `
+                    : `
+                        <button
+                            class="reserve-button"
+                            type="button"
+                            data-reserve-id="${id}"
+                        >
+                            Wunsch für ${escapeHtml(visitorName)} reservieren
+                        </button>
+                    `
+                }
+            </div>
+        </article>
+    `;
+}
 
-        async function reserveGift(button) {
-            const giftId = button.dataset.reserveId;
-            const input = document.getElementById(`name-${giftId}`);
-            const reservedBy = input?.value.trim();
+async function reserveGift(button) {
+    const giftId = button.dataset.reserveId;
 
-            if (!reservedBy) {
-                alert("Bitte gib einen Vornamen oder Spitznamen ein.");
-                input?.focus();
-                return;
-            }
+    if (!validName(visitorName)) {
+        return;
+    }
 
-            if (reservedBy.length > 40) {
-                alert("Der Name darf höchstens 40 Zeichen lang sein.");
-                input?.focus();
-                return;
-            }
+    const confirmed = confirm(
+        `Möchtest du diesen Wunsch für „${visitorName}“ reservieren?`
+    );
 
-            const confirmed = confirm(
-                `Möchtest du diesen Wunsch für „${reservedBy}“ reservieren? ` +
-                "Der Name wird auf der Wunschliste angezeigt."
-            );
+    if (!confirmed) return;
 
-            if (!confirmed) return;
+    await withButton(
+        button,
+        "Wird reserviert …",
+        "Wunsch reservieren",
+        async () => {
+            const giftRef = doc(db, "gifts", giftId);
 
-            button.disabled = true;
-            button.textContent = "Wird reserviert …";
+            await runTransaction(db, async (transaction) => {
+                const snapshot = await transaction.get(giftRef);
 
-            try {
-                const giftRef = doc(db, "gifts", giftId);
+                if (!snapshot.exists()) {
+                    throw new Error("Diesen Wunsch gibt es nicht mehr.");
+                }
 
-                await runTransaction(db, async (transaction) => {
-                    const giftSnapshot = await transaction.get(giftRef);
+                if (snapshot.data().reserved === true) {
+                    throw new Error(
+                        "Dieser Wunsch wurde gerade schon reserviert."
+                    );
+                }
 
-                    if (!giftSnapshot.exists()) {
-                        throw new Error("Diesen Wunsch gibt es nicht mehr.");
-                    }
-
-                    if (giftSnapshot.data().reserved === true) {
-                        throw new Error("Dieser Wunsch wurde gerade schon reserviert.");
-                    }
-
-                    transaction.update(giftRef, {
-                        reserved: true,
-                        reservedBy: reservedBy,
-                        reservedAt: serverTimestamp()
-                    });
+                transaction.update(giftRef, {
+                    reserved: true,
+                    reservedBy: visitorName,
+                    reservedAt: serverTimestamp()
                 });
-            } catch (error) {
-                console.error("Reservierung fehlgeschlagen:", error);
-                alert(error.message || "Die Reservierung hat nicht funktioniert.");
-                button.disabled = false;
-                button.textContent = "Wunsch reservieren";
-            }
+            });
         }
+    );
+}
 
-        function safeUrl(value) {
-            if (typeof value !== "string" || !value.trim()) return "";
+async function changeReservation(button) {
+    const giftId = button.dataset.editId;
 
-            try {
-                const url = new URL(value.trim());
-                return ["https:", "http:"].includes(url.protocol)
-                    ? url.href
-                    : "";
-            } catch {
-                return "";
-            }
+    if (!confirm(`Reservierung für „${visitorName}“ bestätigen?`)) {
+        return;
+    }
+
+    await withButton(
+        button,
+        "Wird geändert …",
+        "Reservierung ändern",
+        async () => {
+            const giftRef = doc(db, "gifts", giftId);
+
+            await runTransaction(db, async (transaction) => {
+                const snapshot = await transaction.get(giftRef);
+
+                if (!snapshot.exists()) {
+                    throw new Error("Diesen Wunsch gibt es nicht mehr.");
+                }
+
+                const gift = snapshot.data();
+
+                if (
+                    gift.reserved !== true ||
+                    !sameName(gift.reservedBy, visitorName)
+                ) {
+                    throw new Error(
+                        "Der gespeicherte Name stimmt nicht mit der Reservierung überein."
+                    );
+                }
+
+                transaction.update(giftRef, {
+                    reservedBy: visitorName
+                });
+            });
         }
+    );
+}
 
-        function safeImageUrl(value) {
-            return safeUrl(value);
+async function releaseReservation(button) {
+    const giftId = button.dataset.releaseId;
+
+    if (!confirm("Möchtest du diese Reservierung wirklich freigeben?")) {
+        return;
+    }
+
+    await withButton(
+        button,
+        "Wird freigegeben …",
+        "Reservierung freigeben",
+        async () => {
+            const giftRef = doc(db, "gifts", giftId);
+
+            await runTransaction(db, async (transaction) => {
+                const snapshot = await transaction.get(giftRef);
+
+                if (!snapshot.exists()) {
+                    throw new Error("Diesen Wunsch gibt es nicht mehr.");
+                }
+
+                const gift = snapshot.data();
+
+                if (
+                    gift.reserved !== true ||
+                    !sameName(gift.reservedBy, visitorName)
+                ) {
+                    throw new Error(
+                        "Der gespeicherte Name stimmt nicht mit der Reservierung überein."
+                    );
+                }
+
+                transaction.update(giftRef, {
+                    reserved: false,
+                    reservedBy: "",
+                    reservedAt: null
+                });
+            });
         }
+    );
+}
 
-        function safeText(value) {
-            return typeof value === "string" ? value.trim() : "";
-        }
+async function withButton(button, busyText, originalText, action) {
+    button.disabled = true;
+    button.textContent = busyText;
 
-        function escapeHtml(value = "") {
-            return String(value)
-                .replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll('"', "&quot;")
-                .replaceAll("'", "&#039;");
-        }
+    try {
+        await action();
+    } catch (error) {
+        console.error("Aktion fehlgeschlagen:", error);
+        alert(
+            error.message ||
+            "Die Aktion hat nicht funktioniert. Prüfe auch die Firestore-Regeln."
+        );
+        button.disabled = false;
+        button.textContent = originalText;
+    }
+}
 
-        function createFallbackImage() {
-            const svg = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
-                    <rect width="100%" height="100%" fill="#252b39"/>
-                    <rect x="8" y="8" width="384" height="284" rx="18"
-                          fill="none" stroke="#65708a" stroke-width="5"/>
-                    <text x="200" y="135" text-anchor="middle"
-                          font-family="Verdana, Arial" font-size="28"
-                          fill="#d5def8">Kein Bild</text>
-                    <text x="200" y="205" text-anchor="middle"
-                          font-family="Arial" font-size="52"
-                          fill="#f1d5a8">Geschenk</text>
-                </svg>
-            `;
+function validName(value) {
+    return typeof value === "string" &&
+        value.trim().length > 0 &&
+        value.trim().length <= 40;
+}
 
-            return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
-        }
-    </script>
+function sameName(first, second) {
+    return typeof first === "string" &&
+        typeof second === "string" &&
+        first.trim().toLocaleLowerCase("de") ===
+            second.trim().toLocaleLowerCase("de");
+}
+
+function safeUrl(value) {
+    if (typeof value !== "string" || !value.trim()) return "";
+
+    try {
+        const url = new URL(value.trim());
+
+        return ["https:", "http:"].includes(url.protocol)
+            ? url.href
+            : "";
+    } catch {
+        return "";
+    }
+}
+
+function safeImageUrl(value) {
+    return safeUrl(value);
+}
+
+function safeText(value) {
+    return typeof value === "string" ? value.trim() : "";
+}
+
+function escapeHtml(value = "") {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function createFallbackImage() {
+    const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
+            <rect width="100%" height="100%" fill="#252b39"/>
+            <rect x="8" y="8" width="384" height="284" rx="18"
+                  fill="none" stroke="#65708a" stroke-width="5"/>
+            <text x="200" y="135" text-anchor="middle"
+                  font-family="Verdana, Arial" font-size="28"
+                  fill="#d5def8">Kein Bild</text>
+            <text x="200" y="205" text-anchor="middle"
+                  font-family="Arial" font-size="52"
+                  fill="#f1d5a8">Geschenk</text>
+        </svg>
+    `;
+
+    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+}
+</script>
 </body>
 </html>
