@@ -130,6 +130,7 @@ h1 {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+    gap: 12px;
     margin: 0 0 14px;
     padding: 0;
     color: var(--muted);
@@ -172,6 +173,10 @@ h1 {
     border-color: var(--line-strong);
 }
 
+.gift-card.prio-high {
+    border-left: 4px solid var(--orange);
+}
+
 .gift-card.is-reserved {
     background: #17121f;
 }
@@ -201,6 +206,29 @@ h1 {
     min-width: 0;
 }
 
+/* ---------- Priorität ---------- */
+.prio {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 6px;
+    color: var(--muted);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.prio-stars {
+    color: var(--gold);
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+}
+
+.prio.level-3 {
+    color: var(--orange);
+}
+
 .gift-title {
     margin: 0 0 6px;
     color: var(--text);
@@ -217,6 +245,7 @@ h1 {
     font-weight: 700;
 }
 
+/* ---------- Status-Etiketten ---------- */
 .tag {
     display: inline-block;
     margin-top: 10px;
@@ -228,6 +257,12 @@ h1 {
     font-size: 0.8rem;
     font-weight: 600;
     overflow-wrap: anywhere;
+}
+
+.tag-open {
+    color: var(--muted);
+    background: var(--surface-2);
+    border-color: var(--line);
 }
 
 .gift-actions {
@@ -441,7 +476,8 @@ input:focus-visible {
 
     .status {
         margin-bottom: 10px;
-        font-size: 0.78rem;
+        font-size: 0.74rem;
+        letter-spacing: 0.04em;
     }
 
     .gift-grid {
@@ -454,10 +490,18 @@ input:focus-visible {
         padding: 12px;
     }
 
+    .gift-card.prio-high {
+        border-left-width: 3px;
+    }
+
     .gift-image-wrap {
         width: 84px;
         height: 84px;
         padding: 4px;
+    }
+
+    .prio {
+        font-size: 0.7rem;
     }
 
     .gift-title {
@@ -621,6 +665,12 @@ const nameForm = document.getElementById("nameForm");
 const visitorNameInput = document.getElementById("visitorName");
 const pageContent = document.getElementById("pageContent");
 
+const PRIORITY_LABELS = {
+    3: { stars: "★★★", text: "Top-Wunsch" },
+    2: { stars: "★★☆", text: "Gern" },
+    1: { stars: "★☆☆", text: "Nice to have" }
+};
+
 let visitorName = "";
 
 try {
@@ -691,11 +741,23 @@ onSnapshot(
             return;
         }
 
+        // Offene zuerst, dann nach Priorität (hoch → niedrig).
+        // Bei gleicher Stufe bleibt die Reihenfolge "neueste zuerst".
+        gifts.sort((a, b) => {
+            const reservedDiff =
+                (a.reserved === true) - (b.reserved === true);
+
+            if (reservedDiff !== 0) return reservedDiff;
+
+            return getPriority(b) - getPriority(a);
+        });
+
         const reservedCount = gifts.filter((g) => g.reserved === true).length;
+        const freeCount = gifts.length - reservedCount;
 
         status.innerHTML = `
             <span>${gifts.length} ${gifts.length === 1 ? "Wunsch" : "Wünsche"}</span>
-            <span>${reservedCount} reserviert</span>
+            <span>${freeCount} frei · ${reservedCount} reserviert</span>
         `;
 
         giftGrid.innerHTML = gifts.map(renderGift).join("");
@@ -726,6 +788,11 @@ onSnapshot(
     }
 );
 
+function getPriority(gift) {
+    const value = Number(gift.priority);
+    return value >= 1 && value <= 3 ? value : 2;
+}
+
 function renderGift(gift) {
     const name = safeText(gift.name || "Geschenkidee");
     const link = safeUrl(gift.link);
@@ -733,9 +800,17 @@ function renderGift(gift) {
     const price = safeText(gift.price || "");
     const reserved = gift.reserved === true;
     const id = escapeHtml(gift.id);
+    const priority = getPriority(gift);
+    const prio = PRIORITY_LABELS[priority];
+
+    const classes = [
+        "gift-card",
+        reserved ? "is-reserved" : "",
+        priority === 3 && !reserved ? "prio-high" : ""
+    ].join(" ").trim();
 
     return `
-        <article class="gift-card ${reserved ? "is-reserved" : ""}">
+        <article class="${classes}">
             <div class="gift-image-wrap">
                 <img
                     class="gift-image"
@@ -747,6 +822,11 @@ function renderGift(gift) {
             </div>
 
             <div class="gift-info">
+                <p class="prio level-${priority}" aria-label="Priorität: ${prio.text}">
+                    <span class="prio-stars" aria-hidden="true">${prio.stars}</span>
+                    <span>${prio.text}</span>
+                </p>
+
                 <h2 class="gift-title">${escapeHtml(name)}</h2>
 
                 <p class="gift-price">
@@ -757,7 +837,7 @@ function renderGift(gift) {
                     ? `<span class="tag">
                            Reserviert von ${escapeHtml(gift.reservedBy || "jemandem")}
                        </span>`
-                    : ""
+                    : `<span class="tag tag-open">Noch frei</span>`
                 }
             </div>
 
