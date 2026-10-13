@@ -191,6 +191,7 @@ h1 {
     font-weight: 700;
     letter-spacing: 0.025em;
     line-height: 1.08;
+    overflow-wrap: anywhere;
 
     -webkit-text-stroke: 1px #2b172d;
 
@@ -248,13 +249,11 @@ h1 {
     color: #ffabb0;
 }
 
-/* Neue einspaltige Wunschliste */
 .gift-grid {
     display: grid;
     gap: 14px;
 }
 
-/* Horizontale Wunschkarte */
 .gift-card {
     display: grid;
     grid-template-columns: 130px minmax(0, 1fr) minmax(190px, 240px);
@@ -622,29 +621,39 @@ h1 {
         left: 14px;
     }
 
+    /* Handy: Bild oben, Text darunter in voller Breite */
     .header-content {
+        display: grid;
+        grid-template-columns: 1fr;
         gap: 12px;
-        align-items: flex-start;
+        align-items: start;
     }
 
     .header-avatar {
         width: 62px;
         height: 62px;
-        flex-basis: 62px;
+        flex: none;
         border-width: 2px;
     }
 
     .header-text {
-        padding-top: 1px;
+        min-width: 0;
+        width: 100%;
+        padding-top: 0;
     }
 
     h1 {
-        font-size: clamp(1.9rem, 9vw, 2.7rem);
+        width: 100%;
+        font-size: clamp(2rem, 10vw, 2.7rem);
+        overflow-wrap: anywhere;
+        word-break: normal;
         -webkit-text-stroke: 0.8px #2b172d;
     }
 
     .subtitle {
+        max-width: 100%;
         font-size: 0.88rem;
+        overflow-wrap: anywhere;
     }
 
     .gift-grid {
