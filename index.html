@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#100d1b">
+<meta name="theme-color" content="#120e1c">
 <title>Meine Weihnachtswunschliste</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link
     href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap"
     rel="stylesheet"
@@ -18,156 +17,74 @@
 :root {
     color-scheme: dark;
 
-    --page: #100d1b;
-    --page-mid: #281b38;
-
-    --panel: rgba(25, 20, 35, 0.86);
-    --panel-top: rgba(95, 61, 121, 0.20);
-
-    --line: rgba(199, 174, 213, 0.30);
-    --line-strong: rgba(240, 219, 255, 0.55);
+    --bg: #120e1c;
+    --surface: #1b1528;
+    --surface-2: #261c36;
+    --line: #3b2e50;
+    --line-strong: #5a4776;
 
     --text: #fff3d1;
-    --muted: rgba(244, 232, 211, 0.80);
+    --muted: #cfc2ab;
 
-    --accent: #e38a32;
-    --accent-text: #1b101c;
-
-    --success: #e6f2ce;
-    --success-bg: rgba(42, 70, 44, 0.80);
-    --success-line: rgba(180, 208, 145, 0.62);
-
-    --danger: #ffe0d7;
-    --gold: rgba(244, 181, 65, 0.88);
-
-    --moon: #ffe3a1;
-    --pumpkin: #d76b29;
-    --pumpkin-light: #ed9b42;
-    --plum: #34233e;
-    --plum-light: #684b77;
-    --bone: #fff3d1;
-    --wine: #7e3541;
+    --orange: #e38a32;
+    --orange-hover: #f09a4a;
+    --orange-text: #1b101c;
+    --gold: #f4b541;
+    --green: #b4d091;
+    --green-bg: #1f2e22;
+    --red-bg: #4a1d28;
+    --red-text: #ffd9d3;
 }
 
 * {
     box-sizing: border-box;
 }
 
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
     min-height: 100vh;
     margin: 0;
-    padding: 28px 14px;
+    padding: 32px 16px 40px;
     color: var(--text);
-
     background:
         radial-gradient(
-            circle at 77% 12%,
-            rgba(255, 211, 119, 0.22) 0,
-            rgba(255, 211, 119, 0.06) 12%,
-            transparent 26%
+            circle at 85% 0%,
+            rgba(244, 181, 65, 0.10) 0,
+            transparent 38%
         ),
-        radial-gradient(
-            ellipse at 30% -10%,
-            #49315a 0%,
-            #281b38 43%,
-            #100d1b 100%
-        );
-
-    font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
+        var(--bg);
+    font-family: "Segoe UI", system-ui, -apple-system, Tahoma, Verdana, Arial, sans-serif;
+    line-height: 1.5;
 }
 
 .page {
-    width: min(900px, 100%);
+    width: min(880px, 100%);
     margin: 0 auto;
 }
 
+/* ---------- Header ---------- */
 .header {
     position: relative;
-    margin-bottom: 12px;
-    padding: 22px;
-    overflow: hidden;
-    text-align: left;
-
-    border: 2px solid transparent;
-    border-radius: 6px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(122, 88, 143, 0.26),
-            rgba(44, 28, 57, 0.86) 42%,
-            rgba(21, 16, 29, 0.96) 100%
-        ) padding-box,
-
-        linear-gradient(
-            135deg,
-            #ef9c40,
-            #5d3e6d 24%,
-            #251a31 52%,
-            #7e3541 75%,
-            #f0b04f
-        ) border-box;
-
-    box-shadow:
-        0 0 0 1px rgba(255, 243, 209, 0.08) inset,
-        0 16px 36px rgba(0, 0, 0, 0.52);
-}
-
-.header::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 34px;
-
-    background: linear-gradient(
-        180deg,
-        rgba(255, 243, 209, 0.13),
-        rgba(255, 243, 209, 0)
-    );
-
-    pointer-events: none;
-}
-
-.header::after {
-    content: "";
-    position: absolute;
-    right: 22px;
-    bottom: 0;
-    left: 22px;
-    height: 2px;
-
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--gold),
-        transparent
-    );
-}
-
-.header-content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    gap: 20px;
-    align-items: center;
+    margin-bottom: 36px;
+    padding: 6px 0 26px 22px;
+    border-left: 4px solid var(--orange);
+    border-bottom: 1px solid var(--line);
 }
 
 .header-avatar {
-    width: 104px;
-    height: 104px;
-    flex: 0 0 104px;
+    position: absolute;
+    top: 6px;
+    right: 0;
+    width: 88px;
+    height: 88px;
     overflow: hidden;
-
-    background: #100d1b;
-    border: 3px solid var(--pumpkin-light);
+    background: var(--surface);
+    border: 2px solid var(--orange);
     border-radius: 50%;
-
-    box-shadow:
-        0 0 0 2px rgba(43, 23, 45, 0.88),
-        0 0 14px rgba(255, 170, 56, 0.35),
-        0 5px 12px rgba(0, 0, 0, 0.50);
+    outline: 4px solid var(--bg);
 }
 
 .header-avatar img {
@@ -178,131 +95,94 @@ body {
     object-position: center;
 }
 
-.header-text {
-    min-width: 0;
+.eyebrow {
+    margin: 0 0 6px;
+    color: var(--orange);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
 }
 
 h1 {
+    max-width: calc(100% - 110px);
     margin: 0;
-    color: var(--bone);
-
+    color: var(--text);
     font-family: "Mountains of Christmas", Georgia, serif;
-    font-size: clamp(2.2rem, 7vw, 3.5rem);
+    font-size: clamp(2.3rem, 7vw, 3.9rem);
     font-weight: 700;
-    letter-spacing: 0.025em;
-    line-height: 1.08;
-    overflow-wrap: anywhere;
-
-    -webkit-text-stroke: 1px #2b172d;
-
-    text-shadow:
-        0 2px 0 #2b172d,
-        0 4px 0 rgba(0, 0, 0, 0.48),
-        0 0 12px rgba(255, 170, 56, 0.20);
+    letter-spacing: -0.01em;
+    line-height: 1.02;
+    hyphens: manual;
+    overflow-wrap: break-word;
 }
 
 .subtitle {
-    max-width: 620px;
-    margin: 9px 0 0;
+    max-width: 520px;
+    margin: 14px 0 0;
     color: var(--muted);
-    font-size: 0.93rem;
-    line-height: 1.55;
+    font-size: 1rem;
+    line-height: 1.6;
 }
 
+/* ---------- Listenkopf ---------- */
 .status {
-    margin: 0 0 18px;
-    padding: 10px 13px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 0 0 14px;
+    padding: 0;
     color: var(--muted);
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(111, 72, 132, 0.22),
-            rgba(21, 15, 30, 0.72)
-        );
-
-    border: 1px solid rgba(205, 176, 220, 0.32);
-    border-radius: 5px;
-
-    box-shadow:
-        0 1px 0 rgba(255, 243, 209, 0.05) inset,
-        0 5px 16px rgba(0, 0, 0, 0.30);
-
-    font-size: 0.9rem;
-}
-
-.status::before {
-    content: "●";
-    margin-right: 8px;
-    color: var(--pumpkin-light);
-    font-size: 0.75rem;
-    vertical-align: 1px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .status.error {
-    color: var(--danger);
-    background: rgba(92, 29, 39, 0.82);
-    border-color: rgba(238, 136, 144, 0.55);
+    padding: 12px 14px;
+    color: var(--red-text);
+    background: var(--red-bg);
+    border: 1px solid #8a3a4a;
+    border-radius: 4px;
+    letter-spacing: 0;
+    text-transform: none;
 }
 
-.status.error::before {
-    color: #ffabb0;
-}
-
+/* ---------- Liste ---------- */
 .gift-grid {
     display: grid;
-    gap: 14px;
+    gap: 12px;
 }
 
 .gift-card {
+    position: relative;
     display: grid;
-    grid-template-columns: 130px minmax(0, 1fr) minmax(190px, 240px);
+    grid-template-columns: 112px minmax(0, 1fr) 220px;
     gap: 22px;
     align-items: center;
-    padding: 18px 20px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(95, 61, 121, 0.20),
-            rgba(25, 20, 35, 0.90)
-        );
-
+    padding: 16px;
+    background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 6px;
-
-    box-shadow:
-        0 1px 0 rgba(255, 243, 209, 0.07) inset,
-        0 10px 24px rgba(0, 0, 0, 0.34);
-
-    transition:
-        transform 0.18s ease,
-        border-color 0.18s ease,
-        box-shadow 0.18s ease;
+    border-radius: 4px;
+    transition: border-color 0.15s ease;
 }
 
 .gift-card:hover {
-    transform: translateY(-2px);
     border-color: var(--line-strong);
-
-    box-shadow:
-        0 1px 0 rgba(255, 243, 209, 0.10) inset,
-        0 14px 28px rgba(0, 0, 0, 0.42);
 }
 
 .gift-card.is-reserved {
-    border-color: var(--success-line);
+    background: #17121f;
 }
 
 .gift-image-wrap {
-    width: 130px;
-    height: 130px;
-    padding: 8px;
+    width: 112px;
+    height: 112px;
+    padding: 6px;
     overflow: hidden;
-
-    background: rgba(10, 8, 16, 0.64);
-    border: 1px solid rgba(220, 197, 231, 0.18);
-    border-radius: 4px;
+    background: #fff;
+    border-radius: 3px;
 }
 
 .gift-image {
@@ -313,208 +193,130 @@ h1 {
     object-position: center;
 }
 
+.gift-card.is-reserved .gift-image {
+    opacity: 0.55;
+}
+
 .gift-info {
     min-width: 0;
 }
 
 .gift-title {
-    margin: 0 0 8px;
-    color: var(--bone);
-    font-family: "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
-    font-size: 1.12rem;
+    margin: 0 0 6px;
+    color: var(--text);
+    font-size: 1.08rem;
     font-weight: 600;
-    line-height: 1.35;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.58);
+    line-height: 1.3;
     overflow-wrap: anywhere;
 }
 
 .gift-price {
     margin: 0;
-    color: var(--muted);
-    font-size: 0.92rem;
+    color: var(--gold);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.tag {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 3px 9px;
+    color: var(--green);
+    background: var(--green-bg);
+    border: 1px solid #44603f;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
 }
 
 .gift-actions {
     display: grid;
-    gap: 9px;
-    align-self: stretch;
-    align-content: center;
+    gap: 8px;
 }
 
 .product-link,
 .reserve-button {
     display: flex;
     width: 100%;
-    min-height: 44px;
+    min-height: 46px;
     align-items: center;
     justify-content: center;
-    padding: 10px 13px;
+    padding: 10px 14px;
     border-radius: 4px;
-    font: 600 0.88rem "Segoe UI", Tahoma, Verdana, Arial, sans-serif;
+    font: 600 0.92rem "Segoe UI", system-ui, -apple-system, Tahoma, Verdana, Arial, sans-serif;
     text-align: center;
     text-decoration: none;
     overflow-wrap: anywhere;
 }
 
 .product-link {
-    color: var(--bone);
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(116, 79, 139, 0.34),
-            rgba(39, 25, 53, 0.84)
-        );
-
-    border: 1px solid rgba(216, 186, 229, 0.34);
-
-    box-shadow:
-        0 1px 0 rgba(255, 243, 209, 0.08) inset,
-        0 3px 9px rgba(0, 0, 0, 0.28);
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .product-link:hover {
-    background:
-        linear-gradient(
-            180deg,
-            rgba(143, 96, 164, 0.46),
-            rgba(53, 31, 70, 0.92)
-        );
+    background: var(--surface-2);
+    border-color: var(--muted);
 }
 
 .reserve-button {
-    color: #fff3d1;
-
-    background:
-        linear-gradient(
-            180deg,
-            #e5893b 0%,
-            #c45b2d 48%,
-            #7c2b2a 100%
-        );
-
-    border: 1px solid rgba(255, 213, 159, 0.70);
-
-    box-shadow:
-        0 1px 0 rgba(255, 243, 209, 0.22) inset,
-        0 3px 9px rgba(0, 0, 0, 0.34);
-
+    color: var(--orange-text);
+    background: var(--orange);
+    border: 1px solid var(--orange);
     cursor: pointer;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+    transition: background 0.15s ease;
 }
 
 .reserve-button:hover:not(:disabled) {
-    background:
-        linear-gradient(
-            180deg,
-            #f09a4a 0%,
-            #d26d38 48%,
-            #913232 100%
-        );
+    background: var(--orange-hover);
 }
 
 .reserve-button:disabled {
-    color: var(--success);
-
-    background:
-        linear-gradient(
-            180deg,
-            #819d70,
-            #435e40
-        );
-
-    border-color: var(--success-line);
+    color: var(--muted);
+    background: var(--surface-2);
+    border-color: var(--line);
     cursor: wait;
-    text-shadow: none;
 }
 
 .release-button {
-    color: var(--accent-text);
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffe4a5,
-            #ddae53 52%,
-            #a77232
-        );
-
-    border-color: rgba(255, 239, 191, 0.72);
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+    color: var(--gold);
+    background: transparent;
+    border: 1px solid var(--gold);
 }
 
 .release-button:hover:not(:disabled) {
-    background:
-        linear-gradient(
-            180deg,
-            #ffedbb,
-            #ebc56a 52%,
-            #bd8a39
-        );
+    background: rgba(244, 181, 65, 0.12);
 }
 
-.name-label {
-    display: block;
-    margin: 4px 0;
-    color: var(--muted);
-    font-size: 0.82rem;
-    line-height: 1.4;
-}
-
-.name-input {
-    width: 100%;
-    min-height: 44px;
-    padding: 10px 12px;
-    color: var(--text);
-    background: rgba(10, 8, 16, 0.70);
-    border: 1px solid rgba(216, 186, 229, 0.34);
-    border-radius: 4px;
-    font: inherit;
-}
-
-.name-input:focus {
-    outline: 2px solid var(--pumpkin-light);
-    outline-offset: 1px;
-}
-
-.reserved-label {
-    margin: 12px 0 0;
-    padding: 9px 11px;
-    color: var(--success);
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(180, 208, 145, 0.18),
-            var(--success-bg)
-        );
-
-    border: 1px solid var(--success-line);
-    border-radius: 4px;
-    text-align: left;
-    line-height: 1.45;
-    overflow-wrap: anywhere;
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
 }
 
 .empty-state {
-    grid-column: 1 / -1;
-    padding: 24px;
+    padding: 28px;
     color: var(--muted);
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 6px;
+    background: var(--surface);
+    border: 1px dashed var(--line-strong);
+    border-radius: 4px;
     text-align: center;
-    line-height: 1.6;
 }
 
 .footer-note {
-    margin: 18px 0 0;
-    color: rgba(244, 232, 211, 0.64);
-    font-size: 0.78rem;
-    line-height: 1.55;
+    max-width: 560px;
+    margin: 32px auto 0;
+    color: #a99c88;
+    font-size: 0.8rem;
+    line-height: 1.6;
     text-align: center;
 }
 
+/* ---------- Namensdialog ---------- */
 .name-gate {
     position: fixed;
     inset: 0;
@@ -522,19 +324,7 @@ h1 {
     display: grid;
     place-items: center;
     padding: 18px;
-
-    background:
-        radial-gradient(
-            circle at 72% 15%,
-            rgba(255, 211, 119, 0.15) 0,
-            rgba(255, 211, 119, 0.04) 12%,
-            transparent 26%
-        ),
-        radial-gradient(
-            ellipse at 50% 0%,
-            rgba(73, 49, 90, 0.80),
-            rgba(10, 8, 16, 0.97)
-        );
+    background: rgba(12, 9, 18, 0.96);
 }
 
 .name-gate[hidden] {
@@ -542,168 +332,158 @@ h1 {
 }
 
 .name-dialog {
-    width: min(430px, 100%);
-    padding: 22px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(111, 72, 132, 0.22),
-            rgba(21, 16, 29, 0.96)
-        );
-
-    border: 1px solid rgba(222, 190, 230, 0.48);
-    border-radius: 6px;
-
-    box-shadow:
-        0 0 0 1px rgba(255, 243, 209, 0.07) inset,
-        0 20px 48px rgba(0, 0, 0, 0.60);
+    width: min(420px, 100%);
+    padding: 26px 24px 24px;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-top: 4px solid var(--orange);
+    border-radius: 4px;
 }
 
 .name-dialog h2 {
-    margin: 0 0 10px;
-    color: var(--bone);
-
+    margin: 0 0 8px;
+    color: var(--text);
     font-family: "Mountains of Christmas", Georgia, serif;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
     line-height: 1.05;
-
-    -webkit-text-stroke: 0.7px #2b172d;
-
-    text-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.75),
-        0 0 8px rgba(255, 170, 56, 0.20);
 }
 
 .name-dialog p {
-    margin: 0 0 14px;
+    margin: 0 0 18px;
     color: var(--muted);
-    line-height: 1.55;
+}
+
+.name-label {
+    display: block;
+    margin: 0 0 6px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.name-input {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 12px;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    font: inherit;
+    font-size: 1rem;
 }
 
 .name-dialog .reserve-button {
-    margin-top: 12px;
+    margin-top: 14px;
 }
 
+/* ---------- Tablet ---------- */
 @media (max-width: 700px) {
     .gift-card {
-        grid-template-columns: 110px minmax(0, 1fr);
-        gap: 14px;
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 12px 16px;
+        align-items: start;
     }
 
     .gift-image-wrap {
-        width: 110px;
-        height: 110px;
+        width: 96px;
+        height: 96px;
     }
 
     .gift-actions {
         grid-column: 1 / -1;
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        margin-top: 2px;
     }
 }
 
+/* ---------- Handy ---------- */
 @media (max-width: 560px) {
     body {
-        padding: 14px 8px 18px;
+        padding: 16px 12px 28px;
     }
 
     .header {
-        margin-bottom: 10px;
-        padding: 17px 14px 16px;
-        border-radius: 5px;
-    }
-
-    .header::after {
-        right: 14px;
-        left: 14px;
-    }
-
-    /* Handy: Bild oben, Text darunter in voller Breite */
-    .header-content {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-        align-items: start;
+        margin-bottom: 22px;
+        padding: 2px 0 16px 14px;
+        border-left-width: 3px;
     }
 
     .header-avatar {
-        width: 62px;
-        height: 62px;
-        flex: none;
+        top: 2px;
+        width: 46px;
+        height: 46px;
         border-width: 2px;
+        outline-width: 3px;
     }
 
-    .header-text {
-        min-width: 0;
-        width: 100%;
-        padding-top: 0;
+    .eyebrow {
+        margin-bottom: 4px;
+        font-size: 0.7rem;
     }
 
     h1 {
-        width: 100%;
-        font-size: clamp(2rem, 10vw, 2.7rem);
-        overflow-wrap: anywhere;
-        word-break: normal;
-        -webkit-text-stroke: 0.8px #2b172d;
+        max-width: calc(100% - 58px);
+        font-size: clamp(1.9rem, 9.5vw, 2.5rem);
+        hyphens: auto;
+        -webkit-hyphens: auto;
     }
 
     .subtitle {
-        max-width: 100%;
-        font-size: 0.88rem;
-        overflow-wrap: anywhere;
+        margin-top: 10px;
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }
+
+    .subtitle-more {
+        display: none;
+    }
+
+    .status {
+        margin-bottom: 10px;
+        font-size: 0.78rem;
     }
 
     .gift-grid {
-        gap: 11px;
+        gap: 10px;
     }
 
     .gift-card {
-        grid-template-columns: 86px minmax(0, 1fr);
-        gap: 10px 12px;
-        align-items: start;
+        grid-template-columns: 84px minmax(0, 1fr);
+        gap: 10px 14px;
         padding: 12px;
     }
 
     .gift-image-wrap {
-        grid-row: 1 / span 2;
-        width: 86px;
-        height: 86px;
+        width: 84px;
+        height: 84px;
         padding: 4px;
     }
 
-    .gift-info {
-        min-width: 0;
-    }
-
     .gift-title {
-        margin: 1px 0 5px;
+        margin-bottom: 4px;
         font-size: 1rem;
     }
 
     .gift-price {
-        margin: 0;
-        font-size: 0.87rem;
+        font-size: 0.95rem;
     }
 
-    .gift-actions {
-        grid-column: 1 / -1;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        margin-top: 2px;
-    }
-
-    .reserved-label {
+    .tag {
         margin-top: 8px;
+        font-size: 0.76rem;
     }
 
     .product-link,
     .reserve-button {
-        min-height: 44px;
-        padding: 9px 8px;
-        font-size: 0.80rem;
+        min-height: 46px;
+        padding: 8px 8px;
+        font-size: 0.85rem;
+    }
+
+    .footer-note {
+        margin-top: 24px;
+        font-size: 0.76rem;
     }
 }
 
@@ -728,7 +508,6 @@ h1 {
     *::after {
         scroll-behavior: auto !important;
         animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
 }
@@ -747,11 +526,11 @@ h1 {
         <h2 id="nameGateTitle">Willkommen</h2>
 
         <p>
-            Gib deinen Vor- oder Spitznamen ein. Er wird bei deinen
-            Reservierungen angezeigt und in diesem Browser gespeichert.
+            Wie heißt du? Dein Name erscheint bei deinen Reservierungen
+            und wird in diesem Browser gespeichert.
         </p>
 
-        <label class="name-label" for="visitorName">Dein Name</label>
+        <label class="name-label" for="visitorName">Dein Vor- oder Spitzname</label>
 
         <input
             class="name-input"
@@ -763,32 +542,32 @@ h1 {
         >
 
         <button class="reserve-button" type="submit">
-            Weiter zur Wunschliste
+            Zur Wunschliste
         </button>
     </form>
 </div>
 
 <main class="page" id="pageContent" hidden>
     <header class="header">
-        <div class="header-content">
-            <div class="header-avatar">
-                <img
-                    src="mein-bild.jpg"
-                    alt="Weihnachtsmotiv"
-                    onerror="this.style.display='none';"
-                >
-            </div>
-
-            <div class="header-text">
-                <h1>Meine Weihnachtswunschliste</h1>
-
-                <p class="subtitle">
-                    Schön, dass du vorbeischaust! Schau dir meine Wünsche an.
-                    Wenn du etwas davon schenken möchtest, reserviere es bitte,
-                    damit es niemand doppelt kauft.
-                </p>
-            </div>
+        <div class="header-avatar">
+            <img
+                src="mein-bild.jpg"
+                alt=""
+                onerror="this.parentElement.style.display='none';"
+            >
         </div>
+
+        <p class="eyebrow">Weihnachten</p>
+
+        <h1>Meine Weihnachts&shy;wunschliste</h1>
+
+        <p class="subtitle">
+            Schön, dass du vorbeischaust!
+            <span class="subtitle-more">
+                Wenn du etwas davon schenken möchtest, reserviere es bitte,
+                damit es niemand doppelt kauft.
+            </span>
+        </p>
     </header>
 
     <p class="status" id="status" role="status" aria-live="polite">
@@ -802,9 +581,8 @@ h1 {
     ></section>
 
     <p class="footer-note">
-        Reservierungen werden allen Besuchern angezeigt. Der Vorname oder
-        Spitzname ist für alle sichtbar. Wer denselben Namen kennt, kann
-        Reservierungen mit diesem Namen freigeben.
+        Reservierungen sehen alle Besucher. Wer denselben Namen kennt,
+        kann Reservierungen mit diesem Namen freigeben.
     </p>
 </main>
 
@@ -880,10 +658,7 @@ nameForm.addEventListener("submit", (event) => {
     try {
         localStorage.setItem("wishListVisitorName", visitorName);
     } catch (error) {
-        console.warn(
-            "Der Name konnte nicht im Browser gespeichert werden.",
-            error
-        );
+        console.warn("Der Name konnte nicht gespeichert werden.", error);
     }
 
     showWishlist();
@@ -905,7 +680,7 @@ onSnapshot(
         status.classList.remove("error");
 
         if (gifts.length === 0) {
-            status.textContent = "Die Wunschliste ist noch leer.";
+            status.textContent = "Noch keine Wünsche";
 
             giftGrid.innerHTML = `
                 <p class="empty-state">
@@ -916,8 +691,12 @@ onSnapshot(
             return;
         }
 
-        status.textContent =
-            `${gifts.length} ${gifts.length === 1 ? "Wunsch" : "Wünsche"} auf der Liste`;
+        const reservedCount = gifts.filter((g) => g.reserved === true).length;
+
+        status.innerHTML = `
+            <span>${gifts.length} ${gifts.length === 1 ? "Wunsch" : "Wünsche"}</span>
+            <span>${reservedCount} reserviert</span>
+        `;
 
         giftGrid.innerHTML = gifts.map(renderGift).join("");
 
@@ -971,16 +750,13 @@ function renderGift(gift) {
                 <h2 class="gift-title">${escapeHtml(name)}</h2>
 
                 <p class="gift-price">
-                    ${price ? escapeHtml(price) : "Preis nicht angegeben"}
+                    ${price ? escapeHtml(price) : "Preis offen"}
                 </p>
 
                 ${reserved
-                    ? `
-                        <p class="reserved-label">
-                            ✓ Reserviert von
-                            ${escapeHtml(gift.reservedBy || "jemandem")}
-                        </p>
-                    `
+                    ? `<span class="tag">
+                           Reserviert von ${escapeHtml(gift.reservedBy || "jemandem")}
+                       </span>`
                     : ""
                 }
             </div>
@@ -992,8 +768,8 @@ function renderGift(gift) {
                           href="${escapeHtml(link)}"
                           target="_blank"
                           rel="noopener noreferrer"
-                      >Produkt ansehen ↗</a>`
-                    : `<span class="product-link">Kein Produktlink</span>`
+                      >Zum Produkt ↗</a>`
+                    : ""
                 }
 
                 ${reserved
@@ -1004,7 +780,7 @@ function renderGift(gift) {
                                 type="button"
                                 data-release-id="${id}"
                             >
-                                Reservierung freigeben
+                                Freigeben
                             </button>
                         `
                         : ""
@@ -1014,7 +790,7 @@ function renderGift(gift) {
                             type="button"
                             data-reserve-id="${id}"
                         >
-                            Wunsch für ${escapeHtml(visitorName)} reservieren
+                            Reservieren
                         </button>
                     `
                 }
@@ -1040,8 +816,8 @@ async function reserveGift(button) {
 
     await withButton(
         button,
-        "Wird reserviert …",
-        `Wunsch für ${visitorName} reservieren`,
+        "Moment …",
+        "Reservieren",
         async () => {
             const giftRef = doc(db, "gifts", giftId);
 
@@ -1077,8 +853,8 @@ async function releaseReservation(button) {
 
     await withButton(
         button,
-        "Wird freigegeben …",
-        "Reservierung freigeben",
+        "Moment …",
+        "Freigeben",
         async () => {
             const giftRef = doc(db, "gifts", giftId);
 
@@ -1178,36 +954,15 @@ function escapeHtml(value = "") {
 function createFallbackImage() {
     const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
-            <rect width="100%" height="100%" fill="#100d1b"/>
-
-            <rect
-                x="8"
-                y="8"
-                width="384"
-                height="284"
-                rx="5"
-                fill="none"
-                stroke="#ed9b42"
-                stroke-width="4"
-            />
-
+            <rect width="100%" height="100%" fill="#261c36"/>
             <text
                 x="200"
-                y="135"
-                text-anchor="middle"
-                font-family="Segoe UI, Verdana, Arial"
-                font-size="28"
-                fill="#fff3d1"
-            >Kein Bild</text>
-
-            <text
-                x="200"
-                y="205"
+                y="170"
                 text-anchor="middle"
                 font-family="Segoe UI, Arial"
-                font-size="52"
-                fill="#ed9b42"
-            >Geschenk</text>
+                font-size="30"
+                fill="#cfc2ab"
+            >Kein Bild</text>
         </svg>
     `;
 
