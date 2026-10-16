@@ -62,7 +62,7 @@ body {
 }
 
 .admin-card {
-    width: min(780px, 100%);
+    width: min(800px, 100%);
     margin: 0 auto;
 }
 
@@ -107,7 +107,7 @@ h2 {
     text-transform: uppercase;
 }
 
-/* ---------- Formular ---------- */
+/* ---------- Formulare ---------- */
 .panel {
     margin-bottom: 28px;
     padding: 20px;
@@ -124,12 +124,14 @@ label {
     font-weight: 600;
 }
 
-label:first-of-type {
+.panel > label:first-of-type,
+.edit-form > label:first-of-type {
     margin-top: 0;
 }
 
 input,
-select {
+select,
+textarea {
     width: 100%;
     min-height: 46px;
     padding: 10px 12px;
@@ -141,17 +143,25 @@ select {
     font-size: 1rem;
 }
 
+textarea {
+    min-height: 88px;
+    resize: vertical;
+    line-height: 1.45;
+}
+
 select option {
     color: var(--text);
     background: var(--surface);
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
     color: #8c7f99;
 }
 
 input:focus-visible,
 select:focus-visible,
+textarea:focus-visible,
 button:focus-visible {
     outline: 3px solid var(--gold);
     outline-offset: 2px;
@@ -163,8 +173,11 @@ button:focus-visible {
     gap: 14px;
 }
 
-.form-row label {
-    margin-top: 14px;
+.char-hint {
+    margin: 4px 0 0;
+    color: #a99c88;
+    font-size: 0.78rem;
+    text-align: right;
 }
 
 button {
@@ -229,7 +242,7 @@ button:disabled {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 /* ---------- Liste ---------- */
@@ -295,6 +308,17 @@ button:disabled {
     font-weight: 700;
 }
 
+.gift-info .note {
+    margin: 8px 0 0;
+    padding-left: 10px;
+    color: var(--muted);
+    border-left: 2px solid var(--line-strong);
+    font-size: 0.88rem;
+    line-height: 1.45;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
 .tag {
     display: inline-block;
     margin-top: 8px;
@@ -339,7 +363,7 @@ button:disabled {
 .item-actions {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 8px;
 }
 
@@ -358,6 +382,41 @@ button:disabled {
 
 .item-actions .delete-button:hover:not(:disabled) {
     background: var(--red-bg);
+}
+
+/* ---------- Bearbeiten-Formular ---------- */
+.edit-form {
+    grid-column: 1 / -1;
+    margin-top: 2px;
+    padding: 16px;
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+    border-top: 3px solid var(--orange);
+    border-radius: 4px;
+}
+
+.edit-form h3 {
+    margin: 0 0 12px;
+    color: var(--orange);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.edit-form input,
+.edit-form select,
+.edit-form textarea {
+    background: var(--surface);
+}
+
+.edit-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.edit-buttons button {
+    margin-top: 16px;
 }
 
 .empty {
@@ -402,6 +461,14 @@ button:disabled {
         width: 60px;
         height: 60px;
     }
+
+    .item-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .edit-form {
+        padding: 14px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -420,7 +487,8 @@ button:disabled {
         <p class="eyebrow">Verwaltung</p>
         <h1>Admin-Bereich</h1>
         <p class="intro">
-            Wünsche anlegen, Prioritäten setzen und Reservierungen verwalten.
+            Wünsche anlegen und bearbeiten, Notizen hinzufügen,
+            Prioritäten setzen und Reservierungen verwalten.
         </p>
     </header>
 
@@ -492,6 +560,13 @@ button:disabled {
                 type="url"
                 placeholder="https://…"
             >
+
+            <label for="giftNote">Notiz (für Besucher sichtbar)</label>
+            <textarea
+                id="giftNote"
+                maxlength="300"
+                placeholder="Zum Beispiel: Größe M, bitte in Schwarz"
+            ></textarea>
 
             <button id="saveButton" type="button">Wunsch speichern</button>
 
@@ -567,12 +642,14 @@ const priceInput = document.getElementById("giftPrice");
 const priorityInput = document.getElementById("giftPriority");
 const imageInput = document.getElementById("giftImage");
 const linkInput = document.getElementById("giftLink");
+const noteInput = document.getElementById("giftNote");
 const saveButton = document.getElementById("saveButton");
 const status = document.getElementById("status");
 const giftList = document.getElementById("giftList");
 const giftCount = document.getElementById("giftCount");
 
 const ADMIN_EMAIL = "lutzberan98@gmail.com";
+const NOTE_MAX = 300;
 
 const PRIORITY_OPTIONS = [
     { value: 3, stars: "★★★", text: "Top-Wunsch" },
@@ -625,30 +702,19 @@ logoutButton.addEventListener("click", async () => {
 });
 
 saveButton.addEventListener("click", async () => {
-    const name = nameInput.value.trim();
-    const price = priceInput.value.trim();
-    const image = imageInput.value.trim();
-    const link = linkInput.value.trim();
-    const priority = Number(priorityInput.value) || 2;
+    const data = {
+        name: nameInput.value.trim(),
+        price: priceInput.value.trim(),
+        image: imageInput.value.trim(),
+        link: linkInput.value.trim(),
+        note: noteInput.value.trim().slice(0, NOTE_MAX),
+        priority: Number(priorityInput.value) || 2
+    };
 
-    if (!name) {
-        setStatus("Bitte gib einen Titel ein.", "error");
-        return;
-    }
+    const error = validateGift(data);
 
-    if (image && !isValidUrl(image)) {
-        setStatus(
-            "Die Bild-URL muss mit http:// oder https:// beginnen.",
-            "error"
-        );
-        return;
-    }
-
-    if (link && !isValidUrl(link)) {
-        setStatus(
-            "Der Produktlink muss mit http:// oder https:// beginnen.",
-            "error"
-        );
+    if (error) {
+        setStatus(error, "error");
         return;
     }
 
@@ -656,11 +722,7 @@ saveButton.addEventListener("click", async () => {
 
     try {
         await addDoc(collection(db, "gifts"), {
-            name,
-            price,
-            image,
-            link,
-            priority,
+            ...data,
             reserved: false,
             reservedBy: "",
             reservedAt: null,
@@ -671,12 +733,13 @@ saveButton.addEventListener("click", async () => {
         priceInput.value = "";
         imageInput.value = "";
         linkInput.value = "";
+        noteInput.value = "";
         priorityInput.value = "2";
 
         setStatus("Wunsch wurde gespeichert.", "success");
         await loadGifts();
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        console.error(err);
         setStatus(
             "Speichern fehlgeschlagen. Prüfe, ob deine Firestore-Regeln create für den Admin erlauben.",
             "error"
@@ -686,6 +749,22 @@ saveButton.addEventListener("click", async () => {
         saveButton.textContent = "Wunsch speichern";
     }
 });
+
+function validateGift(data) {
+    if (!data.name) {
+        return "Bitte gib einen Titel ein.";
+    }
+
+    if (data.image && !isValidUrl(data.image)) {
+        return "Die Bild-URL muss mit http:// oder https:// beginnen.";
+    }
+
+    if (data.link && !isValidUrl(data.link)) {
+        return "Der Produktlink muss mit http:// oder https:// beginnen.";
+    }
+
+    return "";
+}
 
 async function loadGifts() {
     giftList.innerHTML = "";
@@ -740,6 +819,7 @@ function createGiftItem(gift) {
     const id = gift.id;
     const priority = getPriority(gift);
     const reserved = gift.reserved === true;
+    const note = typeof gift.note === "string" ? gift.note.trim() : "";
 
     const item = document.createElement("article");
     item.className = "gift-item" +
@@ -756,6 +836,8 @@ function createGiftItem(gift) {
             <strong>${escapeHtml(gift.name || "Ohne Titel")}</strong>
             <span class="price">${escapeHtml(gift.price || "Kein Preis")}</span>
 
+            ${note ? `<p class="note">${escapeHtml(note)}</p>` : ""}
+
             ${
                 reserved
                     ? `<span class="tag tag-reserved">
@@ -769,28 +851,75 @@ function createGiftItem(gift) {
                     ${getPriorityStars(priority)}
                 </span>
 
-                <select aria-label="Priorität ändern">
-                    ${PRIORITY_OPTIONS.map((option) => `
-                        <option
-                            value="${option.value}"
-                            ${option.value === priority ? "selected" : ""}
-                        >
-                            ${option.stars} ${option.text}
-                        </option>
-                    `).join("")}
+                <select class="quick-priority" aria-label="Priorität ändern">
+                    ${priorityOptionsHtml(priority)}
                 </select>
             </div>
         </div>
 
         <div class="item-actions"></div>
+
+        <form class="edit-form hidden" novalidate>
+            <h3>Wunsch bearbeiten</h3>
+
+            <label>Titel
+                <input class="edit-name" type="text" maxlength="120">
+            </label>
+
+            <div class="form-row">
+                <label>Preis
+                    <input class="edit-price" type="text" maxlength="30">
+                </label>
+
+                <label>Priorität
+                    <select class="edit-priority">
+                        ${priorityOptionsHtml(priority)}
+                    </select>
+                </label>
+            </div>
+
+            <label>Bild-URL
+                <input class="edit-image" type="url" placeholder="https://…">
+            </label>
+
+            <label>Produktlink
+                <input class="edit-link" type="url" placeholder="https://…">
+            </label>
+
+            <label>Notiz (für Besucher sichtbar)
+                <textarea
+                    class="edit-note"
+                    maxlength="${NOTE_MAX}"
+                    placeholder="Zum Beispiel: Größe M, bitte in Schwarz"
+                ></textarea>
+            </label>
+
+            <p class="status edit-status hidden" role="status"></p>
+
+            <div class="edit-buttons">
+                <button type="submit">Speichern</button>
+                <button type="button" class="button-secondary cancel-edit">
+                    Abbrechen
+                </button>
+            </div>
+        </form>
     `;
 
-    const prioritySelect = item.querySelector("select");
+    // Werte per .value setzen (nicht per HTML), damit Sonderzeichen sicher bleiben.
+    const form = item.querySelector(".edit-form");
+    form.querySelector(".edit-name").value = gift.name || "";
+    form.querySelector(".edit-price").value = gift.price || "";
+    form.querySelector(".edit-image").value = gift.image || "";
+    form.querySelector(".edit-link").value = gift.link || "";
+    form.querySelector(".edit-note").value = note;
 
-    prioritySelect.addEventListener("change", async () => {
-        const nextPriority = Number(prioritySelect.value) || 2;
+    // Schnelle Prioritätsänderung direkt in der Liste
+    const quickPriority = item.querySelector(".quick-priority");
 
-        prioritySelect.disabled = true;
+    quickPriority.addEventListener("change", async () => {
+        const nextPriority = Number(quickPriority.value) || 2;
+
+        quickPriority.disabled = true;
 
         try {
             await updateDoc(doc(db, "gifts", id), {
@@ -803,12 +932,24 @@ function createGiftItem(gift) {
             alert(
                 "Priorität konnte nicht gespeichert werden. Prüfe die Firestore-Regeln."
             );
-            prioritySelect.value = String(priority);
-            prioritySelect.disabled = false;
+            quickPriority.value = String(priority);
+            quickPriority.disabled = false;
         }
     });
 
     const actions = item.querySelector(".item-actions");
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.textContent = "Bearbeiten";
+
+    editButton.addEventListener("click", () => {
+        form.classList.toggle("hidden");
+
+        if (!form.classList.contains("hidden")) {
+            form.querySelector(".edit-name").focus();
+        }
+    });
 
     const reservationButton = document.createElement("button");
     reservationButton.type = "button";
@@ -867,10 +1008,71 @@ function createGiftItem(gift) {
         }
     });
 
+    actions.appendChild(editButton);
     actions.appendChild(reservationButton);
     actions.appendChild(deleteButton);
 
+    // Bearbeiten: abbrechen
+    form.querySelector(".cancel-edit").addEventListener("click", () => {
+        form.classList.add("hidden");
+    });
+
+    // Bearbeiten: speichern
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const editStatus = form.querySelector(".edit-status");
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        const data = {
+            name: form.querySelector(".edit-name").value.trim(),
+            price: form.querySelector(".edit-price").value.trim(),
+            image: form.querySelector(".edit-image").value.trim(),
+            link: form.querySelector(".edit-link").value.trim(),
+            note: form
+                .querySelector(".edit-note")
+                .value.trim()
+                .slice(0, NOTE_MAX),
+            priority:
+                Number(form.querySelector(".edit-priority").value) || 2
+        };
+
+        const error = validateGift(data);
+
+        if (error) {
+            editStatus.textContent = error;
+            editStatus.className = "status error edit-status";
+            return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Wird gespeichert …";
+
+        try {
+            await updateDoc(doc(db, "gifts", id), data);
+            await loadGifts();
+        } catch (err) {
+            console.error(err);
+            editStatus.textContent =
+                "Speichern fehlgeschlagen. Prüfe die Firestore-Regeln.";
+            editStatus.className = "status error edit-status";
+            submitButton.disabled = false;
+            submitButton.textContent = "Speichern";
+        }
+    });
+
     return item;
+}
+
+function priorityOptionsHtml(selected) {
+    return PRIORITY_OPTIONS.map((option) => `
+        <option
+            value="${option.value}"
+            ${option.value === selected ? "selected" : ""}
+        >
+            ${option.stars} ${option.text}
+        </option>
+    `).join("");
 }
 
 function getPriority(gift) {
