@@ -245,6 +245,18 @@ h1 {
     font-weight: 700;
 }
 
+/* ---------- Notiz ---------- */
+.gift-note {
+    margin: 8px 0 0;
+    padding-left: 10px;
+    color: var(--muted);
+    border-left: 2px solid var(--line-strong);
+    font-size: 0.88rem;
+    line-height: 1.45;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
 /* ---------- Status-Etiketten ---------- */
 .tag {
     display: inline-block;
@@ -511,6 +523,10 @@ input:focus-visible {
 
     .gift-price {
         font-size: 0.95rem;
+    }
+
+    .gift-note {
+        font-size: 0.84rem;
     }
 
     .tag {
@@ -798,6 +814,7 @@ function renderGift(gift) {
     const link = safeUrl(gift.link);
     const image = safeImageUrl(gift.image);
     const price = safeText(gift.price || "");
+    const note = safeText(gift.note || "");
     const reserved = gift.reserved === true;
     const id = escapeHtml(gift.id);
     const priority = getPriority(gift);
@@ -832,6 +849,11 @@ function renderGift(gift) {
                 <p class="gift-price">
                     ${price ? escapeHtml(price) : "Preis offen"}
                 </p>
+
+                ${note
+                    ? `<p class="gift-note">${escapeHtml(note)}</p>`
+                    : ""
+                }
 
                 ${reserved
                     ? `<span class="tag">
