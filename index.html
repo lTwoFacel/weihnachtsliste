@@ -1,3 +1,18 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0e1d17">
+<title>Meine Weihnachtswunschliste</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap"
+    rel="stylesheet"
+>
+
 <style>
 :root {
     color-scheme: dark;
@@ -12,7 +27,6 @@
     --muted: #d3c6a3;
 
     --gold: #e5b046;
-    --gold-dark: #b98a26;
     --red: #b3202f;
     --red-hover: #c9303f;
     --burgundy: #5a1a25;
@@ -60,7 +74,11 @@ body {
     margin: 0 auto;
 }
 
-/* ---------- Header: goldene Tafel ---------- */
+.page[hidden] {
+    display: none !important;
+}
+
+/* ---------- Header ---------- */
 .header {
     position: relative;
     margin-bottom: 34px;
@@ -271,7 +289,7 @@ h1 {
     border-left-color: var(--green-text);
 }
 
-/* ---------- Etiketten als schwarze Pills ---------- */
+/* ---------- Etiketten ---------- */
 .tag {
     display: inline-block;
     margin-top: 10px;
@@ -600,3 +618,502 @@ input:focus-visible {
     }
 }
 </style>
+</head>
+
+<body>
+<div
+    class="name-gate"
+    id="nameGate"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="nameGateTitle"
+>
+    <form class="name-dialog" id="nameForm" novalidate>
+        <h2 id="nameGateTitle">Willkommen</h2>
+
+        <p>
+            Wie heißt du? Dein Name erscheint bei deinen Reservierungen
+            und wird in diesem Browser gespeichert.
+        </p>
+
+        <label class="name-label" for="visitorName">Dein Vor- oder Spitzname</label>
+
+        <input
+            class="name-input"
+            id="visitorName"
+            type="text"
+            maxlength="40"
+            autocomplete="nickname"
+            placeholder="Zum Beispiel: Alex"
+        >
+
+        <button class="reserve-button" type="submit">
+            Zur Wunschliste
+        </button>
+    </form>
+</div>
+
+<main class="page" id="pageContent" hidden>
+    <header class="header">
+        <div class="header-avatar">
+            <img
+                src="mein-bild.jpg"
+                alt=""
+                onerror="this.parentElement.style.display='none';"
+            >
+        </div>
+
+        <p class="eyebrow">Weihnachten</p>
+
+        <h1>Meine Weihnachts&shy;wunschliste</h1>
+
+        <p class="subtitle">
+            Schön, dass du vorbeischaust!
+            <span class="subtitle-more">
+                Wenn du etwas davon schenken möchtest, reserviere es bitte,
+                damit es niemand doppelt kauft.
+            </span>
+        </p>
+    </header>
+
+    <p class="status" id="status" role="status" aria-live="polite">
+        Wunschliste wird geladen …
+    </p>
+
+    <section
+        class="gift-grid"
+        id="giftGrid"
+        aria-label="Geschenkwünsche"
+    ></section>
+
+    <p class="footer-note">
+        Reservierungen sehen alle Besucher. Wer denselben Namen kennt,
+        kann Reservierungen mit diesem Namen freigeben.
+    </p>
+</main>
+
+<script type="module">
+import { initializeApp } from
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    onSnapshot,
+    query,
+    orderBy,
+    doc,
+    serverTimestamp,
+    runTransaction
+} from
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAlmVEiqvYL8FaDj1J14tpq-Mg8zOxAy6U",
+    authDomain: "weihnachtsliste-241226.firebaseapp.com",
+    projectId: "weihnachtsliste-241226",
+    storageBucket: "weihnachtsliste-241226.firebasestorage.app",
+    messagingSenderId: "243572027003",
+    appId: "1:243572027003:web:2b9ca250ff47c50cd07cde"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const giftGrid = document.getElementById("giftGrid");
+const status = document.getElementById("status");
+const nameGate = document.getElementById("nameGate");
+const nameForm = document.getElementById("nameForm");
+const visitorNameInput = document.getElementById("visitorName");
+const pageContent = document.getElementById("pageContent");
+
+const PRIORITY_LABELS = {
+    3: { stars: "★★★", text: "Top-Wunsch" },
+    2: { stars: "★★☆", text: "Gern" },
+    1: { stars: "★☆☆", text: "Nice to have" }
+};
+
+let visitorName = "";
+
+try {
+    visitorName = (
+        localStorage.getItem("wishListVisitorName") || ""
+    ).trim();
+} catch (error) {
+    console.warn("Lokaler Speicher nicht verfügbar:", error);
+}
+
+if (visitorName) {
+    showWishlist();
+} else {
+    visitorNameInput.focus();
+}
+
+function showWishlist() {
+    nameGate.hidden = true;
+    pageContent.hidden = false;
+}
+
+nameForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const value = visitorNameInput.value.trim();
+
+    if (!value || value.length > 40) {
+        alert("Bitte gib einen Namen mit höchstens 40 Zeichen ein.");
+        visitorNameInput.focus();
+        return;
+    }
+
+    visitorName = value;
+
+    try {
+        localStorage.setItem("wishListVisitorName", visitorName);
+    } catch (error) {
+        console.warn("Der Name konnte nicht gespeichert werden.", error);
+    }
+
+    showWishlist();
+});
+
+const giftsQuery = query(
+    collection(db, "gifts"),
+    orderBy("createdAt", "desc")
+);
+
+onSnapshot(
+    giftsQuery,
+    (snapshot) => {
+        const gifts = snapshot.docs.map((giftDoc) => ({
+            id: giftDoc.id,
+            ...giftDoc.data()
+        }));
+
+        status.classList.remove("error");
+
+        if (gifts.length === 0) {
+            status.textContent = "Noch keine Wünsche";
+
+            giftGrid.innerHTML = `
+                <p class="empty-state">
+                    Im Moment sind noch keine Wünsche eingetragen.
+                </p>
+            `;
+
+            return;
+        }
+
+        gifts.sort((a, b) => {
+            const reservedDiff =
+                (a.reserved === true) - (b.reserved === true);
+
+            if (reservedDiff !== 0) return reservedDiff;
+
+            return getPriority(b) - getPriority(a);
+        });
+
+        const reservedCount = gifts.filter((g) => g.reserved === true).length;
+        const freeCount = gifts.length - reservedCount;
+
+        status.innerHTML = `
+            <span>${gifts.length} ${gifts.length === 1 ? "Wunsch" : "Wünsche"}</span>
+            <span>${freeCount} frei · ${reservedCount} reserviert</span>
+        `;
+
+        giftGrid.innerHTML = gifts.map(renderGift).join("");
+
+        giftGrid
+            .querySelectorAll("[data-reserve-id]")
+            .forEach((button) => {
+                button.addEventListener("click", () => reserveGift(button));
+            });
+
+        giftGrid
+            .querySelectorAll("[data-release-id]")
+            .forEach((button) => {
+                button.addEventListener(
+                    "click",
+                    () => releaseReservation(button)
+                );
+            });
+    },
+    (error) => {
+        console.error("Firestore-Fehler:", error);
+
+        status.textContent =
+            "Die Wunschliste konnte nicht geladen werden. Bitte später erneut versuchen.";
+
+        status.classList.add("error");
+        giftGrid.innerHTML = "";
+    }
+);
+
+function getPriority(gift) {
+    const value = Number(gift.priority);
+    return value >= 1 && value <= 3 ? value : 2;
+}
+
+function renderGift(gift) {
+    const name = safeText(gift.name || "Geschenkidee");
+    const link = safeUrl(gift.link);
+    const image = safeImageUrl(gift.image);
+    const price = safeText(gift.price || "");
+    const note = safeText(gift.note || "");
+    const reserved = gift.reserved === true;
+    const id = escapeHtml(gift.id);
+    const priority = getPriority(gift);
+    const prio = PRIORITY_LABELS[priority];
+
+    const classes = [
+        "gift-card",
+        reserved ? "is-reserved" : "",
+        priority === 3 && !reserved ? "prio-high" : ""
+    ].join(" ").trim();
+
+    return `
+        <article class="${classes}">
+            <div class="gift-image-wrap">
+                <img
+                    class="gift-image"
+                    src="${image || createFallbackImage()}"
+                    alt="${escapeHtml(name)}"
+                    loading="lazy"
+                    onerror="this.onerror=null; this.src='${createFallbackImage()}';"
+                >
+            </div>
+
+            <div class="gift-info">
+                <p class="prio level-${priority}" aria-label="Priorität: ${prio.text}">
+                    <span class="prio-stars" aria-hidden="true">${prio.stars}</span>
+                    <span>${prio.text}</span>
+                </p>
+
+                <h2 class="gift-title">${escapeHtml(name)}</h2>
+
+                <p class="gift-price">
+                    ${price ? escapeHtml(price) : "Preis offen"}
+                </p>
+
+                ${note
+                    ? `<p class="gift-note">${escapeHtml(note)}</p>`
+                    : ""
+                }
+
+                ${reserved
+                    ? `<span class="tag">
+                           Reserviert von ${escapeHtml(gift.reservedBy || "jemandem")}
+                       </span>`
+                    : `<span class="tag tag-open">Noch frei</span>`
+                }
+            </div>
+
+            <div class="gift-actions">
+                ${link
+                    ? `<a
+                          class="product-link"
+                          href="${escapeHtml(link)}"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                      >Zum Produkt ↗</a>`
+                    : ""
+                }
+
+                ${reserved
+                    ? sameName(gift.reservedBy, visitorName)
+                        ? `
+                            <button
+                                class="reserve-button release-button"
+                                type="button"
+                                data-release-id="${id}"
+                            >
+                                Freigeben
+                            </button>
+                        `
+                        : ""
+                    : `
+                        <button
+                            class="reserve-button"
+                            type="button"
+                            data-reserve-id="${id}"
+                        >
+                            Reservieren
+                        </button>
+                    `
+                }
+            </div>
+        </article>
+    `;
+}
+
+async function reserveGift(button) {
+    const giftId = button.dataset.reserveId;
+
+    if (!validName(visitorName)) {
+        return;
+    }
+
+    const confirmed = confirm(
+        `Möchtest du diesen Wunsch für „${visitorName}“ reservieren?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    await withButton(
+        button,
+        "Moment …",
+        "Reservieren",
+        async () => {
+            const giftRef = doc(db, "gifts", giftId);
+
+            await runTransaction(db, async (transaction) => {
+                const snapshot = await transaction.get(giftRef);
+
+                if (!snapshot.exists()) {
+                    throw new Error("Diesen Wunsch gibt es nicht mehr.");
+                }
+
+                if (snapshot.data().reserved === true) {
+                    throw new Error(
+                        "Dieser Wunsch wurde gerade schon reserviert."
+                    );
+                }
+
+                transaction.update(giftRef, {
+                    reserved: true,
+                    reservedBy: visitorName,
+                    reservedAt: serverTimestamp()
+                });
+            });
+        }
+    );
+}
+
+async function releaseReservation(button) {
+    const giftId = button.dataset.releaseId;
+
+    if (!confirm("Möchtest du diese Reservierung wirklich freigeben?")) {
+        return;
+    }
+
+    await withButton(
+        button,
+        "Moment …",
+        "Freigeben",
+        async () => {
+            const giftRef = doc(db, "gifts", giftId);
+
+            await runTransaction(db, async (transaction) => {
+                const snapshot = await transaction.get(giftRef);
+
+                if (!snapshot.exists()) {
+                    throw new Error("Diesen Wunsch gibt es nicht mehr.");
+                }
+
+                const gift = snapshot.data();
+
+                if (
+                    gift.reserved !== true ||
+                    !sameName(gift.reservedBy, visitorName)
+                ) {
+                    throw new Error(
+                        "Der gespeicherte Name stimmt nicht mit der Reservierung überein."
+                    );
+                }
+
+                transaction.update(giftRef, {
+                    reserved: false,
+                    reservedBy: "",
+                    reservedAt: null
+                });
+            });
+        }
+    );
+}
+
+async function withButton(button, busyText, originalText, action) {
+    button.disabled = true;
+    button.textContent = busyText;
+
+    try {
+        await action();
+    } catch (error) {
+        console.error("Aktion fehlgeschlagen:", error);
+
+        alert(
+            error.message ||
+            "Die Aktion hat nicht funktioniert. Prüfe auch die Firestore-Regeln."
+        );
+
+        button.disabled = false;
+        button.textContent = originalText;
+    }
+}
+
+function validName(value) {
+    return typeof value === "string" &&
+        value.trim().length > 0 &&
+        value.trim().length <= 40;
+}
+
+function sameName(first, second) {
+    return typeof first === "string" &&
+        typeof second === "string" &&
+        first.trim().toLocaleLowerCase("de") ===
+            second.trim().toLocaleLowerCase("de");
+}
+
+function safeUrl(value) {
+    if (typeof value !== "string" || !value.trim()) {
+        return "";
+    }
+
+    try {
+        const url = new URL(value.trim());
+
+        return ["https:", "http:"].includes(url.protocol)
+            ? url.href
+            : "";
+    } catch {
+        return "";
+    }
+}
+
+function safeImageUrl(value) {
+    return safeUrl(value);
+}
+
+function safeText(value) {
+    return typeof value === "string" ? value.trim() : "";
+}
+
+function escapeHtml(value = "") {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function createFallbackImage() {
+    const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
+            <rect width="100%" height="100%" fill="#234233"/>
+            <text
+                x="200"
+                y="170"
+                text-anchor="middle"
+                font-family="Segoe UI, Arial"
+                font-size="30"
+                fill="#d3c6a3"
+            >Kein Bild</text>
+        </svg>
+    `;
+
+    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+}
+</script>
+</body>
+</html>
