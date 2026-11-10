@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#120e1c">
+<meta name="theme-color" content="#0e1d17">
 <title>Admin – Weihnachtswunschliste</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,24 +17,24 @@
 :root {
     color-scheme: dark;
 
-    --bg: #120e1c;
-    --surface: #1b1528;
-    --surface-2: #261c36;
-    --line: #3b2e50;
-    --line-strong: #5a4776;
+    --bg: #0e1d17;
+    --surface: #1a3125;
+    --surface-2: #234233;
+    --ink: #060b08;
 
     --text: #fff3d1;
-    --muted: #cfc2ab;
+    --muted: #d3c6a3;
+    --border: #f1e2b8;
 
-    --orange: #e38a32;
-    --orange-hover: #f09a4a;
-    --orange-text: #1b101c;
-    --gold: #f4b541;
-    --green: #b4d091;
-    --green-bg: #1f2e22;
-    --red: #ff9b9b;
-    --red-bg: #4a1d28;
+    --gold: #e5b046;
+    --burgundy: #5a1a25;
+    --red: #b3202f;
+    --red-hover: #c9303f;
     --red-text: #ffd9d3;
+
+    --bw: 3px;
+    --shadow: 5px 5px 0 var(--ink);
+    --shadow-sm: 3px 3px 0 var(--ink);
 }
 
 * {
@@ -48,105 +48,144 @@ html {
 body {
     min-height: 100vh;
     margin: 0;
-    padding: 32px 16px 40px;
+    padding: 32px 18px 44px;
     color: var(--text);
     background:
         radial-gradient(
-            circle at 85% 0%,
-            rgba(244, 181, 65, 0.10) 0,
-            transparent 38%
+            circle at 90% 0%,
+            rgba(229, 176, 70, 0.14),
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at 0% 100%,
+            rgba(179, 32, 47, 0.16),
+            transparent 40%
         ),
         var(--bg);
-    font-family: "Segoe UI", system-ui, -apple-system, Tahoma, Verdana, Arial, sans-serif;
+    font-family:
+        "Segoe UI", system-ui, -apple-system,
+        Tahoma, Verdana, Arial, sans-serif;
     line-height: 1.5;
 }
 
-.admin-card {
-    width: min(800px, 100%);
+[hidden] {
+    display: none !important;
+}
+
+.admin-page {
+    width: min(880px, 100%);
     margin: 0 auto;
 }
 
 /* ---------- Kopf ---------- */
+
 .admin-header {
-    margin-bottom: 28px;
-    padding: 4px 0 20px 20px;
-    border-left: 4px solid var(--orange);
-    border-bottom: 1px solid var(--line);
+    margin-bottom: 30px;
+    padding: 22px 24px;
+    color: var(--ink);
+    background: var(--gold);
+    border: var(--bw) solid var(--ink);
+    border-radius: 6px;
+    box-shadow:
+        var(--shadow),
+        0 0 0 var(--bw) var(--border);
 }
 
 .eyebrow {
-    margin: 0 0 4px;
-    color: var(--orange);
+    margin: 0 0 8px;
     font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
+    font-weight: 800;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
 }
 
 h1 {
     margin: 0;
-    color: var(--text);
     font-family: "Mountains of Christmas", Georgia, serif;
-    font-size: clamp(2.2rem, 7vw, 3.4rem);
+    font-size: clamp(2.4rem, 7vw, 3.6rem);
     font-weight: 700;
-    line-height: 1.04;
+    line-height: 1.05;
 }
 
 .intro {
-    max-width: 560px;
-    margin: 10px 0 0;
-    color: var(--muted);
-}
-
-h2 {
-    margin: 0 0 14px;
-    color: var(--text);
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-}
-
-/* ---------- Formulare ---------- */
-.panel {
-    margin-bottom: 28px;
-    padding: 20px;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-}
-
-label {
-    display: block;
-    margin: 14px 0 6px;
-    color: var(--muted);
-    font-size: 0.85rem;
+    max-width: 620px;
+    margin: 14px 0 0;
+    color: #2a1c05;
     font-weight: 600;
 }
 
-.panel > label:first-of-type,
-.edit-form > label:first-of-type {
-    margin-top: 0;
+h2 {
+    margin: 0 0 16px;
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* ---------- Bereiche ---------- */
+
+.panel {
+    margin-bottom: 28px;
+    padding: 22px;
+    background: var(--surface);
+    border: var(--bw) solid var(--ink);
+    border-radius: 6px;
+    box-shadow:
+        var(--shadow),
+        0 0 0 var(--bw) rgba(241, 226, 184, 0.28);
+}
+
+.login-panel {
+    max-width: 520px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.hint {
+    margin: -4px 0 18px;
+    color: var(--muted);
+    font-size: 0.88rem;
+}
+
+/* ---------- Formulare ---------- */
+
+.field {
+    display: block;
+    margin-bottom: 14px;
+}
+
+.field-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 0.84rem;
+    font-weight: 700;
 }
 
 input,
 select,
 textarea {
     width: 100%;
-    min-height: 46px;
+    min-height: 48px;
     padding: 10px 12px;
     color: var(--text);
     background: var(--bg);
-    border: 1px solid var(--line-strong);
+    border: var(--bw) solid var(--ink);
     border-radius: 4px;
+    box-shadow: var(--shadow-sm);
     font: inherit;
     font-size: 1rem;
 }
 
 textarea {
-    min-height: 88px;
+    min-height: 100px;
     resize: vertical;
-    line-height: 1.45;
+    line-height: 1.5;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #a99f86;
 }
 
 select option {
@@ -154,9 +193,65 @@ select option {
     background: var(--surface);
 }
 
-input::placeholder,
-textarea::placeholder {
-    color: #8c7f99;
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+button {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    color: var(--ink);
+    background: var(--gold);
+    border: var(--bw) solid var(--ink);
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-align: center;
+    cursor: pointer;
+    transition:
+        transform 0.08s ease,
+        box-shadow 0.08s ease;
+}
+
+button:hover:not(:disabled) {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--ink);
+}
+
+button:active:not(:disabled) {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+button:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
+.button-full {
+    width: 100%;
+}
+
+.button-secondary {
+    color: var(--ink);
+    background: var(--text);
+}
+
+.button-danger {
+    color: var(--text);
+    background: var(--red);
+}
+
+.button-danger:hover:not(:disabled) {
+    background: var(--red-hover);
 }
 
 input:focus-visible,
@@ -164,93 +259,40 @@ select:focus-visible,
 textarea:focus-visible,
 button:focus-visible {
     outline: 3px solid var(--gold);
-    outline-offset: 2px;
+    outline-offset: 4px;
 }
 
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-}
-
-.char-hint {
-    margin: 4px 0 0;
-    color: #a99c88;
-    font-size: 0.78rem;
-    text-align: right;
-}
-
-button {
-    width: 100%;
-    min-height: 46px;
-    margin-top: 18px;
-    padding: 10px 16px;
-    color: var(--orange-text);
-    background: var(--orange);
-    border: 1px solid var(--orange);
-    border-radius: 4px;
-    font: 600 0.95rem "Segoe UI", system-ui, -apple-system, Tahoma, Verdana, Arial, sans-serif;
-    cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease;
-}
-
-button:hover:not(:disabled) {
-    background: var(--orange-hover);
-}
-
-button:disabled {
-    color: var(--muted);
-    background: var(--surface-2);
-    border-color: var(--line);
-    cursor: wait;
-}
-
-.button-secondary {
-    color: var(--text);
-    background: transparent;
-    border: 1px solid var(--line-strong);
-}
-
-.button-secondary:hover:not(:disabled) {
-    background: var(--surface-2);
-    border-color: var(--muted);
-}
+/* ---------- Meldungen ---------- */
 
 .status {
     margin: 16px 0 0;
-    padding: 11px 13px;
-    color: var(--muted);
+    padding: 12px 14px;
+    color: var(--text);
     background: var(--surface-2);
-    border: 1px solid var(--line);
-    border-left: 4px solid var(--line-strong);
+    border: var(--bw) solid var(--ink);
     border-radius: 4px;
-    font-size: 0.92rem;
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
 }
 
 .status.success {
-    color: var(--green);
-    background: var(--green-bg);
-    border-color: #44603f;
-    border-left-color: var(--green);
+    border-left: 6px solid var(--gold);
 }
 
 .status.error {
     color: var(--red-text);
-    background: var(--red-bg);
-    border-color: #8a3a4a;
-    border-left-color: var(--red);
-}
-
-.hidden {
-    display: none !important;
+    background: var(--burgundy);
 }
 
 /* ---------- Liste ---------- */
+
 .list-head {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    margin-bottom: 12px;
+    gap: 8px 16px;
+    margin-bottom: 16px;
 }
 
 .list-head h2 {
@@ -264,141 +306,111 @@ button:disabled {
 
 .gift-list {
     display: grid;
-    gap: 10px;
+    gap: 18px;
 }
 
 .gift-item {
     display: grid;
-    grid-template-columns: 72px minmax(0, 1fr);
-    gap: 12px 16px;
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: 14px 18px;
     align-items: start;
-    padding: 14px;
+    padding: 16px;
     background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 4px;
+    border: var(--bw) solid var(--ink);
+    border-radius: 6px;
+    box-shadow:
+        var(--shadow),
+        0 0 0 var(--bw) rgba(241, 226, 184, 0.28);
 }
 
 .gift-item.is-top {
-    border-left: 4px solid var(--orange);
+    background: var(--burgundy);
+    box-shadow:
+        var(--shadow),
+        0 0 0 var(--bw) var(--gold);
 }
 
-.gift-item img {
-    width: 72px;
-    height: 72px;
-    padding: 4px;
+.gift-image {
+    display: block;
+    width: 84px;
+    height: 84px;
+    padding: 5px;
     object-fit: contain;
     background: #fff;
-    border-radius: 3px;
+    border: var(--bw) solid var(--ink);
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
 }
 
 .gift-info {
     min-width: 0;
 }
 
-.gift-info strong {
-    display: block;
-    color: var(--text);
-    font-size: 1.02rem;
+.gift-title {
+    margin: 0 0 5px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: normal;
+    text-transform: none;
     overflow-wrap: anywhere;
 }
 
-.gift-info .price {
-    display: block;
+.gift-price {
+    margin: 0;
     color: var(--gold);
-    font-weight: 700;
+    font-weight: 800;
 }
 
-.gift-info .note {
-    margin: 8px 0 0;
+.gift-note {
+    margin: 9px 0 0;
     padding-left: 10px;
     color: var(--muted);
-    border-left: 2px solid var(--line-strong);
+    border-left: 3px solid var(--gold);
     font-size: 0.88rem;
-    line-height: 1.45;
     white-space: pre-line;
     overflow-wrap: anywhere;
 }
 
-.tag {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 2px 9px;
-    border-radius: 3px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    overflow-wrap: anywhere;
+.priority-field {
+    display: block;
+    max-width: 260px;
+    margin-top: 14px;
 }
 
-.tag-open {
-    color: var(--muted);
-    background: var(--surface-2);
-    border: 1px solid var(--line);
+.priority-field .field-label {
+    font-size: 0.76rem;
 }
 
-.tag-reserved {
-    color: var(--green);
-    background: var(--green-bg);
-    border: 1px solid #44603f;
-}
-
-.prio-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.prio-row .stars {
-    color: var(--gold);
-    letter-spacing: 2px;
-}
-
-.prio-row select {
-    width: auto;
-    min-height: 38px;
-    padding: 6px 10px;
-    font-size: 0.88rem;
+.priority-field select {
+    min-height: 42px;
+    padding: 7px 10px;
+    font-size: 0.86rem;
 }
 
 .item-actions {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 8px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
-.item-actions button {
-    min-height: 44px;
-    margin: 0;
-    padding: 8px 12px;
-    font-size: 0.88rem;
-}
+/* ---------- Bearbeitungsformular ---------- */
 
-.item-actions .delete-button {
-    color: var(--red);
-    background: transparent;
-    border: 1px solid var(--red);
-}
-
-.item-actions .delete-button:hover:not(:disabled) {
-    background: var(--red-bg);
-}
-
-/* ---------- Bearbeiten-Formular ---------- */
 .edit-form {
     grid-column: 1 / -1;
-    margin-top: 2px;
-    padding: 16px;
+    margin-top: 4px;
+    padding: 18px;
     background: var(--bg);
-    border: 1px solid var(--line-strong);
-    border-top: 3px solid var(--orange);
+    border: var(--bw) solid var(--ink);
+    border-top: 4px solid var(--gold);
     border-radius: 4px;
 }
 
 .edit-form h3 {
-    margin: 0 0 12px;
-    color: var(--orange);
-    font-size: 0.8rem;
+    margin: 0 0 16px;
+    color: var(--gold);
+    font-size: 0.83rem;
+    font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
 }
@@ -412,34 +424,40 @@ button:disabled {
 .edit-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    gap: 10px;
+    margin-top: 18px;
 }
 
-.edit-buttons button {
-    margin-top: 16px;
-}
-
-.empty {
-    padding: 24px;
+.empty-state {
+    margin: 0;
+    padding: 26px;
     color: var(--muted);
     background: var(--surface);
-    border: 1px dashed var(--line-strong);
-    border-radius: 4px;
+    border: var(--bw) dashed var(--border);
+    border-radius: 6px;
     text-align: center;
 }
 
-.logout {
-    margin-top: 28px;
+.logout-button {
+    width: 100%;
+    margin-top: 30px;
 }
 
+/* ---------- Mobil ---------- */
+
 @media (max-width: 560px) {
+    :root {
+        --bw: 2px;
+        --shadow: 4px 4px 0 var(--ink);
+        --shadow-sm: 2px 2px 0 var(--ink);
+    }
+
     body {
-        padding: 16px 12px 28px;
+        padding: 18px 14px 32px;
     }
 
     .admin-header {
-        padding-left: 14px;
-        border-left-width: 3px;
+        padding: 18px;
     }
 
     .panel {
@@ -452,22 +470,38 @@ button:disabled {
     }
 
     .gift-item {
-        grid-template-columns: 60px minmax(0, 1fr);
-        gap: 10px 12px;
+        grid-template-columns: 64px minmax(0, 1fr);
+        gap: 12px 14px;
         padding: 12px;
     }
 
-    .gift-item img {
-        width: 60px;
-        height: 60px;
+    .gift-image {
+        width: 64px;
+        height: 64px;
     }
 
-    .item-actions {
-        grid-template-columns: 1fr;
+    .gift-title {
+        font-size: 1rem;
+    }
+
+    .gift-note {
+        font-size: 0.84rem;
     }
 
     .edit-form {
         padding: 14px;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 0.82rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .item-actions,
+    .edit-buttons {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -482,109 +516,171 @@ button:disabled {
 </head>
 
 <body>
-<main class="admin-card">
+<main class="admin-page">
     <header class="admin-header">
         <p class="eyebrow">Verwaltung</p>
-        <h1>Admin-Bereich</h1>
+        <h1>Meine Weihnachtswünsche</h1>
         <p class="intro">
-            Wünsche anlegen und bearbeiten, Notizen hinzufügen,
-            Prioritäten setzen und Reservierungen verwalten.
+            Wünsche hinzufügen, bearbeiten und mit Notizen ergänzen.
+            Reservierungen werden hier nicht angezeigt.
         </p>
     </header>
 
-    <section id="loginSection" class="panel">
+    <noscript>
+        <p class="status error">
+            Bitte aktiviere JavaScript, um den Admin-Bereich zu verwenden.
+        </p>
+    </noscript>
+
+    <p
+        id="appStatus"
+        class="status"
+        role="status"
+        aria-live="polite"
+    >
+        Anmeldung wird geprüft …
+    </p>
+
+    <section id="loginSection" class="panel login-panel" hidden>
         <h2>Anmelden</h2>
 
-        <label for="email">E-Mail</label>
-        <input
-            id="email"
-            type="email"
-            autocomplete="username"
-            placeholder="lutzberan98@gmail.com"
-        >
+        <form id="loginForm">
+            <label class="field" for="email">
+                <span class="field-label">E-Mail</span>
+                <input
+                    id="email"
+                    type="email"
+                    autocomplete="username"
+                    required
+                >
+            </label>
 
-        <label for="password">Passwort</label>
-        <input
-            id="password"
-            type="password"
-            autocomplete="current-password"
-            placeholder="Dein Passwort"
-        >
+            <label class="field" for="password">
+                <span class="field-label">Passwort</span>
+                <input
+                    id="password"
+                    type="password"
+                    autocomplete="current-password"
+                    required
+                >
+            </label>
 
-        <button id="loginButton" type="button">Anmelden</button>
+            <button
+                id="loginButton"
+                class="button-full"
+                type="submit"
+            >
+                Anmelden
+            </button>
+
+            <p
+                id="loginStatus"
+                class="status"
+                role="status"
+                aria-live="polite"
+                hidden
+            ></p>
+        </form>
     </section>
 
-    <section id="adminSection" class="hidden">
-        <div class="panel">
+    <section id="adminSection" hidden>
+        <section class="panel">
             <h2>Neuen Wunsch hinzufügen</h2>
 
-            <label for="giftName">Titel</label>
-            <input
-                id="giftName"
-                type="text"
-                maxlength="120"
-                placeholder="Zum Beispiel: Bluetooth-Kopfhörer"
-            >
-
-            <div class="form-row">
-                <div>
-                    <label for="giftPrice">Preis</label>
+            <form id="newGiftForm">
+                <label class="field" for="giftName">
+                    <span class="field-label">Titel</span>
                     <input
-                        id="giftPrice"
+                        id="giftName"
                         type="text"
-                        maxlength="30"
-                        placeholder="Zum Beispiel: 49,99 €"
+                        maxlength="120"
+                        placeholder="Zum Beispiel: Bluetooth-Kopfhörer"
+                        required
                     >
+                </label>
+
+                <div class="form-row">
+                    <label class="field" for="giftPrice">
+                        <span class="field-label">Preis</span>
+                        <input
+                            id="giftPrice"
+                            type="text"
+                            maxlength="30"
+                            placeholder="Zum Beispiel: 49,99 €"
+                        >
+                    </label>
+
+                    <label class="field" for="giftPriority">
+                        <span class="field-label">Priorität</span>
+                        <select id="giftPriority">
+                            <option value="3">★★★ Top-Wunsch</option>
+                            <option value="2" selected>★★☆ Gern</option>
+                            <option value="1">★☆☆ Nice to have</option>
+                        </select>
+                    </label>
                 </div>
 
-                <div>
-                    <label for="giftPriority">Priorität</label>
-                    <select id="giftPriority">
-                        <option value="3">★★★ Top-Wunsch</option>
-                        <option value="2" selected>★★☆ Gern</option>
-                        <option value="1">★☆☆ Nice to have</option>
-                    </select>
-                </div>
-            </div>
+                <label class="field" for="giftImage">
+                    <span class="field-label">Bild-URL</span>
+                    <input
+                        id="giftImage"
+                        type="url"
+                        placeholder="https://…"
+                    >
+                </label>
 
-            <label for="giftImage">Bild-URL</label>
-            <input
-                id="giftImage"
-                type="url"
-                placeholder="https://…"
-            >
+                <label class="field" for="giftLink">
+                    <span class="field-label">Produktlink</span>
+                    <input
+                        id="giftLink"
+                        type="url"
+                        placeholder="https://…"
+                    >
+                </label>
 
-            <label for="giftLink">Produktlink</label>
-            <input
-                id="giftLink"
-                type="url"
-                placeholder="https://…"
-            >
+                <label class="field" for="giftNote">
+                    <span class="field-label">
+                        Notiz – für Besucher sichtbar
+                    </span>
+                    <textarea
+                        id="giftNote"
+                        maxlength="300"
+                        placeholder="Zum Beispiel: Größe M, bitte in Schwarz"
+                    ></textarea>
+                </label>
 
-            <label for="giftNote">Notiz (für Besucher sichtbar)</label>
-            <textarea
-                id="giftNote"
-                maxlength="300"
-                placeholder="Zum Beispiel: Größe M, bitte in Schwarz"
-            ></textarea>
+                <button
+                    id="saveButton"
+                    class="button-full"
+                    type="submit"
+                >
+                    Wunsch speichern
+                </button>
 
-            <button id="saveButton" type="button">Wunsch speichern</button>
-
-            <p class="status" id="status" role="status" aria-live="polite">
-                Bereit.
-            </p>
-        </div>
+                <p
+                    id="saveStatus"
+                    class="status"
+                    role="status"
+                    aria-live="polite"
+                    hidden
+                ></p>
+            </form>
+        </section>
 
         <div class="list-head">
             <h2>Vorhandene Wünsche</h2>
             <span id="giftCount"></span>
         </div>
 
-        <div class="gift-list" id="giftList"></div>
+        <div
+            id="giftList"
+            class="gift-list"
+            aria-label="Wünsche verwalten"
+        ></div>
 
         <button
             id="logoutButton"
-            class="button-secondary logout"
+            class="button-secondary logout-button"
             type="button"
         >
             Abmelden
@@ -609,8 +705,8 @@ import {
     collection,
     getDocs,
     addDoc,
-    deleteDoc,
     updateDoc,
+    deleteDoc,
     doc,
     serverTimestamp,
     query,
@@ -631,94 +727,135 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+const ADMIN_EMAIL = "lutzberan98@gmail.com";
+const NOTE_MAX = 300;
+
+const PRIORITIES = [
+    { value: 3, label: "★★★ Top-Wunsch" },
+    { value: 2, label: "★★☆ Gern" },
+    { value: 1, label: "★☆☆ Nice to have" }
+];
+
+const appStatus = document.getElementById("appStatus");
 const loginSection = document.getElementById("loginSection");
 const adminSection = document.getElementById("adminSection");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
+const loginForm = document.getElementById("loginForm");
 const loginButton = document.getElementById("loginButton");
+const loginStatus = document.getElementById("loginStatus");
 const logoutButton = document.getElementById("logoutButton");
+
+const newGiftForm = document.getElementById("newGiftForm");
+const saveButton = document.getElementById("saveButton");
+const saveStatus = document.getElementById("saveStatus");
+
 const nameInput = document.getElementById("giftName");
 const priceInput = document.getElementById("giftPrice");
 const priorityInput = document.getElementById("giftPriority");
 const imageInput = document.getElementById("giftImage");
 const linkInput = document.getElementById("giftLink");
 const noteInput = document.getElementById("giftNote");
-const saveButton = document.getElementById("saveButton");
-const status = document.getElementById("status");
+
 const giftList = document.getElementById("giftList");
 const giftCount = document.getElementById("giftCount");
 
-const ADMIN_EMAIL = "lutzberan98@gmail.com";
-const NOTE_MAX = 300;
+let loadVersion = 0;
 
-const PRIORITY_OPTIONS = [
-    { value: 3, stars: "★★★", text: "Top-Wunsch" },
-    { value: 2, stars: "★★☆", text: "Gern" },
-    { value: 1, stars: "★☆☆", text: "Nice to have" }
-];
+function isAdmin(user = auth.currentUser) {
+    return Boolean(
+        user &&
+        typeof user.email === "string" &&
+        user.email.toLowerCase() === ADMIN_EMAIL
+    );
+}
 
 onAuthStateChanged(auth, (user) => {
-    if (
-        user &&
-        user.email &&
-        user.email.toLowerCase() === ADMIN_EMAIL
-    ) {
-        loginSection.classList.add("hidden");
-        adminSection.classList.remove("hidden");
+    const allowed = isAdmin(user);
+
+    appStatus.hidden = true;
+    loginSection.hidden = allowed;
+    adminSection.hidden = !allowed;
+
+    if (allowed) {
+        loginStatus.hidden = true;
+        document.getElementById("password").value = "";
         loadGifts();
-    } else {
-        loginSection.classList.remove("hidden");
-        adminSection.classList.add("hidden");
-        giftList.innerHTML = "";
-        giftCount.textContent = "";
+        return;
+    }
+
+    loadVersion++;
+    giftList.replaceChildren();
+    giftCount.textContent = "";
+
+    if (user) {
+        showStatus(
+            loginStatus,
+            "Dieses Konto ist nicht für den Admin-Bereich freigeschaltet.",
+            "error"
+        );
     }
 });
 
-loginButton.addEventListener("click", async () => {
+loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
     setBusy(loginButton, "Anmeldung …");
+    loginStatus.hidden = true;
 
     try {
         await signInWithEmailAndPassword(
             auth,
-            emailInput.value.trim(),
-            passwordInput.value
+            document.getElementById("email").value.trim(),
+            document.getElementById("password").value
         );
-
-        setStatus("Angemeldet.", "success");
     } catch (error) {
-        console.error(error);
-        alert(
-            "Anmeldung fehlgeschlagen. Prüfe E-Mail, Passwort und Firebase Authentication."
+        console.error("Anmeldung fehlgeschlagen:", error);
+
+        showStatus(
+            loginStatus,
+            "Anmeldung fehlgeschlagen. Bitte prüfe E-Mail und Passwort.",
+            "error"
         );
     } finally {
-        loginButton.disabled = false;
-        loginButton.textContent = "Anmelden";
+        resetButton(loginButton, "Anmelden");
     }
 });
 
 logoutButton.addEventListener("click", async () => {
-    await signOut(auth);
-    setStatus("Abgemeldet.");
+    setBusy(logoutButton, "Abmeldung …");
+
+    try {
+        await signOut(auth);
+    } catch (error) {
+        console.error("Abmeldung fehlgeschlagen:", error);
+        alert("Abmelden hat nicht funktioniert. Bitte erneut versuchen.");
+    } finally {
+        resetButton(logoutButton, "Abmelden");
+    }
 });
 
-saveButton.addEventListener("click", async () => {
+newGiftForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!isAdmin()) return;
+
     const data = {
         name: nameInput.value.trim(),
         price: priceInput.value.trim(),
+        priority: Number(priorityInput.value),
         image: imageInput.value.trim(),
         link: linkInput.value.trim(),
-        note: noteInput.value.trim().slice(0, NOTE_MAX),
-        priority: Number(priorityInput.value) || 2
+        note: noteInput.value.trim()
     };
 
-    const error = validateGift(data);
+    const validationError = validateGift(data);
 
-    if (error) {
-        setStatus(error, "error");
+    if (validationError) {
+        showStatus(saveStatus, validationError, "error");
         return;
     }
 
     setBusy(saveButton, "Wird gespeichert …");
+    saveStatus.hidden = true;
 
     try {
         await addDoc(collection(db, "gifts"), {
@@ -729,45 +866,33 @@ saveButton.addEventListener("click", async () => {
             createdAt: serverTimestamp()
         });
 
-        nameInput.value = "";
-        priceInput.value = "";
-        imageInput.value = "";
-        linkInput.value = "";
-        noteInput.value = "";
-        priorityInput.value = "2";
+        newGiftForm.reset();
 
-        setStatus("Wunsch wurde gespeichert.", "success");
+        showStatus(
+            saveStatus,
+            "Wunsch wurde gespeichert.",
+            "success"
+        );
+
         await loadGifts();
-    } catch (err) {
-        console.error(err);
-        setStatus(
-            "Speichern fehlgeschlagen. Prüfe, ob deine Firestore-Regeln create für den Admin erlauben.",
+    } catch (error) {
+        console.error("Speichern fehlgeschlagen:", error);
+
+        showStatus(
+            saveStatus,
+            "Speichern fehlgeschlagen. Bitte prüfe Verbindung und Firestore-Berechtigungen.",
             "error"
         );
     } finally {
-        saveButton.disabled = false;
-        saveButton.textContent = "Wunsch speichern";
+        resetButton(saveButton, "Wunsch speichern");
     }
 });
 
-function validateGift(data) {
-    if (!data.name) {
-        return "Bitte gib einen Titel ein.";
-    }
-
-    if (data.image && !isValidUrl(data.image)) {
-        return "Die Bild-URL muss mit http:// oder https:// beginnen.";
-    }
-
-    if (data.link && !isValidUrl(data.link)) {
-        return "Der Produktlink muss mit http:// oder https:// beginnen.";
-    }
-
-    return "";
-}
-
 async function loadGifts() {
-    giftList.innerHTML = "";
+    if (!isAdmin()) return;
+
+    const currentVersion = ++loadVersion;
+    showListMessage("Wünsche werden geladen …");
 
     try {
         const snapshot = await getDocs(
@@ -777,314 +902,422 @@ async function loadGifts() {
             )
         );
 
-        if (snapshot.empty) {
-            giftCount.textContent = "";
-            giftList.innerHTML =
-                '<p class="empty">Es sind noch keine Wünsche vorhanden.</p>';
+        if (currentVersion !== loadVersion || !isAdmin()) {
             return;
         }
 
-        const gifts = snapshot.docs.map((giftDoc) => ({
-            id: giftDoc.id,
-            ...giftDoc.data()
-        }));
+        // Nur die für die Verwaltung benötigten Felder übernehmen.
+        // Reservierungsdaten werden weder angezeigt noch ausgewertet.
+        const gifts = snapshot.docs.map((giftDoc) => {
+            const data = giftDoc.data();
 
-        // Gleiche Reihenfolge wie auf der Wunschliste:
-        // offene zuerst, dann Priorität absteigend.
-        gifts.sort((a, b) => {
-            const reservedDiff =
-                (a.reserved === true) - (b.reserved === true);
-
-            if (reservedDiff !== 0) return reservedDiff;
-
-            return getPriority(b) - getPriority(a);
+            return {
+                id: giftDoc.id,
+                name: asText(data.name),
+                price: asText(data.price),
+                image: asText(data.image),
+                link: asText(data.link),
+                note: asText(data.note),
+                priority: normalizePriority(data.priority)
+            };
         });
 
-        const reservedCount = gifts.filter((g) => g.reserved === true).length;
+        // Bei gleicher Priorität bleibt "neueste zuerst" erhalten.
+        gifts.sort((a, b) => b.priority - a.priority);
 
         giftCount.textContent =
-            `${gifts.length} gesamt · ${reservedCount} reserviert`;
+            `${gifts.length} ${gifts.length === 1 ? "Wunsch" : "Wünsche"}`;
+
+        if (gifts.length === 0) {
+            showListMessage("Es sind noch keine Wünsche vorhanden.");
+            return;
+        }
+
+        const fragment = document.createDocumentFragment();
 
         gifts.forEach((gift) => {
-            giftList.appendChild(createGiftItem(gift));
+            fragment.appendChild(createGiftItem(gift));
         });
+
+        giftList.replaceChildren(fragment);
     } catch (error) {
-        console.error(error);
-        giftList.innerHTML =
-            '<p class="empty">Wünsche konnten nicht geladen werden. Prüfe die Firestore-Regeln.</p>';
+        if (currentVersion !== loadVersion || !isAdmin()) {
+            return;
+        }
+
+        console.error("Laden fehlgeschlagen:", error);
+        giftCount.textContent = "";
+
+        showListMessage(
+            "Wünsche konnten nicht geladen werden. Bitte prüfe Verbindung und Firestore-Berechtigungen."
+        );
     }
 }
 
 function createGiftItem(gift) {
-    const id = gift.id;
-    const priority = getPriority(gift);
-    const reserved = gift.reserved === true;
-    const note = typeof gift.note === "string" ? gift.note.trim() : "";
-
     const item = document.createElement("article");
-    item.className = "gift-item" +
-        (priority === 3 && !reserved ? " is-top" : "");
+
+    item.className =
+        "gift-item" + (gift.priority === 3 ? " is-top" : "");
 
     item.innerHTML = `
-        <img
-            src="${escapeHtml(gift.image || createFallbackImage())}"
-            alt=""
-            onerror="this.onerror=null; this.src='${createFallbackImage()}';"
-        >
+        <img class="gift-image" alt="" loading="lazy">
 
         <div class="gift-info">
-            <strong>${escapeHtml(gift.name || "Ohne Titel")}</strong>
-            <span class="price">${escapeHtml(gift.price || "Kein Preis")}</span>
+            <h2 class="gift-title"></h2>
+            <p class="gift-price"></p>
+            <p class="gift-note" hidden></p>
 
-            ${note ? `<p class="note">${escapeHtml(note)}</p>` : ""}
-
-            ${
-                reserved
-                    ? `<span class="tag tag-reserved">
-                           Reserviert von ${escapeHtml(gift.reservedBy || "unbekannt")}
-                       </span>`
-                    : `<span class="tag tag-open">Nicht reserviert</span>`
-            }
-
-            <div class="prio-row">
-                <span class="stars" aria-hidden="true">
-                    ${getPriorityStars(priority)}
-                </span>
-
-                <select class="quick-priority" aria-label="Priorität ändern">
-                    ${priorityOptionsHtml(priority)}
+            <label class="priority-field">
+                <span class="field-label">Priorität ändern</span>
+                <select class="quick-priority">
+                    ${priorityOptionsHtml(gift.priority)}
                 </select>
-            </div>
+            </label>
         </div>
 
-        <div class="item-actions"></div>
+        <div class="item-actions">
+            <button
+                class="edit-button"
+                type="button"
+                aria-expanded="false"
+            >
+                Bearbeiten
+            </button>
 
-        <form class="edit-form hidden" novalidate>
+            <button
+                class="button-danger delete-button"
+                type="button"
+            >
+                Löschen
+            </button>
+        </div>
+
+        <form class="edit-form" hidden>
             <h3>Wunsch bearbeiten</h3>
 
-            <label>Titel
-                <input class="edit-name" type="text" maxlength="120">
+            <label class="field">
+                <span class="field-label">Titel</span>
+                <input
+                    class="edit-name"
+                    type="text"
+                    maxlength="120"
+                    required
+                >
             </label>
 
             <div class="form-row">
-                <label>Preis
-                    <input class="edit-price" type="text" maxlength="30">
+                <label class="field">
+                    <span class="field-label">Preis</span>
+                    <input
+                        class="edit-price"
+                        type="text"
+                        maxlength="30"
+                    >
                 </label>
 
-                <label>Priorität
+                <label class="field">
+                    <span class="field-label">Priorität</span>
                     <select class="edit-priority">
-                        ${priorityOptionsHtml(priority)}
+                        ${priorityOptionsHtml(gift.priority)}
                     </select>
                 </label>
             </div>
 
-            <label>Bild-URL
-                <input class="edit-image" type="url" placeholder="https://…">
+            <label class="field">
+                <span class="field-label">Bild-URL</span>
+                <input
+                    class="edit-image"
+                    type="url"
+                    placeholder="https://…"
+                >
             </label>
 
-            <label>Produktlink
-                <input class="edit-link" type="url" placeholder="https://…">
+            <label class="field">
+                <span class="field-label">Produktlink</span>
+                <input
+                    class="edit-link"
+                    type="url"
+                    placeholder="https://…"
+                >
             </label>
 
-            <label>Notiz (für Besucher sichtbar)
+            <label class="field">
+                <span class="field-label">
+                    Notiz – für Besucher sichtbar
+                </span>
                 <textarea
                     class="edit-note"
                     maxlength="${NOTE_MAX}"
-                    placeholder="Zum Beispiel: Größe M, bitte in Schwarz"
                 ></textarea>
             </label>
 
-            <p class="status edit-status hidden" role="status"></p>
+            <p
+                class="status edit-status"
+                role="status"
+                aria-live="polite"
+                hidden
+            ></p>
 
             <div class="edit-buttons">
                 <button type="submit">Speichern</button>
-                <button type="button" class="button-secondary cancel-edit">
+                <button
+                    class="button-secondary cancel-edit"
+                    type="button"
+                >
                     Abbrechen
                 </button>
             </div>
         </form>
     `;
 
-    // Werte per .value setzen (nicht per HTML), damit Sonderzeichen sicher bleiben.
-    const form = item.querySelector(".edit-form");
-    form.querySelector(".edit-name").value = gift.name || "";
-    form.querySelector(".edit-price").value = gift.price || "";
-    form.querySelector(".edit-image").value = gift.image || "";
-    form.querySelector(".edit-link").value = gift.link || "";
-    form.querySelector(".edit-note").value = note;
+    item.querySelector(".gift-title").textContent =
+        gift.name || "Ohne Titel";
 
-    // Schnelle Prioritätsänderung direkt in der Liste
+    item.querySelector(".gift-price").textContent =
+        gift.price || "Preis offen";
+
+    const note = item.querySelector(".gift-note");
+    note.textContent = gift.note;
+    note.hidden = !gift.note;
+
+    const image = item.querySelector(".gift-image");
+
+    image.addEventListener("error", () => {
+        image.src = createFallbackImage();
+    }, { once: true });
+
+    image.src = safeUrl(gift.image) || createFallbackImage();
+
+    const form = item.querySelector(".edit-form");
+    const editButton = item.querySelector(".edit-button");
     const quickPriority = item.querySelector(".quick-priority");
+    const editStatus = form.querySelector(".edit-status");
+
+    const editName = form.querySelector(".edit-name");
+    const editPrice = form.querySelector(".edit-price");
+    const editPriority = form.querySelector(".edit-priority");
+    const editImage = form.querySelector(".edit-image");
+    const editLink = form.querySelector(".edit-link");
+    const editNote = form.querySelector(".edit-note");
+
+    function resetEditFields() {
+        editName.value = gift.name;
+        editPrice.value = gift.price;
+        editPriority.value = String(gift.priority);
+        editImage.value = gift.image;
+        editLink.value = gift.link;
+        editNote.value = gift.note;
+        editStatus.hidden = true;
+    }
+
+    function closeEditor() {
+        form.hidden = true;
+        quickPriority.disabled = false;
+        editButton.setAttribute("aria-expanded", "false");
+        editButton.focus();
+    }
+
+    resetEditFields();
+
+    editButton.addEventListener("click", () => {
+        if (!form.hidden) {
+            closeEditor();
+            return;
+        }
+
+        resetEditFields();
+        form.hidden = false;
+        quickPriority.disabled = true;
+        editButton.setAttribute("aria-expanded", "true");
+        editName.focus();
+    });
+
+    form.querySelector(".cancel-edit")
+        .addEventListener("click", closeEditor);
 
     quickPriority.addEventListener("change", async () => {
-        const nextPriority = Number(quickPriority.value) || 2;
+        if (!isAdmin()) return;
+
+        const nextPriority = normalizePriority(quickPriority.value);
 
         quickPriority.disabled = true;
+        editButton.disabled = true;
 
         try {
-            await updateDoc(doc(db, "gifts", id), {
+            await updateDoc(doc(db, "gifts", gift.id), {
                 priority: nextPriority
             });
 
             await loadGifts();
         } catch (error) {
-            console.error(error);
-            alert(
-                "Priorität konnte nicht gespeichert werden. Prüfe die Firestore-Regeln."
-            );
-            quickPriority.value = String(priority);
+            console.error("Priorität konnte nicht geändert werden:", error);
+
+            quickPriority.value = String(gift.priority);
             quickPriority.disabled = false;
+            editButton.disabled = false;
+
+            alert("Die Priorität konnte nicht gespeichert werden.");
         }
     });
 
-    const actions = item.querySelector(".item-actions");
-
-    const editButton = document.createElement("button");
-    editButton.type = "button";
-    editButton.textContent = "Bearbeiten";
-
-    editButton.addEventListener("click", () => {
-        form.classList.toggle("hidden");
-
-        if (!form.classList.contains("hidden")) {
-            form.querySelector(".edit-name").focus();
-        }
-    });
-
-    const reservationButton = document.createElement("button");
-    reservationButton.type = "button";
-    reservationButton.className = "button-secondary";
-    reservationButton.textContent = reserved
-        ? "Reservierung bearbeiten"
-        : "Reservierung hinzufügen";
-
-    reservationButton.addEventListener("click", async () => {
-        const newName = prompt(
-            "Name der Reservierung. Leer lassen, um die Reservierung freizugeben:",
-            gift.reservedBy || ""
-        );
-
-        if (newName === null) return;
-
-        const cleanedName = newName.trim().slice(0, 40);
-        const nextReserved = Boolean(cleanedName);
-
-        reservationButton.disabled = true;
-
-        try {
-            await updateDoc(doc(db, "gifts", id), {
-                reserved: nextReserved,
-                reservedBy: cleanedName,
-                reservedAt: nextReserved ? serverTimestamp() : null
-            });
-
-            await loadGifts();
-        } catch (error) {
-            console.error(error);
-            alert(
-                "Reservierung konnte nicht gespeichert werden. Prüfe die Firestore-Regeln."
-            );
-            reservationButton.disabled = false;
-        }
-    });
-
-    const deleteButton = document.createElement("button");
-    deleteButton.type = "button";
-    deleteButton.className = "delete-button";
-    deleteButton.textContent = "Löschen";
-
-    deleteButton.addEventListener("click", async () => {
-        if (!confirm("Diesen Wunsch wirklich löschen?")) return;
-
-        deleteButton.disabled = true;
-
-        try {
-            await deleteDoc(doc(db, "gifts", id));
-            await loadGifts();
-        } catch (error) {
-            console.error(error);
-            alert("Löschen fehlgeschlagen. Prüfe die Firestore-Regeln.");
-            deleteButton.disabled = false;
-        }
-    });
-
-    actions.appendChild(editButton);
-    actions.appendChild(reservationButton);
-    actions.appendChild(deleteButton);
-
-    // Bearbeiten: abbrechen
-    form.querySelector(".cancel-edit").addEventListener("click", () => {
-        form.classList.add("hidden");
-    });
-
-    // Bearbeiten: speichern
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const editStatus = form.querySelector(".edit-status");
-        const submitButton = form.querySelector('button[type="submit"]');
+        if (!isAdmin()) return;
 
         const data = {
-            name: form.querySelector(".edit-name").value.trim(),
-            price: form.querySelector(".edit-price").value.trim(),
-            image: form.querySelector(".edit-image").value.trim(),
-            link: form.querySelector(".edit-link").value.trim(),
-            note: form
-                .querySelector(".edit-note")
-                .value.trim()
-                .slice(0, NOTE_MAX),
-            priority:
-                Number(form.querySelector(".edit-priority").value) || 2
+            name: editName.value.trim(),
+            price: editPrice.value.trim(),
+            priority: Number(editPriority.value),
+            image: editImage.value.trim(),
+            link: editLink.value.trim(),
+            note: editNote.value.trim()
         };
 
-        const error = validateGift(data);
+        const validationError = validateGift(data);
 
-        if (error) {
-            editStatus.textContent = error;
-            editStatus.className = "status error edit-status";
+        if (validationError) {
+            showStatus(editStatus, validationError, "error");
             return;
         }
 
-        submitButton.disabled = true;
-        submitButton.textContent = "Wird gespeichert …";
+        const submitButton =
+            form.querySelector('button[type="submit"]');
+
+        setBusy(submitButton, "Wird gespeichert …");
+
+        const controls = [...form.elements];
+        controls.forEach((control) => {
+            control.disabled = true;
+        });
+
+        editButton.disabled = true;
 
         try {
-            await updateDoc(doc(db, "gifts", id), data);
+            // Bestehende Reservierungsfelder bleiben unverändert.
+            await updateDoc(doc(db, "gifts", gift.id), data);
             await loadGifts();
-        } catch (err) {
-            console.error(err);
-            editStatus.textContent =
-                "Speichern fehlgeschlagen. Prüfe die Firestore-Regeln.";
-            editStatus.className = "status error edit-status";
-            submitButton.disabled = false;
-            submitButton.textContent = "Speichern";
+        } catch (error) {
+            console.error("Bearbeiten fehlgeschlagen:", error);
+
+            controls.forEach((control) => {
+                control.disabled = false;
+            });
+
+            editButton.disabled = false;
+            resetButton(submitButton, "Speichern");
+
+            showStatus(
+                editStatus,
+                "Änderungen konnten nicht gespeichert werden. Bitte erneut versuchen.",
+                "error"
+            );
+        }
+    });
+
+    const deleteButton = item.querySelector(".delete-button");
+
+    deleteButton.addEventListener("click", async () => {
+        if (!isAdmin()) return;
+
+        const confirmed = confirm(
+            `„${gift.name || "Diesen Wunsch"}“ wirklich löschen? ` +
+            "Dieser Schritt kann nicht rückgängig gemacht werden."
+        );
+
+        if (!confirmed) return;
+
+        setBusy(deleteButton, "Wird gelöscht …");
+
+        try {
+            await deleteDoc(doc(db, "gifts", gift.id));
+            await loadGifts();
+        } catch (error) {
+            console.error("Löschen fehlgeschlagen:", error);
+            resetButton(deleteButton, "Löschen");
+
+            alert("Der Wunsch konnte nicht gelöscht werden.");
         }
     });
 
     return item;
 }
 
+function validateGift(data) {
+    if (!data.name || data.name.length > 120) {
+        return "Bitte gib einen Titel mit höchstens 120 Zeichen ein.";
+    }
+
+    if (data.price.length > 30) {
+        return "Der Preis darf höchstens 30 Zeichen enthalten.";
+    }
+
+    if (![1, 2, 3].includes(data.priority)) {
+        return "Bitte wähle eine gültige Priorität.";
+    }
+
+    if (data.image && !safeUrl(data.image)) {
+        return "Die Bild-URL muss eine gültige HTTP- oder HTTPS-Adresse sein.";
+    }
+
+    if (data.link && !safeUrl(data.link)) {
+        return "Der Produktlink muss eine gültige HTTP- oder HTTPS-Adresse sein.";
+    }
+
+    if (data.note.length > NOTE_MAX) {
+        return `Die Notiz darf höchstens ${NOTE_MAX} Zeichen enthalten.`;
+    }
+
+    return "";
+}
+
+function normalizePriority(value) {
+    const number = Number(value);
+    return [1, 2, 3].includes(number) ? number : 2;
+}
+
 function priorityOptionsHtml(selected) {
-    return PRIORITY_OPTIONS.map((option) => `
+    return PRIORITIES.map((option) => `
         <option
             value="${option.value}"
             ${option.value === selected ? "selected" : ""}
-        >
-            ${option.stars} ${option.text}
-        </option>
+        >${option.label}</option>
     `).join("");
 }
 
-function getPriority(gift) {
-    const value = Number(gift.priority);
-    return value >= 1 && value <= 3 ? value : 2;
+function asText(value) {
+    return typeof value === "string" ? value.trim() : "";
 }
 
-function getPriorityStars(priority) {
-    return (
-        PRIORITY_OPTIONS.find((option) => option.value === priority) ||
-        PRIORITY_OPTIONS[1]
-    ).stars;
+function safeUrl(value) {
+    if (typeof value !== "string" || !value.trim()) {
+        return "";
+    }
+
+    try {
+        const url = new URL(value.trim());
+
+        return ["http:", "https:"].includes(url.protocol)
+            ? url.href
+            : "";
+    } catch {
+        return "";
+    }
+}
+
+function showStatus(element, text, type = "") {
+    element.textContent = text;
+    element.className = "status" + (type ? ` ${type}` : "");
+    element.hidden = false;
+}
+
+function showListMessage(text) {
+    const message = document.createElement("p");
+    message.className = "empty-state";
+    message.textContent = text;
+
+    giftList.replaceChildren(message);
 }
 
 function setBusy(button, text) {
@@ -1092,40 +1325,28 @@ function setBusy(button, text) {
     button.textContent = text;
 }
 
-function setStatus(text, type = "") {
-    status.textContent = text;
-    status.className = "status " + type;
-}
-
-function isValidUrl(value) {
-    try {
-        const url = new URL(value);
-        return ["http:", "https:"].includes(url.protocol);
-    } catch {
-        return false;
-    }
-}
-
-function escapeHtml(value = "") {
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+function resetButton(button, text) {
+    button.disabled = false;
+    button.textContent = text;
 }
 
 function createFallbackImage() {
     const svg = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120">
-            <rect width="100%" height="100%" fill="#261c36"/>
-            <text x="60" y="74" text-anchor="middle"
-                  font-family="Segoe UI, Arial" font-size="42"
-                  fill="#cfc2ab">🎁</text>
+        <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160">
+            <rect width="160" height="160" fill="#234233"/>
+            <text
+                x="80"
+                y="86"
+                text-anchor="middle"
+                font-family="Arial, sans-serif"
+                font-size="18"
+                fill="#d3c6a3"
+            >Kein Bild</text>
         </svg>
     `;
 
-    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+    return "data:image/svg+xml;charset=UTF-8," +
+        encodeURIComponent(svg);
 }
 </script>
 </body>
