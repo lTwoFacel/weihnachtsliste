@@ -4,10 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0e1d17">
+
 <title>Admin – Weihnachtswunschliste</title>
+
+<!-- Geschenk-Emoji als Favicon -->
+<link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%81%3C/text%3E%3C/svg%3E"
+>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link
     href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap"
     rel="stylesheet"
@@ -141,12 +150,6 @@ h2 {
     margin-left: auto;
 }
 
-.hint {
-    margin: -4px 0 18px;
-    color: var(--muted);
-    font-size: 0.88rem;
-}
-
 /* ---------- Formulare ---------- */
 
 .field {
@@ -273,6 +276,10 @@ button:focus-visible {
     border-radius: 4px;
     font-size: 0.9rem;
     overflow-wrap: anywhere;
+}
+
+.app-status {
+    margin-bottom: 24px;
 }
 
 .status.success {
@@ -520,6 +527,7 @@ button:focus-visible {
     <header class="admin-header">
         <p class="eyebrow">Verwaltung</p>
         <h1>Meine Weihnachtswünsche</h1>
+
         <p class="intro">
             Wünsche hinzufügen, bearbeiten und mit Notizen ergänzen.
             Reservierungen werden hier nicht angezeigt.
@@ -527,6 +535,12 @@ button:focus-visible {
     </header>
 
     <noscript>
+        <style>
+            #appStatus {
+                display: none !important;
+            }
+        </style>
+
         <p class="status error">
             Bitte aktiviere JavaScript, um den Admin-Bereich zu verwenden.
         </p>
@@ -534,19 +548,24 @@ button:focus-visible {
 
     <p
         id="appStatus"
-        class="status"
+        class="status app-status"
         role="status"
         aria-live="polite"
     >
-        Anmeldung wird geprüft …
+        Admin-Bereich wird geladen …
     </p>
 
-    <section id="loginSection" class="panel login-panel" hidden>
+    <section
+        id="loginSection"
+        class="panel login-panel"
+        hidden
+    >
         <h2>Anmelden</h2>
 
         <form id="loginForm">
             <label class="field" for="email">
                 <span class="field-label">E-Mail</span>
+
                 <input
                     id="email"
                     type="email"
@@ -557,6 +576,7 @@ button:focus-visible {
 
             <label class="field" for="password">
                 <span class="field-label">Passwort</span>
+
                 <input
                     id="password"
                     type="password"
@@ -590,6 +610,7 @@ button:focus-visible {
             <form id="newGiftForm">
                 <label class="field" for="giftName">
                     <span class="field-label">Titel</span>
+
                     <input
                         id="giftName"
                         type="text"
@@ -602,6 +623,7 @@ button:focus-visible {
                 <div class="form-row">
                     <label class="field" for="giftPrice">
                         <span class="field-label">Preis</span>
+
                         <input
                             id="giftPrice"
                             type="text"
@@ -612,6 +634,7 @@ button:focus-visible {
 
                     <label class="field" for="giftPriority">
                         <span class="field-label">Priorität</span>
+
                         <select id="giftPriority">
                             <option value="3">★★★ Top-Wunsch</option>
                             <option value="2" selected>★★☆ Gern</option>
@@ -622,6 +645,7 @@ button:focus-visible {
 
                 <label class="field" for="giftImage">
                     <span class="field-label">Bild-URL</span>
+
                     <input
                         id="giftImage"
                         type="url"
@@ -631,6 +655,7 @@ button:focus-visible {
 
                 <label class="field" for="giftLink">
                     <span class="field-label">Produktlink</span>
+
                     <input
                         id="giftLink"
                         type="url"
@@ -642,6 +667,7 @@ button:focus-visible {
                     <span class="field-label">
                         Notiz – für Besucher sichtbar
                     </span>
+
                     <textarea
                         id="giftNote"
                         maxlength="300"
@@ -689,44 +715,6 @@ button:focus-visible {
 </main>
 
 <script type="module">
-import { initializeApp } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
-} from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-import {
-    getFirestore,
-    collection,
-    getDocs,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    doc,
-    serverTimestamp,
-    query,
-    orderBy
-} from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyAlmVEiqvYL8FaDj1J14tpq-Mg8zOxAy6U",
-    authDomain: "weihnachtsliste-241226.firebaseapp.com",
-    projectId: "weihnachtsliste-241226",
-    storageBucket: "weihnachtsliste-241226.firebasestorage.app",
-    messagingSenderId: "243572027003",
-    appId: "1:243572027003:web:2b9ca250ff47c50cd07cde"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
 const ADMIN_EMAIL = "lutzberan98@gmail.com";
 const NOTE_MAX = 300;
 
@@ -739,9 +727,13 @@ const PRIORITIES = [
 const appStatus = document.getElementById("appStatus");
 const loginSection = document.getElementById("loginSection");
 const adminSection = document.getElementById("adminSection");
+
 const loginForm = document.getElementById("loginForm");
 const loginButton = document.getElementById("loginButton");
 const loginStatus = document.getElementById("loginStatus");
+
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
 const logoutButton = document.getElementById("logoutButton");
 
 const newGiftForm = document.getElementById("newGiftForm");
@@ -758,9 +750,61 @@ const noteInput = document.getElementById("giftNote");
 const giftList = document.getElementById("giftList");
 const giftCount = document.getElementById("giftCount");
 
+let auth;
+let db;
+let authApi;
+let firestore;
+
 let loadVersion = 0;
 
-function isAdmin(user = auth.currentUser) {
+startAdmin();
+
+/* ---------- Firebase starten ---------- */
+
+async function startAdmin() {
+    try {
+        const [appApi, authModule, firestoreModule] = await Promise.all([
+            import(
+                "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"
+            ),
+            import(
+                "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
+            ),
+            import(
+                "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
+            )
+        ]);
+
+        authApi = authModule;
+        firestore = firestoreModule;
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAlmVEiqvYL8FaDj1J14tpq-Mg8zOxAy6U",
+            authDomain: "weihnachtsliste-241226.firebaseapp.com",
+            projectId: "weihnachtsliste-241226",
+            storageBucket: "weihnachtsliste-241226.firebasestorage.app",
+            messagingSenderId: "243572027003",
+            appId: "1:243572027003:web:2b9ca250ff47c50cd07cde"
+        };
+
+        const app = appApi.initializeApp(firebaseConfig);
+
+        auth = authApi.getAuth(app);
+        db = firestore.getFirestore(app);
+
+        appStatus.textContent = "Anmeldung wird geprüft …";
+
+        authApi.onAuthStateChanged(
+            auth,
+            handleAuthState,
+            showStartupError
+        );
+    } catch (error) {
+        showStartupError(error);
+    }
+}
+
+function isAdmin(user = auth?.currentUser) {
     return Boolean(
         user &&
         typeof user.email === "string" &&
@@ -768,16 +812,16 @@ function isAdmin(user = auth.currentUser) {
     );
 }
 
-onAuthStateChanged(auth, (user) => {
+function handleAuthState(user) {
     const allowed = isAdmin(user);
 
     appStatus.hidden = true;
     loginSection.hidden = allowed;
     adminSection.hidden = !allowed;
+    loginStatus.hidden = true;
 
     if (allowed) {
-        loginStatus.hidden = true;
-        document.getElementById("password").value = "";
+        passwordInput.value = "";
         loadGifts();
         return;
     }
@@ -785,6 +829,7 @@ onAuthStateChanged(auth, (user) => {
     loadVersion++;
     giftList.replaceChildren();
     giftCount.textContent = "";
+    saveStatus.hidden = true;
 
     if (user) {
         showStatus(
@@ -793,19 +838,38 @@ onAuthStateChanged(auth, (user) => {
             "error"
         );
     }
-});
+}
+
+function showStartupError(error) {
+    console.error("Admin-Bereich konnte nicht gestartet werden:", error);
+
+    loginSection.hidden = true;
+    adminSection.hidden = true;
+
+    showStatus(
+        appStatus,
+        "Der Admin-Bereich konnte nicht geladen werden. Bitte prüfe deine Internetverbindung und lade die Seite erneut.",
+        "error"
+    );
+}
+
+/* ---------- Anmelden ---------- */
 
 loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    if (!auth || !authApi) {
+        return;
+    }
 
     setBusy(loginButton, "Anmeldung …");
     loginStatus.hidden = true;
 
     try {
-        await signInWithEmailAndPassword(
+        await authApi.signInWithEmailAndPassword(
             auth,
-            document.getElementById("email").value.trim(),
-            document.getElementById("password").value
+            emailInput.value.trim(),
+            passwordInput.value
         );
     } catch (error) {
         console.error("Anmeldung fehlgeschlagen:", error);
@@ -820,23 +884,34 @@ loginForm.addEventListener("submit", async (event) => {
     }
 });
 
+/* ---------- Abmelden ---------- */
+
 logoutButton.addEventListener("click", async () => {
+    if (!auth || !authApi) {
+        return;
+    }
+
     setBusy(logoutButton, "Abmeldung …");
 
     try {
-        await signOut(auth);
+        await authApi.signOut(auth);
     } catch (error) {
         console.error("Abmeldung fehlgeschlagen:", error);
+
         alert("Abmelden hat nicht funktioniert. Bitte erneut versuchen.");
     } finally {
         resetButton(logoutButton, "Abmelden");
     }
 });
 
+/* ---------- Neuen Wunsch speichern ---------- */
+
 newGiftForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    if (!isAdmin()) return;
+    if (!isAdmin()) {
+        return;
+    }
 
     const data = {
         name: nameInput.value.trim(),
@@ -854,17 +929,26 @@ newGiftForm.addEventListener("submit", async (event) => {
         return;
     }
 
+    const formControls = [...newGiftForm.elements];
+
+    formControls.forEach((control) => {
+        control.disabled = true;
+    });
+
     setBusy(saveButton, "Wird gespeichert …");
     saveStatus.hidden = true;
 
     try {
-        await addDoc(collection(db, "gifts"), {
-            ...data,
-            reserved: false,
-            reservedBy: "",
-            reservedAt: null,
-            createdAt: serverTimestamp()
-        });
+        await firestore.addDoc(
+            firestore.collection(db, "gifts"),
+            {
+                ...data,
+                reserved: false,
+                reservedBy: "",
+                reservedAt: null,
+                createdAt: firestore.serverTimestamp()
+            }
+        );
 
         newGiftForm.reset();
 
@@ -884,30 +968,39 @@ newGiftForm.addEventListener("submit", async (event) => {
             "error"
         );
     } finally {
+        formControls.forEach((control) => {
+            control.disabled = false;
+        });
+
         resetButton(saveButton, "Wunsch speichern");
     }
 });
 
+/* ---------- Wünsche laden ---------- */
+
 async function loadGifts() {
-    if (!isAdmin()) return;
+    if (!isAdmin()) {
+        return;
+    }
 
     const currentVersion = ++loadVersion;
+
+    giftCount.textContent = "";
     showListMessage("Wünsche werden geladen …");
 
     try {
-        const snapshot = await getDocs(
-            query(
-                collection(db, "gifts"),
-                orderBy("createdAt", "desc")
-            )
+        const giftsQuery = firestore.query(
+            firestore.collection(db, "gifts"),
+            firestore.orderBy("createdAt", "desc")
         );
+
+        const snapshot = await firestore.getDocs(giftsQuery);
 
         if (currentVersion !== loadVersion || !isAdmin()) {
             return;
         }
 
-        // Nur die für die Verwaltung benötigten Felder übernehmen.
-        // Reservierungsdaten werden weder angezeigt noch ausgewertet.
+        // Reservierungsfelder nicht für die Oberfläche übernehmen.
         const gifts = snapshot.docs.map((giftDoc) => {
             const data = giftDoc.data();
 
@@ -922,6 +1015,7 @@ async function loadGifts() {
             };
         });
 
+        // Ausschließlich nach Priorität sortieren.
         // Bei gleicher Priorität bleibt "neueste zuerst" erhalten.
         gifts.sort((a, b) => b.priority - a.priority);
 
@@ -946,6 +1040,7 @@ async function loadGifts() {
         }
 
         console.error("Laden fehlgeschlagen:", error);
+
         giftCount.textContent = "";
 
         showListMessage(
@@ -954,6 +1049,8 @@ async function loadGifts() {
     }
 }
 
+/* ---------- Wunschkarte erstellen ---------- */
+
 function createGiftItem(gift) {
     const item = document.createElement("article");
 
@@ -961,7 +1058,11 @@ function createGiftItem(gift) {
         "gift-item" + (gift.priority === 3 ? " is-top" : "");
 
     item.innerHTML = `
-        <img class="gift-image" alt="" loading="lazy">
+        <img
+            class="gift-image"
+            alt=""
+            loading="lazy"
+        >
 
         <div class="gift-info">
             <h2 class="gift-title"></h2>
@@ -970,6 +1071,7 @@ function createGiftItem(gift) {
 
             <label class="priority-field">
                 <span class="field-label">Priorität ändern</span>
+
                 <select class="quick-priority">
                     ${priorityOptionsHtml(gift.priority)}
                 </select>
@@ -998,6 +1100,7 @@ function createGiftItem(gift) {
 
             <label class="field">
                 <span class="field-label">Titel</span>
+
                 <input
                     class="edit-name"
                     type="text"
@@ -1009,6 +1112,7 @@ function createGiftItem(gift) {
             <div class="form-row">
                 <label class="field">
                     <span class="field-label">Preis</span>
+
                     <input
                         class="edit-price"
                         type="text"
@@ -1018,6 +1122,7 @@ function createGiftItem(gift) {
 
                 <label class="field">
                     <span class="field-label">Priorität</span>
+
                     <select class="edit-priority">
                         ${priorityOptionsHtml(gift.priority)}
                     </select>
@@ -1026,6 +1131,7 @@ function createGiftItem(gift) {
 
             <label class="field">
                 <span class="field-label">Bild-URL</span>
+
                 <input
                     class="edit-image"
                     type="url"
@@ -1035,6 +1141,7 @@ function createGiftItem(gift) {
 
             <label class="field">
                 <span class="field-label">Produktlink</span>
+
                 <input
                     class="edit-link"
                     type="url"
@@ -1046,6 +1153,7 @@ function createGiftItem(gift) {
                 <span class="field-label">
                     Notiz – für Besucher sichtbar
                 </span>
+
                 <textarea
                     class="edit-note"
                     maxlength="${NOTE_MAX}"
@@ -1061,6 +1169,7 @@ function createGiftItem(gift) {
 
             <div class="edit-buttons">
                 <button type="submit">Speichern</button>
+
                 <button
                     class="button-secondary cancel-edit"
                     type="button"
@@ -1078,6 +1187,7 @@ function createGiftItem(gift) {
         gift.price || "Preis offen";
 
     const note = item.querySelector(".gift-note");
+
     note.textContent = gift.note;
     note.hidden = !gift.note;
 
@@ -1091,6 +1201,7 @@ function createGiftItem(gift) {
 
     const form = item.querySelector(".edit-form");
     const editButton = item.querySelector(".edit-button");
+    const deleteButton = item.querySelector(".delete-button");
     const quickPriority = item.querySelector(".quick-priority");
     const editStatus = form.querySelector(".edit-status");
 
@@ -1101,6 +1212,8 @@ function createGiftItem(gift) {
     const editLink = form.querySelector(".edit-link");
     const editNote = form.querySelector(".edit-note");
 
+    let itemBusy = false;
+
     function resetEditFields() {
         editName.value = gift.name;
         editPrice.value = gift.price;
@@ -1108,27 +1221,53 @@ function createGiftItem(gift) {
         editImage.value = gift.image;
         editLink.value = gift.link;
         editNote.value = gift.note;
+
         editStatus.hidden = true;
     }
 
+    function setItemBusy(busy) {
+        itemBusy = busy;
+
+        editButton.disabled = busy;
+        deleteButton.disabled = busy;
+        quickPriority.disabled = busy || !form.hidden;
+
+        [...form.elements].forEach((control) => {
+            control.disabled = busy;
+        });
+    }
+
     function closeEditor() {
+        if (itemBusy) {
+            return;
+        }
+
         form.hidden = true;
         quickPriority.disabled = false;
+
         editButton.setAttribute("aria-expanded", "false");
         editButton.focus();
     }
 
     resetEditFields();
 
+    /* ---------- Bearbeiten öffnen/schließen ---------- */
+
     editButton.addEventListener("click", () => {
+        if (itemBusy) {
+            return;
+        }
+
         if (!form.hidden) {
             closeEditor();
             return;
         }
 
         resetEditFields();
+
         form.hidden = false;
         quickPriority.disabled = true;
+
         editButton.setAttribute("aria-expanded", "true");
         editName.focus();
     });
@@ -1136,35 +1275,45 @@ function createGiftItem(gift) {
     form.querySelector(".cancel-edit")
         .addEventListener("click", closeEditor);
 
+    /* ---------- Priorität direkt ändern ---------- */
+
     quickPriority.addEventListener("change", async () => {
-        if (!isAdmin()) return;
+        if (!isAdmin() || itemBusy) {
+            return;
+        }
 
         const nextPriority = normalizePriority(quickPriority.value);
 
-        quickPriority.disabled = true;
-        editButton.disabled = true;
+        setItemBusy(true);
 
         try {
-            await updateDoc(doc(db, "gifts", gift.id), {
-                priority: nextPriority
-            });
+            await firestore.updateDoc(
+                firestore.doc(db, "gifts", gift.id),
+                {
+                    priority: nextPriority
+                }
+            );
 
             await loadGifts();
         } catch (error) {
             console.error("Priorität konnte nicht geändert werden:", error);
 
             quickPriority.value = String(gift.priority);
-            quickPriority.disabled = false;
-            editButton.disabled = false;
 
             alert("Die Priorität konnte nicht gespeichert werden.");
+        } finally {
+            setItemBusy(false);
         }
     });
+
+    /* ---------- Bearbeitung speichern ---------- */
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        if (!isAdmin()) return;
+        if (!isAdmin() || itemBusy) {
+            return;
+        }
 
         const data = {
             name: editName.value.trim(),
@@ -1185,64 +1334,72 @@ function createGiftItem(gift) {
         const submitButton =
             form.querySelector('button[type="submit"]');
 
-        setBusy(submitButton, "Wird gespeichert …");
-
-        const controls = [...form.elements];
-        controls.forEach((control) => {
-            control.disabled = true;
-        });
-
-        editButton.disabled = true;
+        setItemBusy(true);
+        submitButton.textContent = "Wird gespeichert …";
+        editStatus.hidden = true;
 
         try {
-            // Bestehende Reservierungsfelder bleiben unverändert.
-            await updateDoc(doc(db, "gifts", gift.id), data);
+            // Nur Wunschdetails ändern.
+            // Bestehende Reservierungsfelder bleiben unberührt.
+            await firestore.updateDoc(
+                firestore.doc(db, "gifts", gift.id),
+                data
+            );
+
             await loadGifts();
         } catch (error) {
             console.error("Bearbeiten fehlgeschlagen:", error);
-
-            controls.forEach((control) => {
-                control.disabled = false;
-            });
-
-            editButton.disabled = false;
-            resetButton(submitButton, "Speichern");
 
             showStatus(
                 editStatus,
                 "Änderungen konnten nicht gespeichert werden. Bitte erneut versuchen.",
                 "error"
             );
+        } finally {
+            setItemBusy(false);
+            submitButton.textContent = "Speichern";
         }
     });
 
-    const deleteButton = item.querySelector(".delete-button");
+    /* ---------- Wunsch löschen ---------- */
 
     deleteButton.addEventListener("click", async () => {
-        if (!isAdmin()) return;
+        if (!isAdmin() || itemBusy) {
+            return;
+        }
 
         const confirmed = confirm(
             `„${gift.name || "Diesen Wunsch"}“ wirklich löschen? ` +
             "Dieser Schritt kann nicht rückgängig gemacht werden."
         );
 
-        if (!confirmed) return;
+        if (!confirmed) {
+            return;
+        }
 
-        setBusy(deleteButton, "Wird gelöscht …");
+        setItemBusy(true);
+        deleteButton.textContent = "Wird gelöscht …";
 
         try {
-            await deleteDoc(doc(db, "gifts", gift.id));
+            await firestore.deleteDoc(
+                firestore.doc(db, "gifts", gift.id)
+            );
+
             await loadGifts();
         } catch (error) {
             console.error("Löschen fehlgeschlagen:", error);
-            resetButton(deleteButton, "Löschen");
 
             alert("Der Wunsch konnte nicht gelöscht werden.");
+        } finally {
+            setItemBusy(false);
+            deleteButton.textContent = "Löschen";
         }
     });
 
     return item;
 }
+
+/* ---------- Validierung ---------- */
 
 function validateGift(data) {
     if (!data.name || data.name.length > 120) {
@@ -1272,8 +1429,11 @@ function validateGift(data) {
     return "";
 }
 
+/* ---------- Hilfsfunktionen ---------- */
+
 function normalizePriority(value) {
     const number = Number(value);
+
     return [1, 2, 3].includes(number) ? number : 2;
 }
 
@@ -1314,6 +1474,7 @@ function showStatus(element, text, type = "") {
 
 function showListMessage(text) {
     const message = document.createElement("p");
+
     message.className = "empty-state";
     message.textContent = text;
 
